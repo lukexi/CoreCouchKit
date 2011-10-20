@@ -1,0 +1,485 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C21651EA14502CAD00372382 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E914502CAD00372382 /* Foundation.framework */; };
+		C21651F814502CAE00372382 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F714502CAE00372382 /* SenTestingKit.framework */; };
+		C21651FA14502CAE00372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
+		C21651FB14502CAE00372382 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E914502CAD00372382 /* Foundation.framework */; };
+		C21651FE14502CAE00372382 /* libCoreCouchKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E614502CAD00372382 /* libCoreCouchKit.a */; };
+		C216520414502CAE00372382 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C216520214502CAE00372382 /* InfoPlist.strings */; };
+		C216520714502CAE00372382 /* CoreCouchKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C216520614502CAE00372382 /* CoreCouchKitTests.m */; };
+		C216521D14502D4C00372382 /* CoreCouchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521014502D4C00372382 /* CoreCouchKit.h */; };
+		C216521E14502D4C00372382 /* CoreCouchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521114502D4C00372382 /* CoreCouchKit.m */; };
+		C216521F14502D4C00372382 /* CoreCouchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521114502D4C00372382 /* CoreCouchKit.m */; };
+		C216522014502D4C00372382 /* CCCouchResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521214502D4C00372382 /* CCCouchResultsController.h */; };
+		C216522114502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
+		C216522214502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
+		C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521414502D4C00372382 /* CCManagedObjectModel.h */; };
+		C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C216522614502D4C00372382 /* CCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521614502D4C00372382 /* CCDocument.h */; };
+		C216522714502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
+		C216522814502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
+		C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521814502D4C00372382 /* CouchLiveQueryFix.h */; };
+		C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521914502D4C00372382 /* CouchLiveQueryFix.m */; };
+		C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521914502D4C00372382 /* CouchLiveQueryFix.m */; };
+		C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521A14502D4C00372382 /* UIImageToDataTransformer.h */; };
+		C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521B14502D4C00372382 /* UIImageToDataTransformer.m */; };
+		C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521B14502D4C00372382 /* UIImageToDataTransformer.m */; };
+		C216522F14502D4C00372382 /* README in Resources */ = {isa = PBXBuildFile; fileRef = C216521C14502D4C00372382 /* README */; };
+		C216523114502D7E00372382 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523014502D7E00372382 /* CoreData.framework */; };
+		C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
+		C216523414502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
+		C216523614502DB600372382 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523514502DB600372382 /* libz.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C21651FC14502CAE00372382 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C21651DD14502CAD00372382 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C21651E514502CAD00372382;
+			remoteInfo = CoreCouchKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C21651E614502CAD00372382 /* libCoreCouchKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCoreCouchKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C21651E914502CAD00372382 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C21651ED14502CAD00372382 /* CoreCouchKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreCouchKit-Prefix.pch"; sourceTree = "<group>"; };
+		C21651F614502CAD00372382 /* CoreCouchKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreCouchKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C21651F714502CAE00372382 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		C21651F914502CAE00372382 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		C216520114502CAE00372382 /* CoreCouchKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreCouchKitTests-Info.plist"; sourceTree = "<group>"; };
+		C216520314502CAE00372382 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C216520514502CAE00372382 /* CoreCouchKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreCouchKitTests.h; sourceTree = "<group>"; };
+		C216520614502CAE00372382 /* CoreCouchKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKitTests.m; sourceTree = "<group>"; };
+		C216521014502D4C00372382 /* CoreCouchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreCouchKit.h; sourceTree = "<group>"; };
+		C216521114502D4C00372382 /* CoreCouchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKit.m; sourceTree = "<group>"; };
+		C216521214502D4C00372382 /* CCCouchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCouchResultsController.h; sourceTree = "<group>"; };
+		C216521314502D4C00372382 /* CCCouchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCouchResultsController.m; sourceTree = "<group>"; };
+		C216521414502D4C00372382 /* CCManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCManagedObjectModel.h; sourceTree = "<group>"; };
+		C216521514502D4C00372382 /* CCManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCManagedObjectModel.m; sourceTree = "<group>"; };
+		C216521614502D4C00372382 /* CCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDocument.h; sourceTree = "<group>"; };
+		C216521714502D4C00372382 /* CCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCDocument.m; sourceTree = "<group>"; };
+		C216521814502D4C00372382 /* CouchLiveQueryFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouchLiveQueryFix.h; sourceTree = "<group>"; };
+		C216521914502D4C00372382 /* CouchLiveQueryFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouchLiveQueryFix.m; sourceTree = "<group>"; };
+		C216521A14502D4C00372382 /* UIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageToDataTransformer.h; sourceTree = "<group>"; };
+		C216521B14502D4C00372382 /* UIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageToDataTransformer.m; sourceTree = "<group>"; };
+		C216521C14502D4C00372382 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		C216523014502D7E00372382 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C216523214502DA300372382 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchCocoa.framework; sourceTree = "<group>"; };
+		C216523514502DB600372382 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C21651E314502CAD00372382 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C21651EA14502CAD00372382 /* Foundation.framework in Frameworks */,
+				C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C21651F214502CAD00372382 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C216523114502D7E00372382 /* CoreData.framework in Frameworks */,
+				C21651F814502CAE00372382 /* SenTestingKit.framework in Frameworks */,
+				C21651FA14502CAE00372382 /* UIKit.framework in Frameworks */,
+				C21651FB14502CAE00372382 /* Foundation.framework in Frameworks */,
+				C21651FE14502CAE00372382 /* libCoreCouchKit.a in Frameworks */,
+				C216523414502DA300372382 /* CouchCocoa.framework in Frameworks */,
+				C216523614502DB600372382 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C21651DB14502CAD00372382 = {
+			isa = PBXGroup;
+			children = (
+				C21651EB14502CAD00372382 /* CoreCouchKit */,
+				C21651FF14502CAE00372382 /* CoreCouchKitTests */,
+				C21651E814502CAD00372382 /* Frameworks */,
+				C21651E714502CAD00372382 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C21651E714502CAD00372382 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C21651E614502CAD00372382 /* libCoreCouchKit.a */,
+				C21651F614502CAD00372382 /* CoreCouchKitTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C21651E814502CAD00372382 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C216523214502DA300372382 /* CouchCocoa.framework */,
+				C216523014502D7E00372382 /* CoreData.framework */,
+				C21651E914502CAD00372382 /* Foundation.framework */,
+				C21651F714502CAE00372382 /* SenTestingKit.framework */,
+				C21651F914502CAE00372382 /* UIKit.framework */,
+				C216523514502DB600372382 /* libz.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C21651EB14502CAD00372382 /* CoreCouchKit */ = {
+			isa = PBXGroup;
+			children = (
+				C216521014502D4C00372382 /* CoreCouchKit.h */,
+				C216521114502D4C00372382 /* CoreCouchKit.m */,
+				C216521214502D4C00372382 /* CCCouchResultsController.h */,
+				C216521314502D4C00372382 /* CCCouchResultsController.m */,
+				C216521414502D4C00372382 /* CCManagedObjectModel.h */,
+				C216521514502D4C00372382 /* CCManagedObjectModel.m */,
+				C216521614502D4C00372382 /* CCDocument.h */,
+				C216521714502D4C00372382 /* CCDocument.m */,
+				C216521814502D4C00372382 /* CouchLiveQueryFix.h */,
+				C216521914502D4C00372382 /* CouchLiveQueryFix.m */,
+				C216521A14502D4C00372382 /* UIImageToDataTransformer.h */,
+				C216521B14502D4C00372382 /* UIImageToDataTransformer.m */,
+				C216521C14502D4C00372382 /* README */,
+				C21651EC14502CAD00372382 /* Supporting Files */,
+			);
+			path = CoreCouchKit;
+			sourceTree = "<group>";
+		};
+		C21651EC14502CAD00372382 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C21651ED14502CAD00372382 /* CoreCouchKit-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C21651FF14502CAE00372382 /* CoreCouchKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				C216520514502CAE00372382 /* CoreCouchKitTests.h */,
+				C216520614502CAE00372382 /* CoreCouchKitTests.m */,
+				C216520014502CAE00372382 /* Supporting Files */,
+			);
+			path = CoreCouchKitTests;
+			sourceTree = "<group>";
+		};
+		C216520014502CAE00372382 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C216520114502CAE00372382 /* CoreCouchKitTests-Info.plist */,
+				C216520214502CAE00372382 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C21651E414502CAD00372382 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C216521D14502D4C00372382 /* CoreCouchKit.h in Headers */,
+				C216522014502D4C00372382 /* CCCouchResultsController.h in Headers */,
+				C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */,
+				C216522614502D4C00372382 /* CCDocument.h in Headers */,
+				C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */,
+				C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C21651E514502CAD00372382 /* CoreCouchKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C216520A14502CAE00372382 /* Build configuration list for PBXNativeTarget "CoreCouchKit" */;
+			buildPhases = (
+				C21651E214502CAD00372382 /* Sources */,
+				C21651E314502CAD00372382 /* Frameworks */,
+				C21651E414502CAD00372382 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreCouchKit;
+			productName = CoreCouchKit;
+			productReference = C21651E614502CAD00372382 /* libCoreCouchKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		C21651F514502CAD00372382 /* CoreCouchKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C216520D14502CAE00372382 /* Build configuration list for PBXNativeTarget "CoreCouchKitTests" */;
+			buildPhases = (
+				C21651F114502CAD00372382 /* Sources */,
+				C21651F214502CAD00372382 /* Frameworks */,
+				C21651F314502CAD00372382 /* Resources */,
+				C21651F414502CAD00372382 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C21651FD14502CAE00372382 /* PBXTargetDependency */,
+			);
+			name = CoreCouchKitTests;
+			productName = CoreCouchKitTests;
+			productReference = C21651F614502CAD00372382 /* CoreCouchKitTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C21651DD14502CAD00372382 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = Eeoo;
+			};
+			buildConfigurationList = C21651E014502CAD00372382 /* Build configuration list for PBXProject "CoreCouchKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C21651DB14502CAD00372382;
+			productRefGroup = C21651E714502CAD00372382 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C21651E514502CAD00372382 /* CoreCouchKit */,
+				C21651F514502CAD00372382 /* CoreCouchKitTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C21651F314502CAD00372382 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C216520414502CAE00372382 /* InfoPlist.strings in Resources */,
+				C216522F14502D4C00372382 /* README in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C21651F414502CAD00372382 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C21651E214502CAD00372382 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C216521E14502D4C00372382 /* CoreCouchKit.m in Sources */,
+				C216522114502D4C00372382 /* CCCouchResultsController.m in Sources */,
+				C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */,
+				C216522714502D4C00372382 /* CCDocument.m in Sources */,
+				C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
+				C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C21651F114502CAD00372382 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C216520714502CAE00372382 /* CoreCouchKitTests.m in Sources */,
+				C216521F14502D4C00372382 /* CoreCouchKit.m in Sources */,
+				C216522214502D4C00372382 /* CCCouchResultsController.m in Sources */,
+				C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */,
+				C216522814502D4C00372382 /* CCDocument.m in Sources */,
+				C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
+				C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C21651FD14502CAE00372382 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C21651E514502CAD00372382 /* CoreCouchKit */;
+			targetProxy = C21651FC14502CAE00372382 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C216520214502CAE00372382 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C216520314502CAE00372382 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C216520814502CAE00372382 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C216520914502CAE00372382 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C216520B14502CAE00372382 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CoreCouchKit.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C216520C14502CAE00372382 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/CoreCouchKit.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C216520E14502CAE00372382 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				INFOPLIST_FILE = "CoreCouchKitTests/CoreCouchKitTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		C216520F14502CAE00372382 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				INFOPLIST_FILE = "CoreCouchKitTests/CoreCouchKitTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C21651E014502CAD00372382 /* Build configuration list for PBXProject "CoreCouchKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C216520814502CAE00372382 /* Debug */,
+				C216520914502CAE00372382 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C216520A14502CAE00372382 /* Build configuration list for PBXNativeTarget "CoreCouchKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C216520B14502CAE00372382 /* Debug */,
+				C216520C14502CAE00372382 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C216520D14502CAE00372382 /* Build configuration list for PBXNativeTarget "CoreCouchKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C216520E14502CAE00372382 /* Debug */,
+				C216520F14502CAE00372382 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C21651DD14502CAD00372382 /* Project object */;
+}

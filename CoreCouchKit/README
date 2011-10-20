@@ -1,0 +1,32 @@
+Using CoreCouchKit:
+
+First, in your xcdatamodeld, you need to add the value 'document' for the key 'couchType' in your Entity's userInfo (in the Data Model Inspector tab of Xcode's Utilities pane with an Entity selected). Do this for each Entity type you want to become a syncable "Document" in Couch.
+
+*Until I figure out a more automated solution, you must also change the base class of your managed object subclasses (or their _ files if using MOGenerator) to CCDocument.
+
+Now add to your app delegate:
+[CoreCouchKit setupWithContext:self.managedObjectContext];
+
+and replace the usual NSManagedObjectModel creation with 
+- (NSManagedObjectModel *)managedObjectModel
+{
+    if (__managedObjectModel != nil)
+    {
+        return __managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:<#MyCouchAppName#> withExtension:@"momd"];
+    __managedObjectModel = [CDCouchManagedObjectModel couchManagedObjectModelWithContentsOfURL:modelURL];
+    return __managedObjectModel;
+}
+
+Attachments:
+Create an Entity that will represent the attachment and add it as a to-one relationship to your Document Entity. This matches well with the standard Core Data practice of keeping large data in a relationship. In the userInfo, fill in 4 fields: 
+'documentType': 'attachment'
+'dataProperty': <name of the transformable or data attribute holding your attachment's data>
+'documentProperty': <name of the relationship that points back to the Document entity>
+'contentType': <e.g. image/png>
+
+If the property is transformable, it must have a proper Value Transformer set, as is usual. (see the Core Data Recipes sample code for an example with UIImageToDataTransformer).
+
+***WARNING***
+-fnoobjc-arc must be set (see http://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/_index.html) for CCManagedObjectModel in the CoreCouchKit project as it uses objc_allocateClassPair which doesn't yet support ARC, or else you'll get a crash during that function call.
