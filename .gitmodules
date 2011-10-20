@@ -1,0 +1,3 @@
+[submodule "CoreDataJSONKit"]
+	path = CoreDataJSONKit
+	url = git@github.com:lukexi/CoreDataJSONKit.git
