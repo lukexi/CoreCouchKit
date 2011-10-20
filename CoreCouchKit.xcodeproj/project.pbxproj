@@ -32,7 +32,6 @@
 		C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521A14502D4C00372382 /* UIImageToDataTransformer.h */; };
 		C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521B14502D4C00372382 /* UIImageToDataTransformer.m */; };
 		C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521B14502D4C00372382 /* UIImageToDataTransformer.m */; };
-		C216522F14502D4C00372382 /* README in Resources */ = {isa = PBXBuildFile; fileRef = C216521C14502D4C00372382 /* README */; };
 		C216523114502D7E00372382 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523014502D7E00372382 /* CoreData.framework */; };
 		C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
 		C216523414502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
@@ -72,7 +71,7 @@
 		C216521914502D4C00372382 /* CouchLiveQueryFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouchLiveQueryFix.m; sourceTree = "<group>"; };
 		C216521A14502D4C00372382 /* UIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageToDataTransformer.h; sourceTree = "<group>"; };
 		C216521B14502D4C00372382 /* UIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageToDataTransformer.m; sourceTree = "<group>"; };
-		C216521C14502D4C00372382 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		C216521C14502D4C00372382 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README; path = ../README; sourceTree = "<group>"; };
 		C216523014502D7E00372382 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C216523214502DA300372382 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchCocoa.framework; sourceTree = "<group>"; };
 		C216523514502DB600372382 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -273,7 +272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C216520414502CAE00372382 /* InfoPlist.strings in Resources */,
-				C216522F14502D4C00372382 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

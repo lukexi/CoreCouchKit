@@ -1,13 +1,17 @@
 Using CoreCouchKit:
 
-First, in your xcdatamodeld, you need to add the value 'document' for the key 'couchType' in your Entity's userInfo (in the Data Model Inspector tab of Xcode's Utilities pane with an Entity selected). Do this for each Entity type you want to become a syncable "Document" in Couch.
+First, add the project to your own project as a subproject, and add libCoreCouchKit.a as a Target Dependency, and drag it to the Link Binary With Libraries section, in the Build Phases tab of your application target.
 
-*Until I figure out a more automated solution, you must also change the base class of your managed object subclasses (or their _ files if using MOGenerator) to CCDocument.
+Then, in your xcdatamodeld, you need to add the value 'document' for the key 'couchType' in your Entity's userInfo (in the Data Model Inspector tab of Xcode's Utilities pane with an Entity selected). Do this for each Entity type you want to become a syncable "Document" in Couch.
 
 Now add to your app delegate:
+
+#import "CoreCouchKit.h"
+
+and in applicationDidFinishLaunching:
 [CoreCouchKit setupWithContext:self.managedObjectContext];
 
-and replace the usual NSManagedObjectModel creation with 
+and replace the usual NSManagedObjectModel creation with something like:
 - (NSManagedObjectModel *)managedObjectModel
 {
     if (__managedObjectModel != nil)
@@ -29,4 +33,5 @@ Create an Entity that will represent the attachment and add it as a to-one relat
 If the property is transformable, it must have a proper Value Transformer set, as is usual. (see the Core Data Recipes sample code for an example with UIImageToDataTransformer).
 
 ***WARNING***
+(disregard this if you're using the static library, as the project is already configured. but if you copy the files directly you'll have to do this...)
 -fnoobjc-arc must be set (see http://developer.apple.com/library/ios/#releasenotes/ObjectiveC/RN-TransitioningToARC/_index.html) for CCManagedObjectModel in the CoreCouchKit project as it uses objc_allocateClassPair which doesn't yet support ARC, or else you'll get a crash during that function call.
