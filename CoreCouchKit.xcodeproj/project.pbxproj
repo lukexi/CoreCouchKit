@@ -36,6 +36,10 @@
 		C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
 		C216523414502DA300372382 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523214502DA300372382 /* CouchCocoa.framework */; };
 		C216523614502DB600372382 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C216523514502DB600372382 /* libz.dylib */; };
+		C21652391450319300372382 /* CoreDataJSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C21652371450319300372382 /* CoreDataJSONKit.h */; };
+		C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
+		C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
+		C2165247145040A500372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +79,8 @@
 		C216523014502D7E00372382 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C216523214502DA300372382 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchCocoa.framework; sourceTree = "<group>"; };
 		C216523514502DB600372382 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		C21652371450319300372382 /* CoreDataJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataJSONKit.h; path = CoreDataJSONKit/CoreDataJSONKit.h; sourceTree = "<group>"; };
+		C21652381450319300372382 /* CoreDataJSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataJSONKit.m; path = CoreDataJSONKit/CoreDataJSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,7 @@
 			files = (
 				C21651EA14502CAD00372382 /* Foundation.framework in Frameworks */,
 				C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */,
+				C2165247145040A500372382 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +114,8 @@
 		C21651DB14502CAD00372382 = {
 			isa = PBXGroup;
 			children = (
+				C21652371450319300372382 /* CoreDataJSONKit.h */,
+				C21652381450319300372382 /* CoreDataJSONKit.m */,
 				C21651EB14502CAD00372382 /* CoreCouchKit */,
 				C21651FF14502CAE00372382 /* CoreCouchKitTests */,
 				C21651E814502CAD00372382 /* Frameworks */,
@@ -197,6 +206,7 @@
 				C216522614502D4C00372382 /* CCDocument.h in Headers */,
 				C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */,
 				C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */,
+				C21652391450319300372382 /* CoreDataJSONKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +314,7 @@
 				C216522714502D4C00372382 /* CCDocument.m in Sources */,
 				C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
+				C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +329,7 @@
 				C216522814502D4C00372382 /* CCDocument.m in Sources */,
 				C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
+				C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +404,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
@@ -408,6 +421,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
