@@ -154,7 +154,7 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
 - (CouchAttachment *)cc_couchAttachment
 {
     CouchAttachment *attachment = [[[self cc_document] cc_couchDocument].currentRevision createAttachmentWithName:[self cc_attachmentProperty] 
-                                                                                                        type:[self cc_contentType]];
+                                                                                                             type:[self cc_contentType]];
     return attachment;
 }
 

@@ -4,6 +4,7 @@ Using CoreCouchKit:
 2. Add libCoreCouchKit.a as a Target Dependency, and drag it to the Link Binary With Libraries section, in the Build Phases tab of your application target. 
 3. Add CoreCouchKit's folder recursively to your project's Header Search Paths in the Build Settings tab. 
 4. Drag the CouchCocoa framework into your project's Frameworks group too.
+5. Be sure you have the -ObjC flag in "Other Linker Flags" in your Build Settings tab.
 
 Then, in your xcdatamodeld, you need to add the value 'document' for the key 'couchType' in your Entity's userInfo (in the Data Model Inspector tab of Xcode's Utilities pane with an Entity selected). Do this for each Entity type you want to become a syncable "Document" in Couch.
 

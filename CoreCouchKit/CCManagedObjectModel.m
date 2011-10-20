@@ -56,7 +56,7 @@
             [entity setUserInfo:userInfo];
         }
     }
-    NSLog(@"Document entities: %@", documentEntities);
+    NSLog(@"Document entities: %@", [documentEntities valueForKey:@"name"]);
     
     // Make all document entities subentities of CCDocument
     NSEntityDescription *documentEntity = [self documentEntityWithSubentities:documentEntities];
@@ -121,7 +121,10 @@
                 
                 IMP implementation = method_getImplementation(aMethod);
                 const char *types = method_getTypeEncoding(aMethod);
-                class_addMethod(subclass, selector, implementation, types);
+#warning must use method_exchangeImplementations(aMethod, originalClassMethod) or else we may clobber existing methods
+                BOOL added = class_addMethod(subclass, selector, implementation, types);
+                NSAssert1(added, @"Adding method failed, class probably already contains a method %@. Implement exchangeImplementations!", 
+                          NSStringFromSelector(selector));
                 NSLog(@"Adding method: %@ of class %@ to class: %@", NSStringFromSelector(selector), sourceClass, subclassName);
             }
             

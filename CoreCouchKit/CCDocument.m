@@ -128,7 +128,7 @@
 {
     CCDocument *documentSelf = (CCDocument *)self;
     CouchDocument *couchDocument = objc_getAssociatedObject(self, @"couchDocument");
-    if (!couchDocument && documentSelf.couchID && documentSelf.couchRev) 
+    if (!couchDocument && documentSelf.couchID) 
     {
         couchDocument = [[self cc_couchDatabase] documentWithID:documentSelf.couchID];
         couchDocument.modelObject = self;
