@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "CCManagedObjectModel.h"
 #import "CCDocument.h"
+#import "CCCouchResultsController.h"
 
+#define kCouchDatabaseKey @"couchDatabase"
 #define kCouchIDPropertyName @"couchID"
 #define kCouchRevPropertyName @"couchRev"
 #define kCouchTypeKey @"couchType"
@@ -21,7 +23,11 @@
 
 @interface CoreCouchKit : NSObject
 
-+ (void)setupWithContext:(NSManagedObjectContext *)context;
++ (void)setupWithContext:(NSManagedObjectContext *)context
+               serverURL:(NSString *)serverURLString
+            databaseName:(NSString *)databaseName;
++ (NSManagedObjectModel *)couchManagedObjectModelWithContentsOfURL:(NSURL *)modelURL;
+
 + (CoreCouchKit *)sharedCoreCouchKit;
 
 @end

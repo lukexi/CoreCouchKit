@@ -10,6 +10,7 @@
 #import "CCDocument.h"
 #import "CoreDataJSONKit.h"
 #import "CouchLiveQueryFix.h"
+#import "CoreCouchKit.h"
 
 @interface CCCouchResultsController ()
 

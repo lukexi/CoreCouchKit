@@ -10,7 +10,6 @@
 #import "CoreDataJSONKit.h"
 #import "CoreCouchKit.h"
 #import <objc/runtime.h>
-#import "CTHouse.h"
 
 @interface CCManagedObjectModel ()
 
@@ -32,7 +31,14 @@
         NSString *couchType = [entity.userInfo objectForKey:kCouchTypeKey];
         if ([couchType isEqualToString:kCouchTypeDocument]) 
         {
-            [documentEntities addObject:entity];
+            // Make sure we have the top level entity for this entity
+            NSEntityDescription *superentity = entity;
+            while ([superentity superentity]) 
+            {
+                superentity = [superentity superentity];
+            }
+            
+            [documentEntities addObject:superentity];
             [entity setUserInfo:[NSDictionary dictionaryWithObject:kCouchIDPropertyName 
                                                             forKey:kCJEntityUniqueIDKey]];
             
@@ -50,6 +56,7 @@
             [entity setUserInfo:userInfo];
         }
     }
+    NSLog(@"Document entities: %@", documentEntities);
     
     // Make all document entities subentities of CCDocument
     NSEntityDescription *documentEntity = [self documentEntityWithSubentities:documentEntities];
