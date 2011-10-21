@@ -83,8 +83,7 @@
                      [self docTypePredicate], self.relatedKey ?: @"_id"];
     [self.designDocument defineViewNamed:self.viewName
                                      map:map];
-    self.query = [[self.designDocument queryViewNamed:viewName] ck_asLiveQuery]; // see fix definition for details
-    self.query.descending = YES;  // Sort by descending date, i.e. newest items first
+    self.query = [[self.designDocument queryViewNamed:self.viewName] ck_asLiveQuery]; // see fix definition for details
     if (self.relatedValue) 
     {
         self.query.keys = [NSArray arrayWithObject:self.relatedValue];
@@ -137,6 +136,7 @@
             }
             
             [document cj_setPropertiesFromDescription:properties];
+            document.couchRev = [properties objectForKey:kCouchRevKey];
             [localResultsByID removeObjectForKey:couchID];
         }
         else
