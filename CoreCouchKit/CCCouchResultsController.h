@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol CCDocumentUpdate <NSObject>
+
+- (void)willUpdateFromCouch;
+
+@end
+
 @interface CCCouchResultsController : NSObject
 
 - (void)start;

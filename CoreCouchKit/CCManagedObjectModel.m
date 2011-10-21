@@ -100,7 +100,6 @@
     NSString *subclassName = [NSString stringWithFormat:@"%@%@", prefix, className];
     Class originalClass = NSClassFromString(className);
     
-    
     NSAssert(originalClass, @"Couldn't find original class %@, did you create an NSManagedObject subclass for it?", className);
     
     Class sourceClass = [CCDocument class];
@@ -121,7 +120,7 @@
                 
                 IMP implementation = method_getImplementation(aMethod);
                 const char *types = method_getTypeEncoding(aMethod);
-#warning must use method_exchangeImplementations(aMethod, originalClassMethod) or else we may clobber existing methods
+#warning must use method_exchangeImplementations(aMethod, originalClassMethod) or else we may clobber existing methods? or NOT? because this is a subclass. so we should be OK, I think! (we're adding methods to a brand new class, and the original methods are in the superclass now, so as long as we call super in the new class's methods we'll call through to them. Test!)
                 BOOL added = class_addMethod(subclass, selector, implementation, types);
                 NSAssert1(added, @"Adding method failed, class probably already contains a method %@. Implement exchangeImplementations!", 
                           NSStringFromSelector(selector));

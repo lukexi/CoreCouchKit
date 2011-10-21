@@ -131,6 +131,11 @@
         if (document)
         {
             NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
+            if ([document conformsToProtocol:@protocol(CCDocumentUpdate)]) 
+            {
+                [(CCDocument <CCDocumentUpdate> *)document willUpdateFromCouch];
+            }
+            
             [document cj_setPropertiesFromDescription:properties];
             [localResultsByID removeObjectForKey:couchID];
         }

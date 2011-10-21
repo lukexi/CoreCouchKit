@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CouchCocoa/CouchCocoa.h>
+#import "CoreDataJSONKit.h"
 
 #define kCouchIDKey @"_id"
 #define kCouchRevKey @"_rev"
@@ -34,9 +35,10 @@
 - (NSMutableDictionary *)cc_userProperties;
 - (CouchDocument *)cc_couchDocument;
 
+- (void)cc_setCouchRevision:(CouchRevision *)couchRevision;
+- (CouchRevision *)cc_couchRevision;
+
 - (void)cc_putToCouch;
 - (void)cc_putToCouchWithCompletion:(OnCompleteBlock)completion;
-- (void)cc_getFromCouch;
-- (void)cc_getFromCouchWithCompletion:(OnCompleteBlock)completion;
 
 @end

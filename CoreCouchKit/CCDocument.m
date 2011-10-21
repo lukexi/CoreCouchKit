@@ -68,19 +68,22 @@
             NSLog(@"Error: %@", putOperation.error);
         }
         
-        if (putOperation.httpStatus == 412) 
+        if (putOperation.httpStatus == 412 || 
+            putOperation.httpStatus == 409) 
         {
             // Conflict — get latest revision 
-            NSLog(@"Getting from couch due to conflict... %@", self);
-            [self cc_getFromCouchWithCompletion:^{
-                [self cc_putToCouch];
-            }];
+            NSLog(@"CONFLICT! BLOCKING TO GET CURRENT REVISION");
+            CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
+            [self cc_setCouchRevision:currentRevision];
+            NSLog(@"DONE! Current revision is now %@", documentSelf.couchRev);
+            [self cj_setPropertiesFromDescription:currentRevision.userProperties];
+            [self cc_putToCouch];
         }
         else
         {
             NSLog(@"Put successfully! %@", putOperation.resultObject);
             CouchRevision *newRevision = putOperation.resultObject;
-            documentSelf.couchRev = newRevision.revisionID;
+            [self cc_setCouchRevision:newRevision];
             
             NSError *error = nil;
             if (![self.managedObjectContext cc_saveWithoutPUT:&error]) 
@@ -99,31 +102,6 @@
     [putOperation start];
 }
 
-- (void)cc_getFromCouch
-{
-    [self cc_getFromCouchWithCompletion:nil];
-}
-
-- (void)cc_getFromCouchWithCompletion:(OnCompleteBlock)completion
-{
-    NSLog(@"Getting from couch... %@", self);
-    RESTOperation *getOperation = [[self cc_couchDocument] GET];
-    [getOperation onCompletion:^{
-        if (!getOperation.isSuccessful) 
-        {
-            NSLog(@"Error: %@", getOperation.error);
-        }
-        
-        NSLog(@"New properties from get! %@", getOperation.resultObject);
-    }];
-    
-    // Multiple onCompletion blocks get called in order of adding.
-    if (completion) 
-    {
-        [getOperation onCompletion:completion];
-    }
-}
-
 - (CouchDocument *)cc_couchDocument
 {
     CCDocument *documentSelf = (CCDocument *)self;
@@ -136,6 +114,27 @@
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return couchDocument;
+}
+
+- (CouchRevision *)cc_couchRevision
+{
+    CCDocument *documentSelf = (CCDocument *)self;
+    CouchRevision *couchRevision = objc_getAssociatedObject(self, @"couchRevision");
+    if (!couchRevision && documentSelf.couchRev) 
+    {
+        CouchDocument *couchDocument = [self cc_couchDocument];
+        couchRevision = [couchDocument revisionWithID:documentSelf.couchRev];
+        [self cc_setCouchRevision:couchRevision];
+    }
+    return couchRevision;
+}
+
+- (void)cc_setCouchRevision:(CouchRevision *)couchRevision
+{
+    CCDocument *documentSelf = (CCDocument *)self;
+    documentSelf.couchRev = couchRevision.revisionID;
+    objc_setAssociatedObject(self, @"couchRevision", couchRevision, 
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -176,7 +175,7 @@
     [super prepareForDeletion];
     if (self.couchRev) 
     {
-        CouchRevision *revision = [[self cc_couchDocument] revisionWithID:self.couchRev];
+        CouchRevision *revision = [self cc_couchRevision];
         NSLog(@"Revision: %@ for document: %@", revision, [self cc_couchDocument]);
         RESTOperation *delete = [revision DELETE];
         [delete onCompletion:^{
