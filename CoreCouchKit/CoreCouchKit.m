@@ -102,7 +102,7 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     
     for (NSManagedObject *object in changedObjects) 
     {
-        if ([object cc_isCouchAttachment]) 
+        if ([object cc_isCouchAttachment] && [object hasChanges]) 
         {
             [object cc_PUTAttachment];
         }
@@ -121,12 +121,25 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
 
 - (void)cc_PUTAttachment
 {
+    NSLog(@"Putting attachment: %@", NSStringFromClass([self class]));
     NSData *attachmentRepresentation = [self cc_attachmentRepresentation];
-    if (self.hasChanges && attachmentRepresentation) 
+    if (attachmentRepresentation) 
     {
         RESTOperation *operation = [[self cc_couchAttachment] PUT:attachmentRepresentation];
         [operation start];
         NSLog(@"Uploading %@ with operation %@", self, operation);
+        
+        [operation onCompletion:^{
+            if (operation.httpStatus == 409) 
+            {
+                NSLog(@"Conflict in attachment! Pulling the latest...");
+                CouchRevision *currentRevision = [[[self cc_document] cc_couchDocument] currentRevision];
+                NSLog(@"Done.");
+                [[self cc_document] cc_setCouchRevision:currentRevision];
+                [self cc_PUTAttachment];
+            }
+            NSLog(@"Completed upload operation: %@", operation);
+        }];
     }
 }
 
@@ -153,8 +166,8 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
 
 - (CouchAttachment *)cc_couchAttachment
 {
-    CouchAttachment *attachment = [[[self cc_document] cc_couchDocument].currentRevision createAttachmentWithName:[self cc_attachmentProperty] 
-                                                                                                             type:[self cc_contentType]];
+    CouchAttachment *attachment = [[[self cc_document] cc_couchRevision] createAttachmentWithName:[self cc_attachmentProperty] 
+                                                                                             type:[self cc_contentType]];
     return attachment;
 }
 
