@@ -9,12 +9,11 @@
 #import "CCManagedObjectModel.h"
 #import "CoreDataJSONKit.h"
 #import "CoreCouchKit.h"
-#import <objc/runtime.h>
+#import "CCMixin.h"
 
 @interface CCManagedObjectModel ()
 
 + (NSEntityDescription *)documentEntityWithSubentities:(NSArray *)subentities;
-+ (NSString *)dynamicDocumentSubclassForClassName:(NSString *)className;
 
 @end
 
@@ -45,8 +44,11 @@
             // Dynamically subclass the document entities to add methods for JSON serialization and CouchDB synchronization. See CCDocument for their original implementations.
             
             NSLog(@"Dynamically subclassing %@", [entity name]);
-            NSString *dynamicDocumentSubclassName = [self dynamicDocumentSubclassForClassName:[entity managedObjectClassName]];
-            [entity setManagedObjectClassName:dynamicDocumentSubclassName];
+            NSString *entityClassName = [entity managedObjectClassName];
+            Class originalClass = NSClassFromString(entityClassName);
+            NSAssert(originalClass, @"Couldn't find original class %@, did you create an NSManagedObject subclass for it?", entityClassName);
+            Class dynamicDocumentSubclass = [CCMixin classByAddingContentsOfClass:[CCDocument class] toClass:originalClass];
+            [entity setManagedObjectClassName:NSStringFromClass(dynamicDocumentSubclass)];
         }
         else if ([couchType isEqualToString:kCouchTypeAttachment])
         {
@@ -83,75 +85,15 @@
     [revAttribute setName:kCouchRevPropertyName];
     [revAttribute setAttributeType:NSStringAttributeType];
     
-    [documentEntity setProperties:[NSArray arrayWithObjects:IDAttribute, revAttribute, nil]];
+    NSAttributeDescription *attachmentsMetadataAttribute = [[NSAttributeDescription alloc] init];
+    [attachmentsMetadataAttribute setName:kCouchAttachmentsMetadataPropertyName];
+    [attachmentsMetadataAttribute setAttributeType:NSTransformableAttributeType];
+    
+    [documentEntity setProperties:[NSArray arrayWithObjects:IDAttribute, revAttribute, attachmentsMetadataAttribute, nil]];
     
     [documentEntity setSubentities:subentities];
     
     return documentEntity;
-}
-
-+ (NSString *)dynamicDocumentSubclassForClassName:(NSString *)className
-{
-    static NSString *prefix = @"CCDocument_";
-    if ([className hasPrefix:prefix]) 
-    {
-        return className;
-    }
-    NSString *subclassName = [NSString stringWithFormat:@"%@%@", prefix, className];
-    Class originalClass = NSClassFromString(className);
-    
-    NSAssert(originalClass, @"Couldn't find original class %@, did you create an NSManagedObject subclass for it?", className);
-    
-    Class sourceClass = [CCDocument class];
-    Class subclass = NSClassFromString(subclassName);
-    if (!subclass) 
-    {
-        subclass = objc_allocateClassPair(originalClass, [subclassName UTF8String], 0);
-        if (subclass) 
-        {
-            // Grab all the methods from CCDocument and attach them to our new dynamic subclass of the document entity
-            unsigned int methodCount = 0;
-            Method *methods = class_copyMethodList(sourceClass, &methodCount);
-            
-            for (NSUInteger methodIndex = 0; methodIndex < methodCount; methodIndex++)
-            {
-                Method aMethod = methods[methodIndex];
-                SEL selector = method_getName(aMethod);
-                
-                IMP implementation = method_getImplementation(aMethod);
-                const char *types = method_getTypeEncoding(aMethod);
-#warning must use method_exchangeImplementations(aMethod, originalClassMethod) or else we may clobber existing methods? or NOT? because this is a subclass. so we should be OK, I think! (we're adding methods to a brand new class, and the original methods are in the superclass now, so as long as we call super in the new class's methods we'll call through to them. Test!)
-                BOOL added = class_addMethod(subclass, selector, implementation, types);
-                NSAssert1(added, @"Adding method failed, class probably already contains a method %@. Implement exchangeImplementations!", 
-                          NSStringFromSelector(selector));
-                NSLog(@"Adding method: %@ of class %@ to class: %@", NSStringFromSelector(selector), sourceClass, subclassName);
-            }
-            
-            // Grab all the protocols and do the same
-            
-            unsigned int protocolCount = 0;
-            Protocol * __unsafe_unretained *protocols = class_copyProtocolList(sourceClass, &protocolCount);
-            
-            for (NSUInteger protocolIndex = 0; protocolIndex < protocolCount; protocolIndex++) 
-            {
-                Protocol *aProtocol = protocols[protocolIndex];
-                class_addProtocol(subclass, aProtocol);
-                NSLog(@"Adding protocol: %@ of class %@ to class: %@", NSStringFromProtocol(aProtocol), sourceClass, subclassName);
-            }
-            
-            // We don't need ivars or properties yet but could add them too!
-            
-            objc_registerClassPair(subclass);
-        }
-    }
-    
-    if (subclass) 
-    {
-        return subclassName;
-    }
-    
-    NSAssert(subclass, @"Failed to create subclass of %@", className);
-    return className;
 }
 
 @end

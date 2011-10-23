@@ -14,6 +14,91 @@
 
 @end
 
+@implementation CCDocument
+@dynamic couchRev;
+@dynamic couchID;
+@dynamic attachmentsMetadata;
+
+- (NSString *)couchID 
+{
+    [self willAccessValueForKey:kCouchIDPropertyName];
+    NSString *ourCouchID = [self primitiveValueForKey:kCouchIDPropertyName];
+    [self didAccessValueForKey:kCouchIDPropertyName];
+    if (!ourCouchID) 
+    {
+        NSLog(@"Generating new shared ID for inserted object: %@", [self class]);
+        ourCouchID = [[self class] cc_generateUUID];
+        self.couchID = ourCouchID;
+    }
+    return ourCouchID;
+}
+
+- (void)override_willSave // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
+{
+    [self override_willSave]; // So, this actually calls the original implementation.
+    NSLog(@"WILL SAVE ON %@ %@", [self class], self.couchID);
+    // Don't do a redundant put when we just got changes or new objects from Couch.
+    if (self.isDeleted || !self.hasChanges || [self.managedObjectContext cc_isSavingWithoutPUT]) 
+    {
+        return;
+    }
+    NSLog(@"PUTTING %@ %@ TO COUCH", [self class], self.couchID);
+    [self cc_putToCouch];
+}
+
+- (void)override_prepareForDeletion // See above.
+{
+    [self override_prepareForDeletion];
+    if (self.couchRev) 
+    {
+        CouchRevision *revision = [self cc_couchRevision];
+        NSLog(@"Revision: %@ for document: %@", revision, [self cc_couchDocument]);
+        RESTOperation *delete = [revision DELETE];
+        [delete onCompletion:^{
+            NSLog(@"Deleted %@", self);
+        }];
+        [delete start];
+    }
+}
+
+#pragma mark - CouchDocumentModel
+- (void)couchDocumentChanged:(CouchDocument *)doc
+{
+    NSLog(@"Updating %@ with changed doc! %@", self, doc);
+    [self cj_setPropertiesFromDescription:doc.userProperties];
+}
+
+#pragma mark - CJRelationshipRepresentation
+
+// If one couch document includes another in a relationship,
+// just embed its ID in the JSON description as one usually does
+// with couchdb relationships.
+- (id)cj_relationshipRepresentation
+{
+    return self.couchID;
+}
+
++ (NSManagedObject *)cj_objectFromRelationshipRepresentation:(id)relationshipRepresentation
+                                                   inContext:(NSManagedObjectContext *)managedObjectContext
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass(self)];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"%K == %@", 
+                           kCouchIDPropertyName, relationshipRepresentation]];
+    
+    NSError *error = nil;
+    NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
+    if ([results count]) 
+    {
+        return [results objectAtIndex:0];
+    }
+    
+    return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self) 
+                                         inManagedObjectContext:managedObjectContext];
+}
+
+@end
+
+
 @implementation NSManagedObject (CCDocument)
 
 + (NSString *)cc_generateUUID
@@ -40,6 +125,8 @@
     
     [properties removeObjectForKey:kCouchRevPropertyName];
     [properties removeObjectForKey:kCouchIDPropertyName];
+    [properties removeObjectForKey:kCouchAttachmentsMetadataPropertyName];
+    
     return properties;
 }
 
@@ -51,16 +138,20 @@
 - (void)cc_putToCouchWithCompletion:(OnCompleteBlock)completion
 {
     NSMutableDictionary *properties = [self cc_userProperties];
-    NSLog(@"Putting to couch %@!", properties);
+    
     // If we have a rev, we're updating an existing doc. Otherwise, we're putting for the first time and creating a new doc.
     
     CCDocument *documentSelf = (CCDocument *)self;
-    
     if (documentSelf.couchRev) 
     {
         [properties setObject:documentSelf.couchRev forKey:kCouchRevKey];
+        if (documentSelf.attachmentsMetadata) 
+        {
+            [properties setObject:documentSelf.attachmentsMetadata forKey:kCouchAttachmentsMetadataKey];
+        }
     }
     
+    NSLog(@"Putting to couch %@!", properties);
     RESTOperation *putOperation = [[self cc_couchDocument] putProperties:properties];
     [putOperation onCompletion:^{
         if (!putOperation.isSuccessful) 
@@ -133,91 +224,9 @@
 {
     CCDocument *documentSelf = (CCDocument *)self;
     documentSelf.couchRev = couchRevision.revisionID;
+    documentSelf.attachmentsMetadata = [couchRevision.properties objectForKey:@"_attachments"];
     objc_setAssociatedObject(self, @"couchRevision", couchRevision, 
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-@end
-
-@implementation CCDocument
-@dynamic couchRev;
-@dynamic couchID;
-
-- (NSString *)couchID 
-{
-    [self willAccessValueForKey:kCouchIDPropertyName];
-    NSString *ourCouchID = [self primitiveValueForKey:kCouchIDPropertyName];
-    [self didAccessValueForKey:kCouchIDPropertyName];
-    if (!ourCouchID) 
-    {
-        NSLog(@"Generating new shared ID for inserted object: %@", [self class]);
-        ourCouchID = [[self class] cc_generateUUID];
-        self.couchID = ourCouchID;
-    }
-    return ourCouchID;
-}
-
-- (void)willSave
-{
-    [super willSave];
-    NSLog(@"WILL SAVE ON %@ %@", [self class], self.couchID);
-    // Don't do a redundant put when we just got changes or new objects from Couch.
-    if (self.isDeleted || !self.hasChanges || [self.managedObjectContext cc_isSavingWithoutPUT]) 
-    {
-        return;
-    }
-    NSLog(@"PUTTING %@ %@ TO COUCH", [self class], self.couchID);
-    [self cc_putToCouch];
-}
-
-- (void)prepareForDeletion
-{
-    [super prepareForDeletion];
-    if (self.couchRev) 
-    {
-        CouchRevision *revision = [self cc_couchRevision];
-        NSLog(@"Revision: %@ for document: %@", revision, [self cc_couchDocument]);
-        RESTOperation *delete = [revision DELETE];
-        [delete onCompletion:^{
-            NSLog(@"Deleted %@", self);
-        }];
-        [delete start];
-    }
-}
-
-#pragma mark - CouchDocumentModel
-- (void)couchDocumentChanged:(CouchDocument *)doc
-{
-    NSLog(@"Updating %@ with changed doc! %@", self, doc);
-    [self cj_setPropertiesFromDescription:doc.userProperties];
-}
-
-#pragma mark - CJRelationshipRepresentation
-
-// If one couch document includes another in a relationship,
-// just embed its ID in the JSON description as one usually does
-// with couchdb relationships.
-- (id)cj_relationshipRepresentation
-{
-    return self.couchID;
-}
-
-+ (NSManagedObject *)cj_objectFromRelationshipRepresentation:(id)relationshipRepresentation
-                                                   inContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass(self)];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"%K == %@", 
-                           kCouchIDPropertyName, relationshipRepresentation]];
-    
-    NSError *error = nil;
-    NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
-    if ([results count]) 
-    {
-        return [results objectAtIndex:0];
-    }
-    
-    return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self) 
-                                         inManagedObjectContext:managedObjectContext];
 }
 
 @end

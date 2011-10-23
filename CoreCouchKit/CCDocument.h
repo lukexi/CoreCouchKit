@@ -12,12 +12,14 @@
 
 #define kCouchIDKey @"_id"
 #define kCouchRevKey @"_rev"
+#define kCouchAttachmentsMetadataKey @"_attachments"
 #define kCouchPreventPUTKey @"kCouchPreventPUTKey"
 
 @interface CCDocument : NSManagedObject <CouchDocumentModel, CJRelationshipRepresentation>
 
 @property (nonatomic, retain) NSString * couchRev;
 @property (nonatomic, retain) NSString * couchID;
+@property (nonatomic, retain) id attachmentsMetadata;
 
 @end
 

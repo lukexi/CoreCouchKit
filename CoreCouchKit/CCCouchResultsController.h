@@ -11,6 +11,7 @@
 @protocol CCDocumentUpdate <NSObject>
 
 - (void)willUpdateFromCouch;
+- (void)didUpdateFromCouch;
 
 @end
 

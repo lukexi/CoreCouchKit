@@ -81,6 +81,7 @@
     NSString *map = [NSString stringWithFormat:
                      @"function(doc) {if (%@) emit(doc.%@, null);}", 
                      [self docTypePredicate], self.relatedKey ?: @"_id"];
+    NSLog(@"Map: %@", map);
     [self.designDocument defineViewNamed:self.viewName
                                      map:map];
     self.query = [[self.designDocument queryViewNamed:self.viewName] ck_asLiveQuery]; // see fix definition for details
@@ -88,6 +89,7 @@
     {
         self.query.keys = [NSArray arrayWithObject:self.relatedValue];
     }
+    NSLog(@"Query keys: %@", self.query.keys);
     self.query.prefetch = YES; // include_docs=true
     
     [self.query addObserver:self 
@@ -131,13 +133,14 @@
         {
             NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
             if ([document conformsToProtocol:@protocol(CCDocumentUpdate)]) 
-            {
                 [(CCDocument <CCDocumentUpdate> *)document willUpdateFromCouch];
-            }
             
             [document cj_setPropertiesFromDescription:properties];
             document.couchRev = [properties objectForKey:kCouchRevKey];
             [localResultsByID removeObjectForKey:couchID];
+            
+            if ([document conformsToProtocol:@protocol(CCDocumentUpdate)]) 
+                [(CCDocument <CCDocumentUpdate> *)document didUpdateFromCouch];
         }
         else
         {

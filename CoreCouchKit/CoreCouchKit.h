@@ -10,10 +10,11 @@
 #import "CCManagedObjectModel.h"
 #import "CCDocument.h"
 #import "CCCouchResultsController.h"
-
+#import "CCAttachment.h"
 #define kCouchDatabaseKey @"couchDatabase"
 #define kCouchIDPropertyName @"couchID"
 #define kCouchRevPropertyName @"couchRev"
+#define kCouchAttachmentsMetadataPropertyName @"attachmentsMetadata"
 #define kCouchTypeKey @"couchType"
 #define kCouchTypeDocument @"document"
 #define kCouchTypeAttachment @"attachment"
@@ -33,19 +34,3 @@
 @end
 
 
-typedef void(^CCValueBlock)(id value);
-@class CCDocument;
-@interface NSManagedObject (CoreCouchAttachmentHandling)
-- (BOOL)cc_isCouchAttachment;
-- (void)cc_PUTAttachment;
-- (NSData *)cc_attachmentRepresentation;
-- (NSValueTransformer *)cc_valueTransformer;
-- (void)cc_setFromAttachmentRepresentation:(NSData *)attachmentRepresentation;
-- (CouchAttachment *)cc_couchAttachment;
-- (void)cc_valueWithCompletion:(CCValueBlock)valueBlock;
-
-- (CCDocument *)cc_document;
-- (NSString *)cc_attachmentProperty;
-- (NSString *)cc_contentType;
-
-@end

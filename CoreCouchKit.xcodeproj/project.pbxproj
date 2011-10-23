@@ -21,8 +21,8 @@
 		C216522114502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
 		C216522214502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
 		C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521414502D4C00372382 /* CCManagedObjectModel.h */; };
-		C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
+		C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
 		C216522614502D4C00372382 /* CCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521614502D4C00372382 /* CCDocument.h */; };
 		C216522714502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
 		C216522814502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
@@ -40,6 +40,12 @@
 		C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
 		C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
 		C2165247145040A500372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
+		C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5E71454258C0000BDE9 /* CCMixin.h */; };
+		C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C2F4C5F514543F450000BDE9 /* CCAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5F314543F440000BDE9 /* CCAttachment.h */; };
+		C2F4C5F614543F450000BDE9 /* CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* CCAttachment.m */; };
+		C2F4C5F714543F450000BDE9 /* CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* CCAttachment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +87,10 @@
 		C216523514502DB600372382 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C21652371450319300372382 /* CoreDataJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataJSONKit.h; path = CoreDataJSONKit/CoreDataJSONKit.h; sourceTree = "<group>"; };
 		C21652381450319300372382 /* CoreDataJSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataJSONKit.m; path = CoreDataJSONKit/CoreDataJSONKit.m; sourceTree = "<group>"; };
+		C2F4C5E71454258C0000BDE9 /* CCMixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMixin.h; sourceTree = "<group>"; };
+		C2F4C5E81454258C0000BDE9 /* CCMixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMixin.m; sourceTree = "<group>"; };
+		C2F4C5F314543F440000BDE9 /* CCAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachment.h; sourceTree = "<group>"; };
+		C2F4C5F414543F450000BDE9 /* CCAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAttachment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,14 +162,18 @@
 				C216521114502D4C00372382 /* CoreCouchKit.m */,
 				C216521214502D4C00372382 /* CCCouchResultsController.h */,
 				C216521314502D4C00372382 /* CCCouchResultsController.m */,
-				C216521414502D4C00372382 /* CCManagedObjectModel.h */,
-				C216521514502D4C00372382 /* CCManagedObjectModel.m */,
 				C216521614502D4C00372382 /* CCDocument.h */,
 				C216521714502D4C00372382 /* CCDocument.m */,
+				C2F4C5F314543F440000BDE9 /* CCAttachment.h */,
+				C2F4C5F414543F450000BDE9 /* CCAttachment.m */,
+				C216521414502D4C00372382 /* CCManagedObjectModel.h */,
+				C216521514502D4C00372382 /* CCManagedObjectModel.m */,
 				C216521814502D4C00372382 /* CouchLiveQueryFix.h */,
 				C216521914502D4C00372382 /* CouchLiveQueryFix.m */,
 				C216521A14502D4C00372382 /* UIImageToDataTransformer.h */,
 				C216521B14502D4C00372382 /* UIImageToDataTransformer.m */,
+				C2F4C5E71454258C0000BDE9 /* CCMixin.h */,
+				C2F4C5E81454258C0000BDE9 /* CCMixin.m */,
 				C216521C14502D4C00372382 /* README */,
 				C21651EC14502CAD00372382 /* Supporting Files */,
 			);
@@ -207,6 +221,8 @@
 				C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */,
 				C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */,
 				C21652391450319300372382 /* CoreDataJSONKit.h in Headers */,
+				C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */,
+				C2F4C5F514543F450000BDE9 /* CCAttachment.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +331,8 @@
 				C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
 				C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */,
+				C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */,
+				C2F4C5F614543F450000BDE9 /* CCAttachment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +348,8 @@
 				C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
 				C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */,
+				C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */,
+				C2F4C5F714543F450000BDE9 /* CCAttachment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
