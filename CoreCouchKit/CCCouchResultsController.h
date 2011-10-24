@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CCDocument.h"
 
 @protocol CCDocumentUpdate <NSObject>
 
@@ -15,9 +16,15 @@
 
 @end
 
+typedef void(^CCCouchResultsBlock)(NSArray *results);
+
 @interface CCCouchResultsController : NSObject
 
+@property (nonatomic, copy) CCCouchResultsBlock resultsBlock;
+
 - (void)start;
+
++ (id)couchResultsControllerFor:(NSString *)key of:(NSManagedObject *)owner;
 
 + (id)couchResultsControllerWithDesignDocName:(NSString *)designDocName
                                      viewName:(NSString *)viewName

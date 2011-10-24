@@ -41,6 +41,24 @@
 @implementation CCCouchResultsController
 @synthesize managedObjectContext;
 @synthesize couchDatabase, designDocument, viewName, entityName, query, relatedKey, relatedValue;
+@synthesize resultsBlock;
+
++ (id)couchResultsControllerFor:(NSString *)key of:(NSManagedObject *)owner
+{
+    CCDocument *document = (CCDocument *)owner;
+    NSRelationshipDescription *inverseRelationship = [[[[owner entity] relationshipsByName] objectForKey:key] inverseRelationship];
+    NSString *inverseKey = [inverseRelationship name];
+    NSString *inverseEntityName = [[inverseRelationship entity] name];
+    NSString *ownerID = document.couchID;
+    NSString *viewName = [NSString stringWithFormat:@"%@By%@", key, [inverseKey capitalizedString]];
+    
+    return [self couchResultsControllerWithDesignDocName:@"design" 
+                                                viewName:viewName 
+                                              entityName:inverseEntityName 
+                                              relatedKey:[inverseKey stringByAppendingString:@".couchID"] 
+                                            relatedValue:ownerID 
+                                                 context:owner.managedObjectContext];
+}
 
 + (id)couchResultsControllerWithDesignDocName:(NSString *)designDocName
                                      viewName:(NSString *)viewName
@@ -80,7 +98,7 @@
 {
     NSString *map = [NSString stringWithFormat:
                      @"function(doc) {if (%@) emit(doc.%@, null);}", 
-                     [self docTypePredicate], self.relatedKey ?: @"_id"];
+                     [self docTypePredicate], [self.relatedKey stringByReplacingOccurrencesOfString:@".couchID" withString:@""] ?: @"_id"];
     NSLog(@"Map: %@", map);
     [self.designDocument defineViewNamed:self.viewName
                                      map:map];
@@ -124,6 +142,7 @@
     
     Class documentClass = NSClassFromString(self.entityName);
     
+    NSMutableArray *couchResults = [NSMutableArray array];
     for (NSString *couchID in [couchResultsByID allKeys]) 
     {
         NSDictionary *properties = [couchResultsByID objectForKey:couchID];
@@ -152,19 +171,24 @@
             document.couchRev = [properties objectForKey:kCouchRevKey];
             NSLog(@"created document %@ with ID: %@", document, document.couchID);
         }
+        [couchResults addObject:document];
     }
     
     NSLog(@"Remaining: %@", localResultsByID);
     [self deleteManagedObjects:[localResultsByID allValues]];
     
     [self saveWithoutPUT];
+    
+    if (self.resultsBlock) 
+    {
+        self.resultsBlock(couchResults);
+    }
 }
 
 // Prevents CDCouchDocuments from attempting to PUT during willSave;
 // there's no need since these changes are just fetched from Couch.
 - (void)saveWithoutPUT
 {
-    
     NSError *error = nil;
     if (![self.managedObjectContext cc_saveWithoutPUT:&error]) 
     {
@@ -211,7 +235,7 @@
 - (NSPredicate *)localPredicate
 {
     if (self.relatedKey && self.relatedValue) 
-        return [NSPredicate predicateWithFormat:@"%K.couchID == %@", self.relatedKey, self.relatedValue];
+        return [NSPredicate predicateWithFormat:@"%K == %@", self.relatedKey, self.relatedValue];
     return nil;
 }
 

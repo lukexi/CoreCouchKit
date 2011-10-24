@@ -18,7 +18,7 @@
     NSString *destinationClassName = NSStringFromClass(originalClass);
     
     NSString *subclassName = [NSString stringWithFormat:@"%@_Plus_%@", destinationClassName, sourceClassName];
-    NSLog(@"Creating subclass %@", subclassName);
+   // NSLog(@"Creating subclass %@", subclassName);
     
     Class subclass = NSClassFromString(subclassName);
     if (subclass) 
@@ -54,19 +54,19 @@
                 IMP originalImplementation = method_getImplementation(originalMethod);
                 const char *originalTypes = method_getTypeEncoding(originalMethod);
                 
-                NSLog(@"Adding %@ implementation under selector %@", mixinClass, originalSelectorName);
-                BOOL addedMixinImplementation = class_addMethod(subclass, originalSelector, implementation, types);
-                NSLog(@"Added mixin implemenetation %@", addedMixinImplementation ? @"YEP": @"NOPE");
+                //NSLog(@"Adding %@ implementation under selector %@", mixinClass, originalSelectorName);
+                /*BOOL addedMixinImplementation = */class_addMethod(subclass, originalSelector, implementation, types);
+                //NSLog(@"Added mixin implemenetation %@", addedMixinImplementation ? @"YEP": @"NOPE");
                 // <selector> now contains our new implementation, which calls through to override_<selector> first, and...
-                NSLog(@"Adding %@ implementation under selector %@", originalClass, selectorName);
-                BOOL addedOriginalImplementation = class_addMethod(subclass, selector, originalImplementation, originalTypes);
-                NSLog(@"Added original implemenetation %@", addedOriginalImplementation ? @"YEP": @"NOPE");
+                //NSLog(@"Adding %@ implementation under selector %@", originalClass, selectorName);
+                /*BOOL addedOriginalImplementation = */class_addMethod(subclass, selector, originalImplementation, originalTypes);
+                //NSLog(@"Added original implemenetation %@", addedOriginalImplementation ? @"YEP": @"NOPE");
                 // override_<selector> now contains the original implementation, so can can still call it.
             }
             else
             {
                 class_addMethod(subclass, selector, implementation, types);
-                NSLog(@"Adding method: %@ of class %@ to class: %@", NSStringFromSelector(selector), mixinClass, subclassName);
+                //NSLog(@"Adding method: %@ of class %@ to class: %@", NSStringFromSelector(selector), mixinClass, subclassName);
             }
         }
         
@@ -79,7 +79,7 @@
         {
             Protocol *aProtocol = protocols[protocolIndex];
             class_addProtocol(subclass, aProtocol);
-            NSLog(@"Adding protocol: %@ of class %@ to class: %@", NSStringFromProtocol(aProtocol), mixinClass, subclassName);
+            //NSLog(@"Adding protocol: %@ of class %@ to class: %@", NSStringFromProtocol(aProtocol), mixinClass, subclassName);
         }
         
         // We don't need ivars or properties yet but could add them too!

@@ -229,6 +229,23 @@
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+// sketches of interfaces to asynchronously get values
+
+- (void)applyValue:(NSString *)key 
+                to:(CCValueBlock)valueBlock
+{
+    
+}
+
+// should return a token to stop monitoring with
+- (id)monitor:(NSString *)toManyRelationshipKey 
+        added:(CCSetBlock)addedBlock
+      changed:(CCSetBlock)changedBlock
+      removed:(CCSetBlock)removedBlock
+{
+    return nil;
+}
+
 @end
 
 @implementation NSManagedObjectContext (CCDocument)

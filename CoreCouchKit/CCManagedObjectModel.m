@@ -43,7 +43,7 @@
             
             // Dynamically subclass the document entities to add methods for JSON serialization and CouchDB synchronization. See CCDocument for their original implementations.
             
-            NSLog(@"Dynamically subclassing %@", [entity name]);
+            //NSLog(@"Dynamically subclassing %@", [entity name]);
             NSString *entityClassName = [entity managedObjectClassName];
             Class originalClass = NSClassFromString(entityClassName);
             NSAssert(originalClass, @"Couldn't find original class %@, did you create an NSManagedObject subclass for it?", entityClassName);
@@ -58,7 +58,7 @@
             [entity setUserInfo:userInfo];
         }
     }
-    NSLog(@"Document entities: %@", [documentEntities valueForKey:@"name"]);
+    //NSLog(@"Document entities: %@", [documentEntities valueForKey:@"name"]);
     
     // Make all document entities subentities of CCDocument
     NSEntityDescription *documentEntity = [self documentEntityWithSubentities:documentEntities];
