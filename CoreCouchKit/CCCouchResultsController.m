@@ -31,6 +31,7 @@
 - (NSMutableDictionary *)localResultsByID;
 
 - (void)deleteManagedObjects:(NSArray *)objects;
+- (void)saveAndPUT;
 - (void)saveWithoutPUT;
 
 - (NSString *)docTypePredicate;
@@ -41,7 +42,7 @@
 @implementation CCCouchResultsController
 @synthesize managedObjectContext;
 @synthesize couchDatabase, designDocument, viewName, entityName, query, relatedKey, relatedValue;
-@synthesize resultsBlock;
+@synthesize resultsBlock, deleteMissing;
 
 + (id)couchResultsControllerFor:(NSString *)key of:(NSManagedObject *)owner
 {
@@ -75,6 +76,7 @@
     controller.viewName = viewName;
     controller.relatedKey = relatedKey;
     controller.relatedValue = relatedValue;
+    controller.deleteMissing = YES;
     return controller;
 }
 
@@ -137,6 +139,14 @@
 
 - (void)updateLocalObjectsWithCouchDocuments
 {
+    // Make sure any pending changes are put to couch before we update,
+    // because the saveWithoutPUT will commit them to the database without
+    // putting them and they'll no longer be known as changes.
+    // This definitely increases the chance of conflicts.
+    // A more robust solution would be to emulate couch, and keep the previous revision
+    // of the data around so we can then reapply its changes afterwards...
+    [self saveAndPUT];
+    
     NSMutableDictionary *couchResultsByID = [self couchResultsByID];
     NSMutableDictionary *localResultsByID = [self localResultsByID];
     
@@ -160,6 +170,7 @@
             
             if ([document conformsToProtocol:@protocol(CCDocumentUpdate)]) 
                 [(CCDocument <CCDocumentUpdate> *)document didUpdateFromCouch];
+            NSLog(@"Document is now %@", document);
         }
         else
         {
@@ -175,13 +186,25 @@
     }
     
     NSLog(@"Remaining: %@", localResultsByID);
-    [self deleteManagedObjects:[localResultsByID allValues]];
+    if (self.deleteMissing) 
+    {
+        [self deleteManagedObjects:[localResultsByID allValues]];
+    }
     
     [self saveWithoutPUT];
     
     if (self.resultsBlock) 
     {
         self.resultsBlock(couchResults);
+    }
+}
+
+- (void)saveAndPUT
+{
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error]) 
+    {
+        NSLog(@"Error saving: %@", error);
     }
 }
 
@@ -194,7 +217,6 @@
     {
         NSLog(@"Error saving: %@", error);
     }
-    
 }
 
 - (void)deleteManagedObjects:(NSArray *)objects

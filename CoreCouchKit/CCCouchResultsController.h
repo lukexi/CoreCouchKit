@@ -20,6 +20,7 @@ typedef void(^CCCouchResultsBlock)(NSArray *results);
 
 @interface CCCouchResultsController : NSObject
 
+@property (nonatomic) BOOL deleteMissing;
 @property (nonatomic, copy) CCCouchResultsBlock resultsBlock;
 
 - (void)start;

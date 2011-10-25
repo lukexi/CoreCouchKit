@@ -100,16 +100,19 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     NSLog(@"Got note! %@", note);
     if ([self.managedObjectContext cc_isSavingWithoutPUT]) 
     {
+        NSLog(@"Saving without put, skipping attachment putting...");
         return;
     }
     
     NSSet *changedObjects = [[self.managedObjectContext updatedObjects] setByAddingObjectsFromSet:
                              [self.managedObjectContext insertedObjects]];
-    
+    NSLog(@"Changed objects: %@", changedObjects);
     for (NSManagedObject *object in changedObjects) 
     {
+        NSLog(@"Saving object %@", object);
         if ([object cc_isCouchAttachment] && [object hasChanges]) 
         {
+            NSLog(@"Is couch attachment... object %@", [object class]);
             [object cc_PUTAttachment];
         }
     }
