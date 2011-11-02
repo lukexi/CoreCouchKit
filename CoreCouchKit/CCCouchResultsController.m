@@ -87,7 +87,8 @@
 
 - (void)stop
 {
-    [self.query removeObserver:self forKeyPath:@"rows"];
+    [self.query removeObserver:self 
+                    forKeyPath:@"rows"];
 }
 
 - (NSString *)docTypePredicate

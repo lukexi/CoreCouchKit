@@ -37,6 +37,8 @@ typedef void(^CCBlock)(void);
 + (NSString *)cc_generateUUID;
 - (CouchDatabase *)cc_couchDatabase;
 - (NSMutableDictionary *)cc_userProperties;
+
+- (void)cc_setCouchDocument:(CouchDocument *)document;
 - (CouchDocument *)cc_couchDocument;
 
 - (void)cc_setCouchRevision:(CouchRevision *)couchRevision;

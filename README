@@ -13,7 +13,7 @@ Now add to your app delegate:
 #import "CoreCouchKit.h"
 
 and in applicationDidFinishLaunching:
-[CoreCouchKit setupWithContext:self.managedObjectContext];
+[CoreCouchKit setupWithContext:self.managedObjectContext serverURL:@"http://myserver.com:80" databaseName:@"my-database-name"];
 
 and replace the usual NSManagedObjectModel creation with something like:
 - (NSManagedObjectModel *)managedObjectModel
@@ -23,7 +23,7 @@ and replace the usual NSManagedObjectModel creation with something like:
         return __managedObjectModel;
     }
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:<#MyCouchAppName#> withExtension:@"momd"];
-    __managedObjectModel = [CDCouchManagedObjectModel couchManagedObjectModelWithContentsOfURL:modelURL];
+    __managedObjectModel = [CCManagedObjectModel couchManagedObjectModelWithContentsOfURL:modelURL];
     return __managedObjectModel;
 }
 

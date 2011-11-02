@@ -162,9 +162,16 @@
         if (putOperation.httpStatus == 412 || 
             putOperation.httpStatus == 409) 
         {
+            // TODO — a cleaner way of doing this would be to do an _all_documents CouchQuery with a key of the couchID. This would give us asynchronicity, and the resulting CouchQueryRow would automatically call 'loadCurrentRevisionFrom' on the CouchDocument representing this CCDocument to update it, meaning we wouldn't have to clearDocumentCache etc.
+            
             // Conflict — get latest revision 
+            [self cc_setCouchDocument:nil];
+            CouchDatabase *database = [self cc_couchDatabase];
+            [database clearDocumentCache];
             NSLog(@"CONFLICT! BLOCKING TO GET CURRENT REVISION");
+            NSAssert1([self cc_couchDocument], @"Couldn't create new document for CCDoucment %@", self);
             CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
+            NSAssert2(currentRevision, @"Current revision is null, what's the point %@ %@", documentSelf.couchID, documentSelf.couchRev);
             [self cc_setCouchRevision:currentRevision];
             NSLog(@"DONE! Current revision is now %@", documentSelf.couchRev);
             [self cj_setPropertiesFromDescription:currentRevision.userProperties];
@@ -193,6 +200,15 @@
     [putOperation start];
 }
 
+- (void)cc_setCouchDocument:(CouchDocument *)newDocument
+{
+    CouchDocument *currentDocument = objc_getAssociatedObject(self, @"couchDocument");
+    currentDocument.modelObject = nil;
+    newDocument.modelObject = self;
+    objc_setAssociatedObject(self, @"couchDocument", newDocument, 
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (CouchDocument *)cc_couchDocument
 {
     CCDocument *documentSelf = (CCDocument *)self;
@@ -200,9 +216,7 @@
     if (!couchDocument && documentSelf.couchID) 
     {
         couchDocument = [[self cc_couchDatabase] documentWithID:documentSelf.couchID];
-        couchDocument.modelObject = self;
-        objc_setAssociatedObject(self, @"couchDocument", couchDocument, 
-                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [self cc_setCouchDocument:couchDocument];
     }
     return couchDocument;
 }

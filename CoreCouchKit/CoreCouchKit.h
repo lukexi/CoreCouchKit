@@ -11,6 +11,9 @@
 #import "CCDocument.h"
 #import "CCCouchResultsController.h"
 #import "CCAttachment.h"
+#import "CCQuery.h"
+#import "CCFetchedResultsController.h"
+
 #define kCouchDatabaseKey @"couchDatabase"
 #define kCouchIDPropertyName @"couchID"
 #define kCouchRevPropertyName @"couchRev"

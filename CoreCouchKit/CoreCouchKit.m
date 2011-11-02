@@ -70,6 +70,7 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     self = [super init];
     if (self) 
     {
+        // TODO: could disassemble the serverURLString and add the port workaround (i.e. add :80 if there is none). Or, just submit a patch to Jens.
         NSURL *serverURL = [NSURL URLWithString:serverURLString];
         NSAssert1([serverURL port], @"Must provide an explicit port (e.g. http://sperts.iriscouch.com:80 to workaround bug in CouchCocoa (you provided %@)", serverURLString);
         self.server = [[CouchServer alloc] initWithURL:serverURL];
@@ -109,12 +110,19 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     NSLog(@"Changed objects: %@", changedObjects);
     for (NSManagedObject *object in changedObjects) 
     {
+        // TODO 
+        
         NSLog(@"Saving object %@", object);
         if ([object cc_isCouchAttachment] && [object hasChanges]) 
         {
             NSLog(@"Is couch attachment... object %@", [object class]);
             [object cc_PUTAttachment];
         }
+    }
+    
+    for (NSManagedObject *object in [self.managedObjectContext deletedObjects]) 
+    {
+        // que deletion
     }
 }
 
