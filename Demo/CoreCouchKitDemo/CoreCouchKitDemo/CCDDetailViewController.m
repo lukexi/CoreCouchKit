@@ -7,8 +7,13 @@
 //
 
 #import "CCDDetailViewController.h"
+#import "NSObject+DGKVOBlocks.h"
 
 @interface CCDDetailViewController ()
+{
+    id nameObserver;
+    id locationObserver;
+}
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 @end
@@ -17,6 +22,8 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
+@synthesize nameField = _nameField;
+@synthesize locationField = _locationField;
 @synthesize masterPopoverController = _masterPopoverController;
 
 #pragma mark - Managing the detail item
@@ -24,6 +31,10 @@
 - (void)setDetailItem:(id)newDetailItem
 {
     if (_detailItem != newDetailItem) {
+        
+        [_detailItem dgkvo_removeObserverWithIdentifier:nameObserver];
+        [_detailItem dgkvo_removeObserverWithIdentifier:locationObserver];
+        
         _detailItem = newDetailItem;
         
         // Update the view.
@@ -39,8 +50,25 @@
 {
     // Update the user interface for the detail item.
 
-    if (self.detailItem) {
+    if (self.detailItem) 
+    {
         self.detailDescriptionLabel.text = [self.detailItem description];
+        
+        nameObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"name" 
+                                                            options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                              queue:nil 
+                                                         usingBlock:^(NSDictionary *change) 
+        {
+            self.nameField.text = [self.detailItem valueForKey:@"name"];
+        }];
+        
+        locationObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"location" 
+                                                                options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                                  queue:nil 
+                                                             usingBlock:^(NSDictionary *change) 
+        {
+            self.locationField.text = [self.detailItem valueForKey:@"location"];
+        }];
     }
 }
 
@@ -50,6 +78,30 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"textfield should return %@", textField);
+    [textField resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"textfield did end editing %@", textField);
+    
+    if (textField == self.nameField) {
+        [self.detailItem setValue:textField.text forKey:@"name"];
+    }
+    else if (textField == self.locationField) {
+        [self.detailItem setValue:textField.text forKey:@"location"];
+    }
+    NSError *error;
+    if (![[self.detailItem managedObjectContext] save:&error]) 
+    {
+        NSLog(@"Error saving textfield change: %@", error);
+    }
+}
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -61,6 +113,8 @@
 
 - (void)viewDidUnload
 {
+    [self setNameField:nil];
+    [self setLocationField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

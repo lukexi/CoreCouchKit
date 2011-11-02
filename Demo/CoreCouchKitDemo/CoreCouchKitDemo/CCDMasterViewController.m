@@ -9,6 +9,7 @@
 #import "CCDMasterViewController.h"
 
 #import "CCDDetailViewController.h"
+#import "CoreCouchKit.h"
 
 @interface CCDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -168,7 +169,10 @@
     if (__fetchedResultsController != nil) {
         return __fetchedResultsController;
     }
-    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    self.fetchedResultsController = [[CoreCouchKit sharedCoreCouchKit] fetchedResultsControllerForObjectsOfType:@"Event" whose:nil is:nil sortDescriptors:sortDescriptors delegate:self];
+    /*
     // Set up the fetched results controller.
     // Create the fetch request for the entity.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -190,6 +194,7 @@
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
+     */
     
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
@@ -201,6 +206,8 @@
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
+    
+    NSLog(@"Result: %@", self.fetchedResultsController.fetchedObjects);
     
     return __fetchedResultsController;
 }    
@@ -258,7 +265,8 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
+    cell.textLabel.text = [[managedObject valueForKey:@"name"] description];
+    [cell setNeedsLayout];
 }
 
 - (void)insertNewObject
@@ -271,6 +279,7 @@
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
     [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    [newManagedObject setValue:@"original name" forKey:@"name"];
     
     // Save the context.
     NSError *error = nil;

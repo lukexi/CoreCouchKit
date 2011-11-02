@@ -8,10 +8,15 @@
 
 #import <CoreData/CoreData.h>
 
+
+@class CCQuery;
 // Automatically sets up and holds a CouchLiveQuery and queues object updates onto the main CoreCouchKit thread
 
 @interface CCFetchedResultsController : NSFetchedResultsController
 
-
+- (id)initWithQuery:(CCQuery *)aQuery
+    sortDescriptors:(NSArray *)sortDescriptors
+managedObjectContext:(NSManagedObjectContext *)managedObjectContext
+           delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end

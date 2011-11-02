@@ -25,13 +25,6 @@ typedef void(^CCBlock)(void);
 
 @end
 
-@interface NSManagedObjectContext (CCDocument)
-
-- (BOOL)cc_saveWithoutPUT:(NSError **)error;
-- (BOOL)cc_isSavingWithoutPUT;
-
-@end
-
 @interface NSManagedObject (CCDocument)
 
 + (NSString *)cc_generateUUID;
@@ -44,7 +37,6 @@ typedef void(^CCBlock)(void);
 - (void)cc_setCouchRevision:(CouchRevision *)couchRevision;
 - (CouchRevision *)cc_couchRevision;
 
-- (void)cc_putToCouch;
-- (void)cc_putToCouchWithCompletion:(OnCompleteBlock)completion;
+- (void)cc_PUT;
 
 @end

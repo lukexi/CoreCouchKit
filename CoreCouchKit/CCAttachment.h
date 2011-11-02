@@ -10,6 +10,8 @@
 
 @interface CCAttachment : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * needsPUT;
+
 @end
 
 typedef void(^CCValueBlock)(id value);

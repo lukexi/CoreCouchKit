@@ -12,6 +12,8 @@
 
 @implementation CCAttachment
 
+@dynamic needsPUT;
+
 @end
 
 @implementation NSManagedObject (CoreCouchAttachmentHandling)
@@ -98,7 +100,7 @@
         [self cc_setFromAttachmentRepresentation:[[self cc_couchAttachment] body]];
         
         NSError *error = nil;
-        if (![self.managedObjectContext cc_saveWithoutPUT:&error]) 
+        if (![self.managedObjectContext save:&error]) 
         {
             NSLog(@"Error saving: %@", error);
         }

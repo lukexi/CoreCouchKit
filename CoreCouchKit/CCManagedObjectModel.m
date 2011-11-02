@@ -14,6 +14,7 @@
 @interface CCManagedObjectModel ()
 
 + (NSEntityDescription *)documentEntityWithSubentities:(NSArray *)subentities;
++ (NSEntityDescription *)attachmentEntityWithSubEntities:(NSArray *)subentities;
 
 @end
 
@@ -25,18 +26,23 @@
     
     NSArray *originalEntities = [model entities];
     NSMutableArray *documentEntities = [NSMutableArray array];
+    NSMutableArray *attachmentEntities = [NSMutableArray array];
     for (NSEntityDescription *entity in originalEntities) 
     {
         NSString *couchType = [entity.userInfo objectForKey:kCouchTypeKey];
-        if ([couchType isEqualToString:kCouchTypeDocument]) 
-        {
-            // Make sure we have the top level entity for this entity
-            NSEntityDescription *superentity = entity;
+        BOOL isDocumentType = [couchType isEqualToString:kCouchTypeDocument];
+        BOOL isAttachmentType = [couchType isEqualToString:kCouchTypeAttachment];
+        NSEntityDescription *superentity = entity;
+        // Make sure we have the top level entity for this entity
+        if (isDocumentType || isAttachmentType) {
             while ([superentity superentity]) 
             {
                 superentity = [superentity superentity];
             }
-            
+        }
+        
+        if (isDocumentType) 
+        {
             [documentEntities addObject:superentity];
             [entity setUserInfo:[NSDictionary dictionaryWithObject:kCouchIDPropertyName 
                                                             forKey:kCJEntityUniqueIDKey]];
@@ -50,8 +56,9 @@
             Class dynamicDocumentSubclass = [CCMixin classByAddingContentsOfClass:[CCDocument class] toClass:originalClass];
             [entity setManagedObjectClassName:NSStringFromClass(dynamicDocumentSubclass)];
         }
-        else if ([couchType isEqualToString:kCouchTypeAttachment])
+        else if (isAttachmentType)
         {
+            [attachmentEntities addObject:superentity];
             // Use the ExcludeInRelationships feature of CoreDataJSONKit to make sure attachment entities aren't included in JSON descriptions of their parent objects, since they'll be included as attachments instead.
             NSMutableDictionary *userInfo = [[entity userInfo] mutableCopy];
             [userInfo setObject:[NSNumber numberWithBool:YES] forKey:kCJEntityExcludeInRelationshipsKey];
@@ -60,10 +67,12 @@
     }
     //NSLog(@"Document entities: %@", [documentEntities valueForKey:@"name"]);
     
-    // Make all document entities subentities of CCDocument
+    // Make all document entities subentities of CCDocument, and all attachment entities subentities of CCAttachment
     NSEntityDescription *documentEntity = [self documentEntityWithSubentities:documentEntities];
+    NSEntityDescription *attachmentEntity = [self attachmentEntityWithSubEntities:attachmentEntities];
     
-    NSArray *mergedEntities = [originalEntities arrayByAddingObject:documentEntity];
+    NSArray *mergedEntities = [originalEntities arrayByAddingObjectsFromArray:
+                               [NSArray arrayWithObjects:documentEntity, attachmentEntity, nil]];
     [model setEntities:mergedEntities];
     
     return model;
@@ -85,6 +94,10 @@
     [revAttribute setName:kCouchRevPropertyName];
     [revAttribute setAttributeType:NSStringAttributeType];
     
+    NSAttributeDescription *needsPutAttribute = [[NSAttributeDescription alloc] init];
+    [needsPutAttribute setName:kCouchNeedsPUTPropertyName];
+    [needsPutAttribute setAttributeType:NSBooleanAttributeType];
+    
     NSAttributeDescription *attachmentsMetadataAttribute = [[NSAttributeDescription alloc] init];
     [attachmentsMetadataAttribute setName:kCouchAttachmentsMetadataPropertyName];
     [attachmentsMetadataAttribute setAttributeType:NSTransformableAttributeType];
@@ -94,6 +107,23 @@
     [documentEntity setSubentities:subentities];
     
     return documentEntity;
+}
+
++ (NSEntityDescription *)attachmentEntityWithSubEntities:(NSArray *)subentities
+{
+    NSString *entityClassName = NSStringFromClass([CCAttachment class]);
+    NSEntityDescription *attachmentEntity = [[NSEntityDescription alloc] init];
+    [attachmentEntity setName:entityClassName];
+    [attachmentEntity setManagedObjectClassName:entityClassName];
+    [attachmentEntity setAbstract:YES];
+    
+    NSAttributeDescription *needsPutAttribute = [[NSAttributeDescription alloc] init];
+    [needsPutAttribute setName:kCouchNeedsPUTPropertyName];
+    [needsPutAttribute setAttributeType:NSBooleanAttributeType];
+    
+    [attachmentEntity setProperties:[NSArray arrayWithObjects:needsPutAttribute, nil]];
+    [attachmentEntity setSubentities:subentities];
+    return attachmentEntity;
 }
 
 @end

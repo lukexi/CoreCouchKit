@@ -17,6 +17,7 @@
 #define kCouchDatabaseKey @"couchDatabase"
 #define kCouchIDPropertyName @"couchID"
 #define kCouchRevPropertyName @"couchRev"
+#define kCouchNeedsPUTPropertyName @"needsPUT"
 #define kCouchAttachmentsMetadataPropertyName @"attachmentsMetadata"
 #define kCouchTypeKey @"couchType"
 #define kCouchTypeDocument @"document"
@@ -33,6 +34,17 @@
 + (NSManagedObjectModel *)couchManagedObjectModelWithContentsOfURL:(NSURL *)modelURL;
 
 + (CoreCouchKit *)sharedCoreCouchKit;
+
+@property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
+@property (nonatomic, strong) CouchDatabase *database;
+- (CCQuery *)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)managedObject;
+- (CCFetchedResultsController *)fetchedResultsControllerForRelationship:(NSString *)key 
+                                                      ofObject:(NSManagedObject *)managedObject
+                                               sortDescriptors:(NSArray *)sortDescriptors
+                                                      delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
+- (CCQuery *)queryForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value;
+- (CCFetchedResultsController *)fetchedResultsControllerForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value sortDescriptors:(NSArray *)sortDescriptors delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end
 

@@ -33,20 +33,7 @@
     return ourCouchID;
 }
 
-- (void)override_willSave // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
-{
-    [self override_willSave]; // So, this actually calls the original implementation.
-    NSLog(@"WILL SAVE ON %@ %@", [self class], self.couchID);
-    // Don't do a redundant put when we just got changes or new objects from Couch.
-    if (self.isDeleted || !self.hasChanges || [self.managedObjectContext cc_isSavingWithoutPUT]) 
-    {
-        return;
-    }
-    NSLog(@"PUTTING %@ %@ TO COUCH", [self class], self.couchID);
-    [self cc_putToCouch];
-}
-
-- (void)override_prepareForDeletion // See above.
+- (void)override_prepareForDeletion // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
 {
     [self override_prepareForDeletion];
     if (self.couchRev) 
@@ -130,12 +117,7 @@
     return properties;
 }
 
-- (void)cc_putToCouch
-{
-    [self cc_putToCouchWithCompletion:nil];
-}
-
-- (void)cc_putToCouchWithCompletion:(OnCompleteBlock)completion
+- (void)cc_PUT
 {
     NSMutableDictionary *properties = [self cc_userProperties];
     
@@ -153,51 +135,46 @@
     
     NSLog(@"Putting to couch %@!", properties);
     RESTOperation *putOperation = [[self cc_couchDocument] putProperties:properties];
-    [putOperation onCompletion:^{
-        if (!putOperation.isSuccessful) 
-        {
-            NSLog(@"Error: %@", putOperation.error);
-        }
-        
-        if (putOperation.httpStatus == 412 || 
-            putOperation.httpStatus == 409) 
-        {
-            // TODO — a cleaner way of doing this would be to do an _all_documents CouchQuery with a key of the couchID. This would give us asynchronicity, and the resulting CouchQueryRow would automatically call 'loadCurrentRevisionFrom' on the CouchDocument representing this CCDocument to update it, meaning we wouldn't have to clearDocumentCache etc.
-            
-            // Conflict — get latest revision 
-            [self cc_setCouchDocument:nil];
-            CouchDatabase *database = [self cc_couchDatabase];
-            [database clearDocumentCache];
-            NSLog(@"CONFLICT! BLOCKING TO GET CURRENT REVISION");
-            NSAssert1([self cc_couchDocument], @"Couldn't create new document for CCDoucment %@", self);
-            CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
-            NSAssert2(currentRevision, @"Current revision is null, what's the point %@ %@", documentSelf.couchID, documentSelf.couchRev);
-            [self cc_setCouchRevision:currentRevision];
-            NSLog(@"DONE! Current revision is now %@", documentSelf.couchRev);
-            [self cj_setPropertiesFromDescription:currentRevision.userProperties];
-            [self cc_putToCouch];
-        }
-        else
-        {
-            NSLog(@"Put successfully! %@", putOperation.resultObject);
-            CouchRevision *newRevision = putOperation.resultObject;
-            [self cc_setCouchRevision:newRevision];
-            
-            NSError *error = nil;
-            if (![self.managedObjectContext cc_saveWithoutPUT:&error]) 
-            {
-                NSLog(@"Error saving! %@", error);
-            }
-        }        
-    }];
+    [putOperation wait];
     
-    // Multiple onCompletion blocks get called in order of adding.
-    if (completion) 
+    if (!putOperation.isSuccessful) 
     {
-        [putOperation onCompletion:completion];
+        NSLog(@"Error: %@", putOperation.error);
     }
     
-    [putOperation start];
+    if (putOperation.httpStatus == 412 || 
+        putOperation.httpStatus == 409) 
+    {
+        // Conflict — get latest revision
+        // TODO — a cleaner way of doing this would be to do an _all_documents CouchQuery with a key of the couchID. This would give us asynchronicity, and the resulting CouchQueryRow would automatically call 'loadCurrentRevisionFrom' on the CouchDocument representing this CCDocument to update it, meaning we wouldn't have to clearDocumentCache etc.
+        NSLog(@"Conflict! getting current revision...");
+        NSLog(@"(Revision was %@", [[self cc_couchDocument] currentRevision]);
+        CouchQuery *query = [[self cc_couchDatabase] getDocumentsWithIDs:[NSArray arrayWithObject:documentSelf.couchID]];
+        RESTOperation *getOperation = [query start];
+        [getOperation wait];
+        
+        CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
+        
+        NSLog(@"Updating current revision to %@", currentRevision);
+        [self cc_setCouchRevision:currentRevision];
+        NSLog(@"Got it.");
+        
+#warning get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
+        [self cj_setPropertiesFromDescription:currentRevision.userProperties];
+        [self cc_PUT];
+    }
+    else
+    {
+        NSLog(@"Put successfully! %@", putOperation.resultObject);
+        CouchRevision *newRevision = putOperation.resultObject;
+        [self cc_setCouchRevision:newRevision];
+        
+        NSError *error = nil;
+        if (![self.managedObjectContext save:&error]) 
+        {
+            NSLog(@"Error saving! %@", error);
+        }
+    }
 }
 
 - (void)cc_setCouchDocument:(CouchDocument *)newDocument
@@ -258,23 +235,6 @@
       removed:(CCSetBlock)removedBlock
 {
     return nil;
-}
-
-@end
-
-@implementation NSManagedObjectContext (CCDocument)
-
-- (BOOL)cc_isSavingWithoutPUT
-{
-    return [[[self userInfo] objectForKey:kCouchPreventPUTKey] boolValue];
-}
-
-- (BOOL)cc_saveWithoutPUT:(NSError **)error
-{
-    [[self userInfo] setObject:[NSNumber numberWithBool:YES] forKey:kCouchPreventPUTKey];
-    BOOL success = [self save:error];
-    [[self userInfo] removeObjectForKey:kCouchPreventPUTKey];
-    return success;
 }
 
 @end

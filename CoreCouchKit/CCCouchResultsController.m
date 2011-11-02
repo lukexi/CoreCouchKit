@@ -214,7 +214,7 @@
 - (void)saveWithoutPUT
 {
     NSError *error = nil;
-    if (![self.managedObjectContext cc_saveWithoutPUT:&error]) 
+    if (![self.managedObjectContext save:&error]) 
     {
         NSLog(@"Error saving: %@", error);
     }

@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CCDDetailViewController : UIViewController <UISplitViewControllerDelegate>
+@interface CCDDetailViewController : UIViewController <UISplitViewControllerDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) id detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UITextField *nameField;
+@property (strong, nonatomic) IBOutlet UITextField *locationField;
 
 @end

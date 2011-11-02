@@ -82,7 +82,32 @@
             //NSLog(@"Adding protocol: %@ of class %@ to class: %@", NSStringFromProtocol(aProtocol), mixinClass, subclassName);
         }
         
-        // We don't need ivars or properties yet but could add them too!
+        // Grab ivars (unfinished, research how to do size and alignment...)
+        /*
+        unsigned int ivarCount = 0;
+        Ivar __unsafe_unretained *ivars = class_copyIvarList(mixinClass, &ivarCount);
+        
+        for (NSUInteger ivarIndex = 0; ivarIndex < ivarCount; ivarIndex++) 
+        {
+            Ivar ivar = ivars[ivarIndex];
+            const char *name = ivar_getName(ivar);
+            const char *types = ivar_getTypeEncoding(ivar);
+            class_addIvar(mixinClass, name, <#size_t size#>, <#uint8_t alignment#>, types);
+        }
+         */
+        
+        // Grab properties
+        unsigned int propertyCount = 0;
+        objc_property_t __unsafe_unretained *properties = class_copyPropertyList(mixinClass, &propertyCount);
+        
+        for (NSUInteger propertyIndex = 0; propertyIndex < propertyCount; propertyIndex++) 
+        {
+            objc_property_t property = properties[propertyIndex];
+            unsigned int attributeCount = 0;
+            objc_property_attribute_t *attributeList = property_copyAttributeList(property, &attributeCount);
+            const char *name = property_getName(property);
+            class_addProperty(mixinClass, name, attributeList, attributeCount);
+        }
         
         objc_registerClassPair(subclass);
     }
