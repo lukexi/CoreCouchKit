@@ -8,14 +8,19 @@
 
 #import "CCDDetailViewController.h"
 #import "NSObject+DGKVOBlocks.h"
+#import "Event.h"
+#import "Image.h"
 
 @interface CCDDetailViewController ()
 {
     id nameObserver;
     id locationObserver;
+    id imageObserver;
+    UIPopoverController *imagePickerPopoverController;
 }
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
+- (void)save;
 @end
 
 @implementation CCDDetailViewController
@@ -24,7 +29,27 @@
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
 @synthesize nameField = _nameField;
 @synthesize locationField = _locationField;
+@synthesize imageView = _imageView;
 @synthesize masterPopoverController = _masterPopoverController;
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showImagePicker"]) 
+    {
+        [[segue destinationViewController] setDelegate:self];
+        UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
+        imagePickerPopoverController = [popoverSegue popoverController];
+    }
+}
+
+- (void)demoImagePicker:(CCDDemoImagePicker *)demoImagePicker didFinishWithImage:(UIImage *)image
+{
+    Event *event = self.detailItem;
+    event.image.image = image;
+    [self save];
+    [imagePickerPopoverController dismissPopoverAnimated:YES];
+    imagePickerPopoverController = nil;
+}
 
 #pragma mark - Managing the detail item
 
@@ -34,6 +59,7 @@
         
         [_detailItem dgkvo_removeObserverWithIdentifier:nameObserver];
         [_detailItem dgkvo_removeObserverWithIdentifier:locationObserver];
+        [_detailItem dgkvo_removeObserverWithIdentifier:imageObserver];
         
         _detailItem = newDetailItem;
         
@@ -69,6 +95,13 @@
         {
             self.locationField.text = [self.detailItem valueForKey:@"location"];
         }];
+        
+        imageObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"image.image" 
+                                                             options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                               queue:nil 
+                                                          usingBlock:^(NSDictionary *change) {
+            self.imageView.image = [self.detailItem valueForKeyPath:@"image.image"];
+        }];
     }
 }
 
@@ -86,6 +119,15 @@
     return NO;
 }
 
+- (void)save
+{
+    NSError *error;
+    if (![[self.detailItem managedObjectContext] save:&error]) 
+    {
+        NSLog(@"Error saving textfield change: %@", error);
+    }
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"textfield did end editing %@", textField);
@@ -96,11 +138,7 @@
     else if (textField == self.locationField) {
         [self.detailItem setValue:textField.text forKey:@"location"];
     }
-    NSError *error;
-    if (![[self.detailItem managedObjectContext] save:&error]) 
-    {
-        NSLog(@"Error saving textfield change: %@", error);
-    }
+    [self save];
 }
 #pragma mark - View lifecycle
 
@@ -115,6 +153,7 @@
 {
     [self setNameField:nil];
     [self setLocationField:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

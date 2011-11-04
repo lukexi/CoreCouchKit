@@ -34,13 +34,22 @@ Using CoreCouchKit:
 }
 
 Attachments:
-Create an Entity that will represent the attachment and add it as a to-one relationship to your Document Entity. This matches well with the standard Core Data practice of keeping large data in a relationship. In the userInfo, fill in 4 fields: 
+Create an Entity that will represent the attachment and add it as a to-one relationship to your Document Entity. This matches well with the standard Core Data practice of keeping large data in a relationship so it is not fetched every time you use the parent object. In the userInfo, fill in 4 fields:
 'documentType': 'attachment'
 'dataProperty': <name of the transformable or data attribute holding your attachment's data>
 'documentProperty': <name of the relationship that points back to the Document entity>
 'contentType': <e.g. image/png>
 
 If the property is transformable, it must have a proper Value Transformer set, as is usual. (see the Core Data Recipes sample code for an example with UIImageToDataTransformer).
+
+You also must create and associate the Attachment entity in the Document entity's awakeFromInsert method.
+(e.g. 
+- (void)awakeFromInsert
+{
+    self.image = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([Image class]) 
+                                               inManagedObjectContext:self.managedObjectContext];
+}
+)
 
 ***WARNING***
 (disregard this if you're using the static library, as the project is already configured. but if you copy the files directly you'll have to do this...)

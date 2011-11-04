@@ -138,27 +138,40 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     
     for (NSManagedObject *object in changedObjects) 
     {
-        if ([object hasChanges]) 
+        BOOL isDocument = [object cc_isCouchDocument];
+        BOOL isAttachment = [object cc_isCouchAttachment];
+        if ((isDocument || isAttachment) && [object hasChanges])
         {
             __weak NSManagedObjectContext *weakBackgroundContext = backgroundContext;
             [operationQueue addOperationWithBlock:^{
                 [weakBackgroundContext performBlock:^{
                     NSManagedObjectID *objectID = object.objectID;
-                    NSManagedObject *backgroundObject = [weakBackgroundContext objectWithID:objectID];
+                    NSError *error;
+                    NSManagedObject *backgroundObject = [weakBackgroundContext existingObjectWithID:objectID error:&error];
+                    if (!backgroundObject) 
+                    {
+                        NSLog(@"Error pulling %@ into background context: %@", object, error);
+                    }
+                    // Object was coming out with old values, so we refresh it.
+                    [weakBackgroundContext refreshObject:backgroundObject mergeChanges:NO];
                     NSLog(@"PUTting %@", backgroundObject);
-                    [backgroundObject cc_PUT];
+                    
+                    if (isDocument) 
+                    {
+                        [backgroundObject cc_PUT];
+                    }
+                    else if (isAttachment)
+                    {
+                        NSLog(@"Is couch attachment... object %@", [object class]);
+                        [backgroundObject cc_PUTAttachment];
+                    }
                 }];
             }];
-        }
-        
-        // TODO use [object changedValues] and check if the attachment has changed
+        }        
+        // TODO use [object changedValues] and check if the attachment has changed when using "store in external record" attachments
         
         NSLog(@"Saving object %@", object);
-        if ([object cc_isCouchAttachment] && [object hasChanges]) 
-        {
-            NSLog(@"Is couch attachment... object %@", [object class]);
-            [object cc_PUTAttachment];
-        }
+        
     }
     
     for (NSManagedObject *object in [managedObjectContext deletedObjects]) 

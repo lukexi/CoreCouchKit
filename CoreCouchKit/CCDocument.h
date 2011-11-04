@@ -28,6 +28,7 @@ typedef void(^CCBlock)(void);
 @interface NSManagedObject (CCDocument)
 
 + (NSString *)cc_generateUUID;
+- (BOOL)cc_isCouchDocument;
 - (CouchDatabase *)cc_couchDatabase;
 - (NSMutableDictionary *)cc_userProperties;
 
@@ -37,6 +38,7 @@ typedef void(^CCBlock)(void);
 - (void)cc_setCouchRevision:(CouchRevision *)couchRevision;
 - (CouchRevision *)cc_couchRevision;
 
+- (void)cc_GET;
 - (void)cc_PUT;
 
 @end

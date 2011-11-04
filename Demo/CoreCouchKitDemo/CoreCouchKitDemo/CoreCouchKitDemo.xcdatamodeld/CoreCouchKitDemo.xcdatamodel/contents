@@ -5,9 +5,20 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfBoobs" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="timeStamp" optional="YES" attributeType="Date"/>
+        <relationship name="image" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="event" inverseEntity="Image" syncable="YES"/>
         <relationship name="people" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="events" inverseEntity="Person" syncable="YES"/>
         <userInfo>
             <entry key="couchType" value="document"/>
+        </userInfo>
+    </entity>
+    <entity name="Image" representedClassName="Image" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" storedInTruthFile="YES" syncable="YES"/>
+        <relationship name="event" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="image" inverseEntity="Event" syncable="YES"/>
+        <userInfo>
+            <entry key="contentType" value="image/png"/>
+            <entry key="couchType" value="attachment"/>
+            <entry key="dataProperty" value="image"/>
+            <entry key="documentProperty" value="event"/>
         </userInfo>
     </entity>
     <entity name="Person" syncable="YES">
@@ -15,7 +26,8 @@
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" inverseName="people" inverseEntity="Event" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="261" positionY="189" width="128" height="120"/>
+        <element name="Event" positionX="261" positionY="189" width="128" height="135"/>
         <element name="Person" positionX="495" positionY="204" width="128" height="75"/>
+        <element name="Image" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

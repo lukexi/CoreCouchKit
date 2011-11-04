@@ -101,6 +101,12 @@
     return docId;
 }
 
+- (BOOL)cc_isCouchDocument
+{
+    NSDictionary *userInfo = [[self entity] userInfo];
+    return [[userInfo objectForKey:kCouchTypeKey] isEqualToString:kCouchTypeDocument];
+}
+
 - (CouchDatabase *)cc_couchDatabase
 {
     return [self.managedObjectContext.userInfo objectForKey:kCouchDatabaseKey];
@@ -115,6 +121,24 @@
     [properties removeObjectForKey:kCouchAttachmentsMetadataPropertyName];
     
     return properties;
+}
+
+- (void)cc_GET
+{
+    CCDocument *documentSelf = (CCDocument *)self;
+    NSLog(@"(Revision was %@", [[self cc_couchDocument] currentRevision]);
+    CouchQuery *query = [[self cc_couchDatabase] getDocumentsWithIDs:[NSArray arrayWithObject:documentSelf.couchID]];
+    RESTOperation *getOperation = [query start];
+    [getOperation wait];
+    
+    CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
+    
+    NSLog(@"Updating current revision to %@", currentRevision);
+    [self cc_setCouchRevision:currentRevision];
+    NSLog(@"Got it.");
+    
+#warning get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
+    [self cj_setPropertiesFromDescription:currentRevision.userProperties];
 }
 
 - (void)cc_PUT
@@ -146,21 +170,8 @@
         putOperation.httpStatus == 409) 
     {
         // Conflict — get latest revision
-        // TODO — a cleaner way of doing this would be to do an _all_documents CouchQuery with a key of the couchID. This would give us asynchronicity, and the resulting CouchQueryRow would automatically call 'loadCurrentRevisionFrom' on the CouchDocument representing this CCDocument to update it, meaning we wouldn't have to clearDocumentCache etc.
         NSLog(@"Conflict! getting current revision...");
-        NSLog(@"(Revision was %@", [[self cc_couchDocument] currentRevision]);
-        CouchQuery *query = [[self cc_couchDatabase] getDocumentsWithIDs:[NSArray arrayWithObject:documentSelf.couchID]];
-        RESTOperation *getOperation = [query start];
-        [getOperation wait];
-        
-        CouchRevision *currentRevision = [[self cc_couchDocument] currentRevision];
-        
-        NSLog(@"Updating current revision to %@", currentRevision);
-        [self cc_setCouchRevision:currentRevision];
-        NSLog(@"Got it.");
-        
-#warning get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
-        [self cj_setPropertiesFromDescription:currentRevision.userProperties];
+        [self cc_GET];
         [self cc_PUT];
     }
     else

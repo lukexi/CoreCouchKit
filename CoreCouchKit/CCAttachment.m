@@ -12,8 +12,6 @@
 
 @implementation CCAttachment
 
-@dynamic needsPUT;
-
 @end
 
 @implementation NSManagedObject (CoreCouchAttachmentHandling)
@@ -31,20 +29,17 @@
     if (attachmentRepresentation) 
     {
         RESTOperation *operation = [[self cc_couchAttachment] PUT:attachmentRepresentation];
-        [operation start];
+        [operation wait];
         NSLog(@"Uploading %@ with operation %@", self, operation);
         
-        [operation onCompletion:^{
-            if (operation.httpStatus == 409) 
-            {
-                NSLog(@"Conflict in attachment! Pulling the latest...");
-                CouchRevision *currentRevision = [[[self cc_document] cc_couchDocument] currentRevision];
-                NSLog(@"Done.");
-                [[self cc_document] cc_setCouchRevision:currentRevision];
-                [self cc_PUTAttachment];
-            }
-            NSLog(@"Completed upload operation: %@", operation);
-        }];
+        if (operation.httpStatus == 409 || 
+            operation.httpStatus == 412) 
+        {
+            NSLog(@"Conflict in attachment! Pulling the latest...");
+            [[self cc_document] cc_GET];
+            NSLog(@"Done.");
+            [self cc_PUTAttachment];
+        }
     }
 }
 

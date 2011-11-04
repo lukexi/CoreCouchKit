@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CCDDemoImagePicker.h"
 
-@interface CCDDetailViewController : UIViewController <UISplitViewControllerDelegate, UITextFieldDelegate>
+@interface CCDDetailViewController : UIViewController <UISplitViewControllerDelegate, UITextFieldDelegate, CCDDemoImagePickerDelegate>
 
 @property (strong, nonatomic) id detailItem;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UITextField *nameField;
 @property (strong, nonatomic) IBOutlet UITextField *locationField;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 @end

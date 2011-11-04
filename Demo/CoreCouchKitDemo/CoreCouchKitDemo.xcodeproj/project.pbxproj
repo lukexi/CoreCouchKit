@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C24B228C14630A2800D78821 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B228B14630A2800D78821 /* Image.m */; };
+		C24B228D14630A2800D78821 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B228B14630A2800D78821 /* Image.m */; };
+		C24B22901463C61800D78821 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B228F1463C61800D78821 /* Event.m */; };
+		C24B22911463C61800D78821 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B228F1463C61800D78821 /* Event.m */; };
 		C27F21401461122F00FA5CC4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F213F1461122F00FA5CC4 /* UIKit.framework */; };
 		C27F21421461122F00FA5CC4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F21411461122F00FA5CC4 /* Foundation.framework */; };
 		C27F21441461122F00FA5CC4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F21431461122F00FA5CC4 /* CoreGraphics.framework */; };
@@ -27,7 +31,26 @@
 		C27F21771461123000FA5CC4 /* CoreCouchKitDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F21761461123000FA5CC4 /* CoreCouchKitDemoTests.m */; };
 		C27F2196146113CC00FA5CC4 /* libCoreCouchKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F21861461124900FA5CC4 /* libCoreCouchKit.a */; };
 		C27F21981461146900FA5CC4 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F21971461146900FA5CC4 /* CouchCocoa.framework */; };
-		C27F219C1461334200FA5CC4 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F219B1461334200FA5CC4 /* Event.m */; };
+		C28B7727146303FF00E2E95A /* StickerApple.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7720146303FF00E2E95A /* StickerApple.png */; };
+		C28B7728146303FF00E2E95A /* StickerApple.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7720146303FF00E2E95A /* StickerApple.png */; };
+		C28B7729146303FF00E2E95A /* StickerDinosaur.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7721146303FF00E2E95A /* StickerDinosaur.png */; };
+		C28B772A146303FF00E2E95A /* StickerDinosaur.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7721146303FF00E2E95A /* StickerDinosaur.png */; };
+		C28B772B146303FF00E2E95A /* StickerEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7722146303FF00E2E95A /* StickerEarth.png */; };
+		C28B772C146303FF00E2E95A /* StickerEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7722146303FF00E2E95A /* StickerEarth.png */; };
+		C28B772D146303FF00E2E95A /* StickerGuitar.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7723146303FF00E2E95A /* StickerGuitar.png */; };
+		C28B772E146303FF00E2E95A /* StickerGuitar.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7723146303FF00E2E95A /* StickerGuitar.png */; };
+		C28B772F146303FF00E2E95A /* StickerRobot.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7724146303FF00E2E95A /* StickerRobot.png */; };
+		C28B7730146303FF00E2E95A /* StickerRobot.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7724146303FF00E2E95A /* StickerRobot.png */; };
+		C28B7731146303FF00E2E95A /* StickerSkull.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7725146303FF00E2E95A /* StickerSkull.png */; };
+		C28B7732146303FF00E2E95A /* StickerSkull.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7725146303FF00E2E95A /* StickerSkull.png */; };
+		C28B7733146303FF00E2E95A /* StickerWrench.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7726146303FF00E2E95A /* StickerWrench.png */; };
+		C28B7734146303FF00E2E95A /* StickerWrench.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7726146303FF00E2E95A /* StickerWrench.png */; };
+		C28B7736146305B000E2E95A /* StickerLens.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7735146305B000E2E95A /* StickerLens.png */; };
+		C28B7737146305B000E2E95A /* StickerLens.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7735146305B000E2E95A /* StickerLens.png */; };
+		C28B7739146305BF00E2E95A /* StickerPublic.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7738146305BF00E2E95A /* StickerPublic.png */; };
+		C28B773A146305BF00E2E95A /* StickerPublic.png in Resources */ = {isa = PBXBuildFile; fileRef = C28B7738146305BF00E2E95A /* StickerPublic.png */; };
+		C28B773D1463064600E2E95A /* CCDDemoImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B773C1463064600E2E95A /* CCDDemoImagePicker.m */; };
+		C28B773E1463064600E2E95A /* CCDDemoImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = C28B773C1463064600E2E95A /* CCDDemoImagePicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +85,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C24B228A14630A2800D78821 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		C24B228B14630A2800D78821 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		C24B228E1463C61800D78821 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		C24B228F1463C61800D78821 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		C27F213B1461122F00FA5CC4 /* CoreCouchKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreCouchKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C27F213F1461122F00FA5CC4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C27F21411461122F00FA5CC4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -88,8 +115,17 @@
 		C27F21761461123000FA5CC4 /* CoreCouchKitDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKitDemoTests.m; sourceTree = "<group>"; };
 		C27F21801461124800FA5CC4 /* CoreCouchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreCouchKit.xcodeproj; path = ../../CoreCouchKit.xcodeproj; sourceTree = "<group>"; };
 		C27F21971461146900FA5CC4 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = ../../CouchCocoa.framework; sourceTree = "<group>"; };
-		C27F219A1461334200FA5CC4 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = ManagedObjects/Event.h; sourceTree = "<group>"; };
-		C27F219B1461334200FA5CC4 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = ManagedObjects/Event.m; sourceTree = "<group>"; };
+		C28B7720146303FF00E2E95A /* StickerApple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerApple.png; sourceTree = "<group>"; };
+		C28B7721146303FF00E2E95A /* StickerDinosaur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerDinosaur.png; sourceTree = "<group>"; };
+		C28B7722146303FF00E2E95A /* StickerEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerEarth.png; sourceTree = "<group>"; };
+		C28B7723146303FF00E2E95A /* StickerGuitar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerGuitar.png; sourceTree = "<group>"; };
+		C28B7724146303FF00E2E95A /* StickerRobot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerRobot.png; sourceTree = "<group>"; };
+		C28B7725146303FF00E2E95A /* StickerSkull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerSkull.png; sourceTree = "<group>"; };
+		C28B7726146303FF00E2E95A /* StickerWrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerWrench.png; sourceTree = "<group>"; };
+		C28B7735146305B000E2E95A /* StickerLens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerLens.png; sourceTree = "<group>"; };
+		C28B7738146305BF00E2E95A /* StickerPublic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StickerPublic.png; sourceTree = "<group>"; };
+		C28B773B1463064600E2E95A /* CCDDemoImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDDemoImagePicker.h; sourceTree = "<group>"; };
+		C28B773C1463064600E2E95A /* CCDDemoImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCDDemoImagePicker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +192,7 @@
 		C27F21471461122F00FA5CC4 /* CoreCouchKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C28B771F146303FF00E2E95A /* Images */,
 				C27F21501461122F00FA5CC4 /* CCDAppDelegate.h */,
 				C27F21511461122F00FA5CC4 /* CCDAppDelegate.m */,
 				C27F21531461122F00FA5CC4 /* MainStoryboard_iPhone.storyboard */,
@@ -164,6 +201,8 @@
 				C27F215D1461122F00FA5CC4 /* CCDMasterViewController.m */,
 				C27F215F1461122F00FA5CC4 /* CCDDetailViewController.h */,
 				C27F21601461122F00FA5CC4 /* CCDDetailViewController.m */,
+				C28B773B1463064600E2E95A /* CCDDemoImagePicker.h */,
+				C28B773C1463064600E2E95A /* CCDDemoImagePicker.m */,
 				C27F21591461122F00FA5CC4 /* CoreCouchKitDemo.xcdatamodeld */,
 				C27F219D1461335500FA5CC4 /* Managed Objects */,
 				C27F21481461122F00FA5CC4 /* Supporting Files */,
@@ -213,10 +252,28 @@
 		C27F219D1461335500FA5CC4 /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				C27F219A1461334200FA5CC4 /* Event.h */,
-				C27F219B1461334200FA5CC4 /* Event.m */,
+				C24B228E1463C61800D78821 /* Event.h */,
+				C24B228F1463C61800D78821 /* Event.m */,
+				C24B228A14630A2800D78821 /* Image.h */,
+				C24B228B14630A2800D78821 /* Image.m */,
 			);
 			name = "Managed Objects";
+			sourceTree = "<group>";
+		};
+		C28B771F146303FF00E2E95A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C28B7720146303FF00E2E95A /* StickerApple.png */,
+				C28B7721146303FF00E2E95A /* StickerDinosaur.png */,
+				C28B7722146303FF00E2E95A /* StickerEarth.png */,
+				C28B7723146303FF00E2E95A /* StickerGuitar.png */,
+				C28B7724146303FF00E2E95A /* StickerRobot.png */,
+				C28B7725146303FF00E2E95A /* StickerSkull.png */,
+				C28B7726146303FF00E2E95A /* StickerWrench.png */,
+				C28B7735146305B000E2E95A /* StickerLens.png */,
+				C28B7738146305BF00E2E95A /* StickerPublic.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +374,15 @@
 				C27F214C1461122F00FA5CC4 /* InfoPlist.strings in Resources */,
 				C27F21551461122F00FA5CC4 /* MainStoryboard_iPhone.storyboard in Resources */,
 				C27F21581461122F00FA5CC4 /* MainStoryboard_iPad.storyboard in Resources */,
+				C28B7727146303FF00E2E95A /* StickerApple.png in Resources */,
+				C28B7729146303FF00E2E95A /* StickerDinosaur.png in Resources */,
+				C28B772B146303FF00E2E95A /* StickerEarth.png in Resources */,
+				C28B772D146303FF00E2E95A /* StickerGuitar.png in Resources */,
+				C28B772F146303FF00E2E95A /* StickerRobot.png in Resources */,
+				C28B7731146303FF00E2E95A /* StickerSkull.png in Resources */,
+				C28B7733146303FF00E2E95A /* StickerWrench.png in Resources */,
+				C28B7736146305B000E2E95A /* StickerLens.png in Resources */,
+				C28B7739146305BF00E2E95A /* StickerPublic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +391,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				C27F21741461123000FA5CC4 /* InfoPlist.strings in Resources */,
+				C28B7728146303FF00E2E95A /* StickerApple.png in Resources */,
+				C28B772A146303FF00E2E95A /* StickerDinosaur.png in Resources */,
+				C28B772C146303FF00E2E95A /* StickerEarth.png in Resources */,
+				C28B772E146303FF00E2E95A /* StickerGuitar.png in Resources */,
+				C28B7730146303FF00E2E95A /* StickerRobot.png in Resources */,
+				C28B7732146303FF00E2E95A /* StickerSkull.png in Resources */,
+				C28B7734146303FF00E2E95A /* StickerWrench.png in Resources */,
+				C28B7737146305B000E2E95A /* StickerLens.png in Resources */,
+				C28B773A146305BF00E2E95A /* StickerPublic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,7 +431,9 @@
 				C27F215B1461122F00FA5CC4 /* CoreCouchKitDemo.xcdatamodeld in Sources */,
 				C27F215E1461122F00FA5CC4 /* CCDMasterViewController.m in Sources */,
 				C27F21611461122F00FA5CC4 /* CCDDetailViewController.m in Sources */,
-				C27F219C1461334200FA5CC4 /* Event.m in Sources */,
+				C28B773D1463064600E2E95A /* CCDDemoImagePicker.m in Sources */,
+				C24B228C14630A2800D78821 /* Image.m in Sources */,
+				C24B22901463C61800D78821 /* Event.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +442,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C27F21771461123000FA5CC4 /* CoreCouchKitDemoTests.m in Sources */,
+				C28B773E1463064600E2E95A /* CCDDemoImagePicker.m in Sources */,
+				C24B228D14630A2800D78821 /* Image.m in Sources */,
+				C24B22911463C61800D78821 /* Event.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
