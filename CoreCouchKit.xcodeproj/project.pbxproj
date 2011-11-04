@@ -40,15 +40,15 @@
 		C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
 		C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
 		C2165247145040A500372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
+		C24B22941463E53900D78821 /* NSObject_KVOBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = C24B22921463E53900D78821 /* NSObject_KVOBlock.h */; };
+		C24B22951463E53900D78821 /* NSObject_KVOBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B22931463E53900D78821 /* NSObject_KVOBlock.m */; };
+		C24B22961463E53900D78821 /* NSObject_KVOBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B22931463E53900D78821 /* NSObject_KVOBlock.m */; };
 		C27F21A01461468000FA5CC4 /* CCFetchedResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C27F219E1461468000FA5CC4 /* CCFetchedResultsController.h */; };
 		C27F21A11461468000FA5CC4 /* CCFetchedResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */; };
 		C27F21A21461468000FA5CC4 /* CCFetchedResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */; };
 		C27F21A51461474600FA5CC4 /* CCQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = C27F21A31461474500FA5CC4 /* CCQuery.h */; };
 		C27F21A61461474600FA5CC4 /* CCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F21A41461474500FA5CC4 /* CCQuery.m */; };
 		C27F21A71461474600FA5CC4 /* CCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F21A41461474500FA5CC4 /* CCQuery.m */; };
-		C28969D314619C8E009200D3 /* NSObject+DGKVOBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = C28969D114619C8E009200D3 /* NSObject+DGKVOBlocks.h */; };
-		C28969D414619C8E009200D3 /* NSObject+DGKVOBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C28969D214619C8E009200D3 /* NSObject+DGKVOBlocks.m */; };
-		C28969D514619C8E009200D3 /* NSObject+DGKVOBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C28969D214619C8E009200D3 /* NSObject+DGKVOBlocks.m */; };
 		C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5E71454258C0000BDE9 /* CCMixin.h */; };
 		C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -96,12 +96,12 @@
 		C216523514502DB600372382 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C21652371450319300372382 /* CoreDataJSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataJSONKit.h; path = CoreDataJSONKit/CoreDataJSONKit.h; sourceTree = "<group>"; };
 		C21652381450319300372382 /* CoreDataJSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataJSONKit.m; path = CoreDataJSONKit/CoreDataJSONKit.m; sourceTree = "<group>"; };
+		C24B22921463E53900D78821 /* NSObject_KVOBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObject_KVOBlock.h; sourceTree = "<group>"; };
+		C24B22931463E53900D78821 /* NSObject_KVOBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObject_KVOBlock.m; sourceTree = "<group>"; };
 		C27F219E1461468000FA5CC4 /* CCFetchedResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFetchedResultsController.h; sourceTree = "<group>"; };
 		C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCFetchedResultsController.m; sourceTree = "<group>"; };
 		C27F21A31461474500FA5CC4 /* CCQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCQuery.h; sourceTree = "<group>"; };
 		C27F21A41461474500FA5CC4 /* CCQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCQuery.m; sourceTree = "<group>"; };
-		C28969D114619C8E009200D3 /* NSObject+DGKVOBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DGKVOBlocks.h"; sourceTree = "<group>"; };
-		C28969D214619C8E009200D3 /* NSObject+DGKVOBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DGKVOBlocks.m"; sourceTree = "<group>"; };
 		C2F4C5E71454258C0000BDE9 /* CCMixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMixin.h; sourceTree = "<group>"; };
 		C2F4C5E81454258C0000BDE9 /* CCMixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMixin.m; sourceTree = "<group>"; };
 		C2F4C5F314543F440000BDE9 /* CCAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachment.h; sourceTree = "<group>"; };
@@ -194,8 +194,8 @@
 				C216521B14502D4C00372382 /* UIImageToDataTransformer.m */,
 				C2F4C5E71454258C0000BDE9 /* CCMixin.h */,
 				C2F4C5E81454258C0000BDE9 /* CCMixin.m */,
-				C28969D114619C8E009200D3 /* NSObject+DGKVOBlocks.h */,
-				C28969D214619C8E009200D3 /* NSObject+DGKVOBlocks.m */,
+				C24B22921463E53900D78821 /* NSObject_KVOBlock.h */,
+				C24B22931463E53900D78821 /* NSObject_KVOBlock.m */,
 				C21651EC14502CAD00372382 /* Supporting Files */,
 			);
 			path = CoreCouchKit;
@@ -246,7 +246,7 @@
 				C2F4C5F514543F450000BDE9 /* CCAttachment.h in Headers */,
 				C27F21A01461468000FA5CC4 /* CCFetchedResultsController.h in Headers */,
 				C27F21A51461474600FA5CC4 /* CCQuery.h in Headers */,
-				C28969D314619C8E009200D3 /* NSObject+DGKVOBlocks.h in Headers */,
+				C24B22941463E53900D78821 /* NSObject_KVOBlock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +359,7 @@
 				C2F4C5F614543F450000BDE9 /* CCAttachment.m in Sources */,
 				C27F21A11461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A61461474600FA5CC4 /* CCQuery.m in Sources */,
-				C28969D414619C8E009200D3 /* NSObject+DGKVOBlocks.m in Sources */,
+				C24B22951463E53900D78821 /* NSObject_KVOBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +379,7 @@
 				C2F4C5F714543F450000BDE9 /* CCAttachment.m in Sources */,
 				C27F21A21461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A71461474600FA5CC4 /* CCQuery.m in Sources */,
-				C28969D514619C8E009200D3 /* NSObject+DGKVOBlocks.m in Sources */,
+				C24B22961463E53900D78821 /* NSObject_KVOBlock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

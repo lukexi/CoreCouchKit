@@ -10,6 +10,8 @@
 
 @interface CCAttachment : NSManagedObject
 
+@property (nonatomic, retain) NSString * couchDocumentRev;
+
 @end
 
 typedef void(^CCValueBlock)(id value);
@@ -19,11 +21,19 @@ typedef void(^CCSetBlock)(NSSet *results);
 @interface NSManagedObject (CoreCouchAttachmentHandling)
 - (BOOL)cc_isCouchAttachment;
 - (void)cc_PUTAttachment;
+- (void)cc_GETAttachment;
+
+// Asynchronously update the attachment data
+- (void)cc_updateAttachmentData;
+- (BOOL)cc_attachmentDataIsUpToDate;
+
 - (NSData *)cc_attachmentRepresentation;
 - (NSValueTransformer *)cc_valueTransformer;
 - (void)cc_setFromAttachmentRepresentation:(NSData *)attachmentRepresentation;
 - (CouchAttachment *)cc_couchAttachment;
-- (void)cc_valueWithCompletion:(CCValueBlock)valueBlock;
+
+// deprecated, just use KVO
+//- (void)cc_valueWithCompletion:(CCValueBlock)valueBlock;
 
 - (CCDocument *)cc_document;
 - (NSString *)cc_attachmentProperty;

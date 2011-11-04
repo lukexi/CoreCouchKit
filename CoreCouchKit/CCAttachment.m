@@ -11,15 +11,15 @@
 #import "CoreCouchKit.h"
 
 @implementation CCAttachment
-
+@dynamic couchDocumentRev;
 @end
 
 @implementation NSManagedObject (CoreCouchAttachmentHandling)
 
 - (BOOL)cc_isCouchAttachment
 {
-    NSDictionary *userInfo = [[self entity] userInfo];
-    return [[userInfo objectForKey:kCouchTypeKey] isEqualToString:kCouchTypeAttachment];
+    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:NSStringFromClass([CCAttachment class]) 
+                                                     inManagedObjectContext:self.managedObjectContext]];
 }
 
 - (void)cc_PUTAttachment
@@ -28,9 +28,18 @@
     NSData *attachmentRepresentation = [self cc_attachmentRepresentation];
     if (attachmentRepresentation) 
     {
+        NSLog(@"Revision before updating attachment: %@", [[[self cc_couchAttachment] document] currentRevisionID]);
         RESTOperation *operation = [[self cc_couchAttachment] PUT:attachmentRepresentation];
         [operation wait];
-        NSLog(@"Uploading %@ with operation %@", self, operation);
+        NSLog(@"Uploaded %@ with operation %@", self, operation);
+        NSLog(@"Revision after updating attachment: %@", [[[self cc_couchAttachment] document] currentRevisionID]);
+        NSLog(@"operation response: %@", operation.responseBody.fromJSON);
+        
+        CCAttachment *attachmentSelf = (CCAttachment *)self;
+        attachmentSelf.couchDocumentRev = [[[self cc_couchAttachment] document] currentRevisionID];
+        [self cc_document].couchRev = [[[self cc_couchAttachment] document] currentRevisionID];
+        
+#warning must update owning document with new revision caused by editing the attachment, and update metadata?
         
         if (operation.httpStatus == 409 || 
             operation.httpStatus == 412) 
@@ -76,6 +85,43 @@
     return attachment;
 }
 
+- (void)cc_updateAttachmentData
+{
+    if ([self cc_attachmentDataIsUpToDate]) 
+    {
+        NSLog(@"Attachment data for %@ is up to date, skipping download", self);
+        return;
+    }
+    // TODO: look at the attachment metadata (digest key) and figure out if an update is needed.
+    [[CoreCouchKit sharedCoreCouchKit] changeObject:self 
+                                onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) 
+    {
+        [backgroundObject cc_GETAttachment];
+        NSError *error;
+        if (![context save:&error]) 
+        {
+            NSLog(@"Error saving attachment update: %@", error);
+        }
+    }];
+}
+
+- (BOOL)cc_attachmentDataIsUpToDate
+{
+    CCAttachment *attachmentSelf = (CCAttachment *)self;
+    return [attachmentSelf.couchDocumentRev isEqualToString:[self cc_document].couchRev];
+}
+
+- (void)cc_GETAttachment
+{
+    RESTOperation *operation = [[self cc_couchAttachment] GET];
+    [operation wait];
+    [self cc_setFromAttachmentRepresentation:[[self cc_couchAttachment] body]];
+    
+    CCAttachment *attachmentSelf = (CCAttachment *)self;
+    attachmentSelf.couchDocumentRev = [self cc_document].couchRev;
+}
+
+/*
 - (void)cc_valueWithCompletion:(CCValueBlock)valueBlock
 {
     id currentValue = [self valueForKey:[self cc_attachmentProperty]];
@@ -89,7 +135,7 @@
     }
     
     // Getting the contents asynchronously
-    RESTOperation *operation = [[self cc_couchAttachment] GET];
+    
     [operation onCompletion:^{
         NSLog(@"Downloaded attachment for class %@ with metadata: %@", [self class], [[self cc_couchAttachment] metadata]);
         [self cc_setFromAttachmentRepresentation:[[self cc_couchAttachment] body]];
@@ -107,6 +153,7 @@
     }];
     [operation start];
 }
+ */
 
 - (CCDocument *)cc_document
 {

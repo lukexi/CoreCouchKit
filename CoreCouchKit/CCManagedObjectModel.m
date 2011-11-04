@@ -94,10 +94,6 @@
     [revAttribute setName:kCouchRevPropertyName];
     [revAttribute setAttributeType:NSStringAttributeType];
     
-    NSAttributeDescription *needsPutAttribute = [[NSAttributeDescription alloc] init];
-    [needsPutAttribute setName:kCouchNeedsPUTPropertyName];
-    [needsPutAttribute setAttributeType:NSBooleanAttributeType];
-    
     NSAttributeDescription *attachmentsMetadataAttribute = [[NSAttributeDescription alloc] init];
     [attachmentsMetadataAttribute setName:kCouchAttachmentsMetadataPropertyName];
     [attachmentsMetadataAttribute setAttributeType:NSTransformableAttributeType];
@@ -117,11 +113,11 @@
     [attachmentEntity setManagedObjectClassName:entityClassName];
     [attachmentEntity setAbstract:YES];
     
-    NSAttributeDescription *needsPutAttribute = [[NSAttributeDescription alloc] init];
-    [needsPutAttribute setName:kCouchNeedsPUTPropertyName];
-    [needsPutAttribute setAttributeType:NSBooleanAttributeType];
+    NSAttributeDescription *documentRevisionAttribute = [[NSAttributeDescription alloc] init];
+    [documentRevisionAttribute setName:kCouchAttachmentDocumentRevisionPropertyName];
+    [documentRevisionAttribute setAttributeType:NSStringAttributeType];
     
-    [attachmentEntity setProperties:[NSArray arrayWithObjects:needsPutAttribute, nil]];
+    [attachmentEntity setProperties:[NSArray arrayWithObjects:documentRevisionAttribute, nil]];
     [attachmentEntity setSubentities:subentities];
     return attachmentEntity;
 }

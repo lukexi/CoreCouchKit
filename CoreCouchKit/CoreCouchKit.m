@@ -9,6 +9,7 @@
 #import "CoreCouchKit.h"
 #import "CCManagedObjectModel.h"
 #import "CCDocument.h"
+#import "CCAttachment.h"
 #import "UIImageToDataTransformer.h"
 
 @interface CoreCouchKit ()
@@ -142,6 +143,23 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
         BOOL isAttachment = [object cc_isCouchAttachment];
         if ((isDocument || isAttachment) && [object hasChanges])
         {
+            [self changeObject:object onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) {
+                // Object was coming out with old values, so we refresh it.
+                [context refreshObject:backgroundObject mergeChanges:NO];
+                NSLog(@"PUTting %@", backgroundObject);
+                
+                if (isDocument) 
+                {
+                    [backgroundObject cc_PUT];
+                }
+                else if (isAttachment)
+                {
+                    NSLog(@"Is couch attachment... object %@", [object class]);
+                    [backgroundObject cc_PUTAttachment];
+                }
+            }];
+            
+            /*
             __weak NSManagedObjectContext *weakBackgroundContext = backgroundContext;
             [operationQueue addOperationWithBlock:^{
                 [weakBackgroundContext performBlock:^{
@@ -167,6 +185,7 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
                     }
                 }];
             }];
+             */
         }        
         // TODO use [object changedValues] and check if the attachment has changed when using "store in external record" attachments
         
@@ -180,10 +199,36 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     }
 }
 
+- (void)changeObject:(NSManagedObject *)object 
+ onBackgroundContext:(CCBackgroundContextBlock)backgroundBlock
+{
+    __weak NSManagedObjectContext *weakBackgroundContext = backgroundContext;
+    [operationQueue addOperationWithBlock:^{
+        [weakBackgroundContext performBlock:^{
+            NSManagedObjectID *objectID = object.objectID;
+            NSError *error;
+            NSManagedObject *backgroundObject = [weakBackgroundContext existingObjectWithID:objectID error:&error];
+            if (!backgroundObject) 
+            {
+                NSLog(@"Error pulling %@ into background context: %@", object, error);
+            }
+            
+            backgroundBlock(backgroundObject, weakBackgroundContext);
+        }];
+    }];
+}
+
 - (void)handleDidSaveNotification:(NSNotification *)note
 {
     NSLog(@"Resuming operation queue");
     [operationQueue setSuspended:NO];
+}
+
+- (void)updateAttachment:(NSManagedObject *)attachmentObject
+{
+    [self changeObject:attachmentObject onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) {
+        
+    }];
 }
 
 #pragma mark Query

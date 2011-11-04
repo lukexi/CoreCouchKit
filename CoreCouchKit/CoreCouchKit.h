@@ -13,11 +13,12 @@
 #import "CCAttachment.h"
 #import "CCQuery.h"
 #import "CCFetchedResultsController.h"
+#import "NSObject_KVOBlock.h"
 
 #define kCouchDatabaseKey @"couchDatabase"
 #define kCouchIDPropertyName @"couchID"
 #define kCouchRevPropertyName @"couchRev"
-#define kCouchNeedsPUTPropertyName @"needsPUT"
+#define kCouchAttachmentDocumentRevisionPropertyName @"couchDocumentRev"
 #define kCouchAttachmentsMetadataPropertyName @"attachmentsMetadata"
 #define kCouchTypeKey @"couchType"
 #define kCouchTypeDocument @"document"
@@ -25,6 +26,9 @@
 #define kCouchAttachmentContentTypeKey @"contentType"
 #define kCouchAttachmentDocumentPropertyKey @"documentProperty"
 #define kCouchAttachmentDataPropertyKey @"dataProperty"
+
+typedef void(^CCBackgroundContextBlock)(NSManagedObject *backgroundObject, 
+                                        NSManagedObjectContext *context);
 
 @interface CoreCouchKit : NSObject
 
@@ -37,6 +41,15 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
 @property (nonatomic, strong) CouchDatabase *database;
+
+#pragma mark - Editing
+- (void)changeObject:(NSManagedObject *)object 
+ onBackgroundContext:(CCBackgroundContextBlock)backgroundBlock;
+
+#pragma mark - Attachments
+- (void)updateAttachment:(CCAttachment *)attachment;
+
+#pragma mark - Queries
 - (CCQuery *)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)managedObject;
 - (CCFetchedResultsController *)fetchedResultsControllerForRelationship:(NSString *)key 
                                                       ofObject:(NSManagedObject *)managedObject

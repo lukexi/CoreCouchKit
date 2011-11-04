@@ -41,14 +41,17 @@
 @implementation CCQuery
 @synthesize entityName;
 
-+ (id)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)owner inCoreCouch:(CoreCouchKit *)coreCouch
++ (id)queryForRelationship:(NSString *)key 
+                  ofObject:(NSManagedObject *)owner 
+               inCoreCouch:(CoreCouchKit *)coreCouch
 {
     NSManagedObjectContext *backgroundContext = coreCouch.backgroundContext;
     CouchDatabase *database = coreCouch.database;
     CouchDesignDocument *designDoc = [database designDocumentWithName:@"design"];
     
     CCDocument *document = (CCDocument *)owner;
-    NSRelationshipDescription *inverseRelationship = [[[[owner entity] relationshipsByName] objectForKey:key] inverseRelationship];
+    NSRelationshipDescription *inverseRelationship = [[[[owner entity] relationshipsByName] 
+                                                       objectForKey:key] inverseRelationship];
     NSString *inverseKey = [inverseRelationship name];
     NSString *inverseEntityName = [[inverseRelationship entity] name];
     NSString *ownerID = document.couchID;
@@ -56,10 +59,18 @@
     
     NSString *relatedKey = [inverseKey stringByAppendingString:@".couchID"];
     
-    return [[self alloc] initWithDesignDoc:designDoc viewName:viewName entityName:inverseEntityName relatedKey:relatedKey relatedValue:ownerID context:backgroundContext];
+    return [[self alloc] initWithDesignDoc:designDoc 
+                                  viewName:viewName 
+                                entityName:inverseEntityName 
+                                relatedKey:relatedKey 
+                              relatedValue:ownerID 
+                                   context:backgroundContext];
 }
 
-+ (id)queryForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value inCoreCouch:(CoreCouchKit *)coreCouch
++ (id)queryForObjectsOfType:(NSString *)entityName 
+                      whose:(NSString *)key 
+                         is:(NSString *)value 
+                inCoreCouch:(CoreCouchKit *)coreCouch
 {
     NSManagedObjectContext *backgroundContext = coreCouch.backgroundContext;
     CouchDatabase *database = coreCouch.database;
@@ -71,7 +82,12 @@
         viewName = [NSString stringWithFormat:@"%@sBy%@", entityName, key];
     }
     
-    return [[self alloc] initWithDesignDoc:designDoc viewName:viewName entityName:entityName relatedKey:key relatedValue:value context:backgroundContext];
+    return [[self alloc] initWithDesignDoc:designDoc 
+                                  viewName:viewName 
+                                entityName:entityName 
+                                relatedKey:key 
+                              relatedValue:value 
+                                   context:backgroundContext];
 }
 
 - (id)initWithDesignDoc:(CouchDesignDocument *)aDesignDoc
@@ -98,7 +114,9 @@
 {
     NSString *map = [NSString stringWithFormat:
                      @"function(doc) {if (%@) emit(doc.%@, null);}", 
-                     [self docTypePredicate], [relatedKey stringByReplacingOccurrencesOfString:@".couchID" withString:@""] ?: @"_id"];
+                     [self docTypePredicate], 
+                     [relatedKey stringByReplacingOccurrencesOfString:@".couchID" 
+                                                           withString:@""] ?: @"_id"];
     NSLog(@"Map: %@", map);
     [designDocument defineViewNamed:viewName
                                 map:map];
@@ -152,7 +170,7 @@
         
         if (document)
         {
-            NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);            
+            NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
             [document cj_setPropertiesFromDescription:properties];
             document.couchRev = [properties objectForKey:kCouchRevKey];
             [localResultsByID removeObjectForKey:couchID];
@@ -167,6 +185,9 @@
             document.couchRev = [properties objectForKey:kCouchRevKey];
             NSLog(@"created document %@ with ID: %@", document, document.couchID);
         }
+        
+        [document cc_updateAttachments];
+        
         [couchResults addObject:document];
     }
     

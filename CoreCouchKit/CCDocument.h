@@ -41,4 +41,6 @@ typedef void(^CCBlock)(void);
 - (void)cc_GET;
 - (void)cc_PUT;
 
+- (void)cc_updateAttachments;
+
 @end

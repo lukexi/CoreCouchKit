@@ -103,8 +103,8 @@
 
 - (BOOL)cc_isCouchDocument
 {
-    NSDictionary *userInfo = [[self entity] userInfo];
-    return [[userInfo objectForKey:kCouchTypeKey] isEqualToString:kCouchTypeDocument];
+    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:NSStringFromClass([CCDocument class]) 
+                                                     inManagedObjectContext:self.managedObjectContext]];
 }
 
 - (CouchDatabase *)cc_couchDatabase
@@ -136,6 +136,8 @@
     NSLog(@"Updating current revision to %@", currentRevision);
     [self cc_setCouchRevision:currentRevision];
     NSLog(@"Got it.");
+    
+    [self cc_updateAttachments];
     
 #warning get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
     [self cj_setPropertiesFromDescription:currentRevision.userProperties];
@@ -186,6 +188,19 @@
             NSLog(@"Error saving! %@", error);
         }
     }
+}
+
+- (void)cc_updateAttachments
+{
+    [[[self entity] relationshipsByName] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSRelationshipDescription *relationship = obj;
+        BOOL isAttachment = [[[[relationship destinationEntity] userInfo] objectForKey:kCouchTypeKey] isEqualToString:kCouchTypeAttachment];
+        if (isAttachment) {
+            NSLog(@"Downloading attachment data for %@ of %@", key, [[self entity] name]);
+            NSManagedObject *relatedAttachment = [self valueForKey:key];
+            [relatedAttachment cc_updateAttachmentData];
+        }
+    }];
 }
 
 - (void)cc_setCouchDocument:(CouchDocument *)newDocument

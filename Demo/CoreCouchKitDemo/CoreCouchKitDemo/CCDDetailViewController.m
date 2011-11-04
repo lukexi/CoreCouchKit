@@ -7,7 +7,7 @@
 //
 
 #import "CCDDetailViewController.h"
-#import "NSObject+DGKVOBlocks.h"
+#import "CoreCouchKit.h"
 #import "Event.h"
 #import "Image.h"
 
@@ -51,15 +51,22 @@
     imagePickerPopoverController = nil;
 }
 
+- (void)dealloc
+{
+    [_detailItem removeKVOBlockForToken:nameObserver];
+    [_detailItem removeKVOBlockForToken:locationObserver];
+    [_detailItem removeKVOBlockForToken:imageObserver];
+}
+
 #pragma mark - Managing the detail item
 
 - (void)setDetailItem:(id)newDetailItem
 {
-    if (_detailItem != newDetailItem) {
-        
-        [_detailItem dgkvo_removeObserverWithIdentifier:nameObserver];
-        [_detailItem dgkvo_removeObserverWithIdentifier:locationObserver];
-        [_detailItem dgkvo_removeObserverWithIdentifier:imageObserver];
+    if (_detailItem != newDetailItem) 
+    {
+        [_detailItem removeKVOBlockForToken:nameObserver];
+        [_detailItem removeKVOBlockForToken:locationObserver];
+        [_detailItem removeKVOBlockForToken:imageObserver];
         
         _detailItem = newDetailItem;
         
@@ -67,7 +74,8 @@
         [self configureView];
     }
 
-    if (self.masterPopoverController != nil) {
+    if (self.masterPopoverController != nil) 
+    {
         [self.masterPopoverController dismissPopoverAnimated:YES];
     }        
 }
@@ -80,27 +88,26 @@
     {
         self.detailDescriptionLabel.text = [self.detailItem description];
         
-        nameObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"name" 
-                                                            options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
-                                                              queue:nil 
-                                                         usingBlock:^(NSDictionary *change) 
+        __weak CCDDetailViewController *weakSelf = self;
+        nameObserver = [self.detailItem addKVOBlockForKeyPath:@"name" 
+                                                      options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                      handler:^(NSString *keyPath, id object, NSDictionary *change) 
         {
-            self.nameField.text = [self.detailItem valueForKey:@"name"];
+            weakSelf.nameField.text = [weakSelf.detailItem valueForKey:@"name"];
         }];
         
-        locationObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"location" 
-                                                                options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
-                                                                  queue:nil 
-                                                             usingBlock:^(NSDictionary *change) 
+        locationObserver = [self.detailItem addKVOBlockForKeyPath:@"location" 
+                                                          options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                          handler:^(NSString *keyPath, id object, NSDictionary *change)
         {
-            self.locationField.text = [self.detailItem valueForKey:@"location"];
+            weakSelf.locationField.text = [weakSelf.detailItem valueForKey:@"location"];
         }];
         
-        imageObserver = [self.detailItem dgkvo_addObserverForKeyPath:@"image.image" 
-                                                             options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
-                                                               queue:nil 
-                                                          usingBlock:^(NSDictionary *change) {
-            self.imageView.image = [self.detailItem valueForKeyPath:@"image.image"];
+        imageObserver = [self.detailItem addKVOBlockForKeyPath:@"image.image" 
+                                                       options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew 
+                                                       handler:^(NSString *keyPath, id object, NSDictionary *change) 
+        {
+            weakSelf.imageView.image = [weakSelf.detailItem valueForKeyPath:@"image.image"];
         }];
     }
 }
@@ -132,10 +139,12 @@
 {
     NSLog(@"textfield did end editing %@", textField);
     
-    if (textField == self.nameField) {
+    if (textField == self.nameField) 
+    {
         [self.detailItem setValue:textField.text forKey:@"name"];
     }
-    else if (textField == self.locationField) {
+    else if (textField == self.locationField) 
+    {
         [self.detailItem setValue:textField.text forKey:@"location"];
     }
     [self save];
