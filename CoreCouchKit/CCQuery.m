@@ -16,9 +16,9 @@
     CouchDesignDocument *designDocument;
     NSString *relatedKey;
     NSString *relatedValue;
-    BOOL deleteMissing;
     NSManagedObjectContext *managedObjectContext;
     NSString *viewName;
+    id rowObserver;
 }
 
 @property (nonatomic, strong, readwrite) NSString *entityName;
@@ -40,6 +40,8 @@
 
 @implementation CCQuery
 @synthesize entityName;
+@synthesize resultsBlock;
+@synthesize deleteMissing;
 
 + (id)queryForRelationship:(NSString *)key 
                   ofObject:(NSManagedObject *)owner 
@@ -128,31 +130,17 @@
     NSLog(@"Query keys: %@", query.keys);
     query.prefetch = YES; // include_docs=true
     
-    [query addObserver:self 
-            forKeyPath:@"rows" 
-               options:0 
-               context:(__bridge void *)viewName];
+    __weak CCQuery *weakSelf = self;
+    __weak NSManagedObjectContext *weakContext = managedObjectContext;
+    rowObserver = [query addKVOBlockForKeyPath:@"rows" options:0 handler:^(NSString *keyPath, id object, NSDictionary *change) {
+        //NSLog(@"Got LiveQuery rows KVO: %@", query.rows);
+        
+        [weakContext performBlock:^{
+            [weakSelf updateLocalObjectsWithCouchDocuments];
+        }];
+    }];
     
     [query start];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath 
-                      ofObject:(id)object 
-                        change:(NSDictionary *)change 
-                       context:(void *)context
-{
-    if (context == (__bridge void *)viewName) 
-    {
-        NSLog(@"Got LiveQuery rows KVO: %@", query.rows);
-        
-        [managedObjectContext performBlock:^{
-            [self updateLocalObjectsWithCouchDocuments];
-        }];
-    }
-    else 
-    {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 - (void)updateLocalObjectsWithCouchDocuments
@@ -170,10 +158,18 @@
         
         if (document)
         {
+            if ([document respondsToSelector:@selector(willUpdateFromCouch)]) {
+                [(id <CCDocumentUpdate>)document willUpdateFromCouch];
+            }
+            
             NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
             [document cj_setPropertiesFromDescription:properties];
             document.couchRev = [properties objectForKey:kCouchRevKey];
             [localResultsByID removeObjectForKey:couchID];
+            
+            if ([document respondsToSelector:@selector(didUpdateFromCouch)]) {
+                [(id <CCDocumentUpdate>)document didUpdateFromCouch];
+            }
         }
         else
         {
@@ -192,7 +188,7 @@
     }
     
     NSLog(@"Remaining: %@", localResultsByID);
-    if (deleteMissing) 
+    if (self.deleteMissing) 
     {
         [self deleteManagedObjects:[localResultsByID allValues]];
     }
@@ -206,6 +202,10 @@
     };
     
     // TODO Post CCQueryDidSaveNotification with updated objectIDs
+    if (self.resultsBlock) 
+    {
+        self.resultsBlock(couchResults);
+    }
 }
 
 - (NSString *)docTypePredicate
@@ -255,17 +255,6 @@
     {
         [managedObjectContext deleteObject:document];
     }
-}
-
-- (void)dealloc
-{
-    [self stop];
-}
-
-- (void)stop
-{
-    [query removeObserver:self 
-               forKeyPath:@"rows"];
 }
 
 @end

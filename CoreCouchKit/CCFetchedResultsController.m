@@ -18,11 +18,6 @@
 
 @implementation CCFetchedResultsController
 
-- (void)dealloc
-{
-    [query stop];
-}
-
 - (id)initWithQuery:(CCQuery *)aQuery
     sortDescriptors:(NSArray *)sortDescriptors
 managedObjectContext:(NSManagedObjectContext *)managedObjectContext

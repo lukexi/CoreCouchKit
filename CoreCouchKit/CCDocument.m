@@ -52,7 +52,7 @@
 - (void)couchDocumentChanged:(CouchDocument *)doc
 {
     NSLog(@"Updating %@ with changed doc! %@", self, doc);
-    [self cj_setPropertiesFromDescription:doc.userProperties];
+    //[self cj_setPropertiesFromDescription:doc.userProperties];
 }
 
 #pragma mark - CJRelationshipRepresentation

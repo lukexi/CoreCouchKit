@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol CCDocumentUpdate <NSObject>
+
+- (void)willUpdateFromCouch;
+- (void)didUpdateFromCouch;
+
+@end
+
+typedef void(^CCCouchResultsBlock)(NSArray *results);
+
 @class CouchDesignDocument;
 @class CoreCouchKit;
 @interface CCQuery : NSObject
@@ -24,9 +34,10 @@
                 context:(NSManagedObjectContext *)aManagedObjectContext;
 
 - (void)start;
-- (void)stop;
 
 @property (nonatomic, strong, readonly) NSString *entityName;
 @property (nonatomic, strong, readonly) NSPredicate *localPredicate;
+@property (nonatomic, copy) CCCouchResultsBlock resultsBlock;
+@property (nonatomic) BOOL deleteMissing;
 
 @end

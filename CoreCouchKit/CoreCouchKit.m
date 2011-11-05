@@ -224,13 +224,6 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     [operationQueue setSuspended:NO];
 }
 
-- (void)updateAttachment:(NSManagedObject *)attachmentObject
-{
-    [self changeObject:attachmentObject onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) {
-        
-    }];
-}
-
 #pragma mark Query
 
 - (CCQuery *)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)managedObject

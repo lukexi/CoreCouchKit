@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CCManagedObjectModel.h"
 #import "CCDocument.h"
-#import "CCCouchResultsController.h"
 #import "CCAttachment.h"
 #import "CCQuery.h"
 #import "CCFetchedResultsController.h"
@@ -45,9 +44,6 @@ typedef void(^CCBackgroundContextBlock)(NSManagedObject *backgroundObject,
 #pragma mark - Editing
 - (void)changeObject:(NSManagedObject *)object 
  onBackgroundContext:(CCBackgroundContextBlock)backgroundBlock;
-
-#pragma mark - Attachments
-- (void)updateAttachment:(CCAttachment *)attachment;
 
 #pragma mark - Queries
 - (CCQuery *)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)managedObject;

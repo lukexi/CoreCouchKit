@@ -17,9 +17,6 @@
 		C216521D14502D4C00372382 /* CoreCouchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521014502D4C00372382 /* CoreCouchKit.h */; };
 		C216521E14502D4C00372382 /* CoreCouchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521114502D4C00372382 /* CoreCouchKit.m */; };
 		C216521F14502D4C00372382 /* CoreCouchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521114502D4C00372382 /* CoreCouchKit.m */; };
-		C216522014502D4C00372382 /* CCCouchResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521214502D4C00372382 /* CCCouchResultsController.h */; };
-		C216522114502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
-		C216522214502D4C00372382 /* CCCouchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521314502D4C00372382 /* CCCouchResultsController.m */; };
 		C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521414502D4C00372382 /* CCManagedObjectModel.h */; };
 		C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
 		C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
@@ -80,8 +77,6 @@
 		C216520614502CAE00372382 /* CoreCouchKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKitTests.m; sourceTree = "<group>"; };
 		C216521014502D4C00372382 /* CoreCouchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreCouchKit.h; sourceTree = "<group>"; };
 		C216521114502D4C00372382 /* CoreCouchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKit.m; sourceTree = "<group>"; };
-		C216521214502D4C00372382 /* CCCouchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCouchResultsController.h; sourceTree = "<group>"; };
-		C216521314502D4C00372382 /* CCCouchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCouchResultsController.m; sourceTree = "<group>"; };
 		C216521414502D4C00372382 /* CCManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCManagedObjectModel.h; sourceTree = "<group>"; };
 		C216521514502D4C00372382 /* CCManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCManagedObjectModel.m; sourceTree = "<group>"; };
 		C216521614502D4C00372382 /* CCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDocument.h; sourceTree = "<group>"; };
@@ -180,8 +175,6 @@
 				C27F21A41461474500FA5CC4 /* CCQuery.m */,
 				C216521014502D4C00372382 /* CoreCouchKit.h */,
 				C216521114502D4C00372382 /* CoreCouchKit.m */,
-				C216521214502D4C00372382 /* CCCouchResultsController.h */,
-				C216521314502D4C00372382 /* CCCouchResultsController.m */,
 				C216521614502D4C00372382 /* CCDocument.h */,
 				C216521714502D4C00372382 /* CCDocument.m */,
 				C2F4C5F314543F440000BDE9 /* CCAttachment.h */,
@@ -236,7 +229,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C216521D14502D4C00372382 /* CoreCouchKit.h in Headers */,
-				C216522014502D4C00372382 /* CCCouchResultsController.h in Headers */,
 				C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */,
 				C216522614502D4C00372382 /* CCDocument.h in Headers */,
 				C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */,
@@ -349,7 +341,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C216521E14502D4C00372382 /* CoreCouchKit.m in Sources */,
-				C216522114502D4C00372382 /* CCCouchResultsController.m in Sources */,
 				C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */,
 				C216522714502D4C00372382 /* CCDocument.m in Sources */,
 				C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
@@ -369,7 +360,6 @@
 			files = (
 				C216520714502CAE00372382 /* CoreCouchKitTests.m in Sources */,
 				C216521F14502D4C00372382 /* CoreCouchKit.m in Sources */,
-				C216522214502D4C00372382 /* CCCouchResultsController.m in Sources */,
 				C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */,
 				C216522814502D4C00372382 /* CCDocument.m in Sources */,
 				C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
