@@ -179,7 +179,8 @@
                                                 fromObjectDescription:properties];
             document.couchID = [properties objectForKey:kCouchIDKey];
             document.couchRev = [properties objectForKey:kCouchRevKey];
-            NSLog(@"created document %@ with ID: %@", document, document.couchID);
+            
+            NSLog(@"created document %@", document);
         }
         
         [document cc_updateAttachments];
@@ -195,7 +196,7 @@
     
     // TODO Post CCQueryWillSaveNotification with updated objectIDs
     
-    NSError *error = nil;
+    NSError *error;
     if (![managedObjectContext save:&error]) 
     {
         NSLog(@"Error saving: %@", error);

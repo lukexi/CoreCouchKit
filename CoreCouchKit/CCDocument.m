@@ -36,6 +36,7 @@
 - (void)override_prepareForDeletion // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
 {
     [self override_prepareForDeletion];
+#warning must make this synchronous and run on background thread, like PUTs
     if (self.couchRev) 
     {
         CouchRevision *revision = [self cc_couchRevision];
@@ -65,6 +66,7 @@
     return self.couchID;
 }
 
+#warning this is handled already in CDJK using the uniqueID mechanism.
 + (NSManagedObject *)cj_objectFromRelationshipRepresentation:(id)relationshipRepresentation
                                                    inContext:(NSManagedObjectContext *)managedObjectContext
 {

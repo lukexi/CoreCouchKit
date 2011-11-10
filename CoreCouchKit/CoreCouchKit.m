@@ -21,6 +21,7 @@
     CouchServer *server;
     
     NSOperationQueue *operationQueue;
+    NSMutableSet *objectsExplicityMarkedAsNeedingPUT;
 }
 
 - (id)initWithContext:(NSManagedObjectContext *)context
@@ -91,6 +92,8 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
         operationQueue = [[NSOperationQueue alloc] init];
         operationQueue.maxConcurrentOperationCount = 1;
         
+        objectsExplicityMarkedAsNeedingPUT = [NSMutableSet set];
+        
         managedObjectContext = context;
         if ([managedObjectContext mergePolicy] != NSErrorMergePolicy) 
         {
@@ -132,7 +135,7 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     
     NSSet *changedObjects = [[managedObjectContext updatedObjects] setByAddingObjectsFromSet:
                              [managedObjectContext insertedObjects]];
-    NSLog(@"Changed objects: %@", changedObjects);
+    //NSLog(@"Changed objects: %@", changedObjects);
     
     // Wait until after didSave to actually begin these operations
     [operationQueue setSuspended:YES];
@@ -141,11 +144,12 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     {
         BOOL isDocument = [object cc_isCouchDocument];
         BOOL isAttachment = [object cc_isCouchAttachment];
-        if ((isDocument || isAttachment) && [object hasChanges])
+        BOOL isCouchManaged = isDocument || isAttachment;
+        if ((isCouchManaged && [object hasChanges]) || [objectsExplicityMarkedAsNeedingPUT containsObject:object])
         {
-            [self changeObject:object onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) {
-                // Object was coming out with old values, so we refresh it.
-                [context refreshObject:backgroundObject mergeChanges:NO];
+            [objectsExplicityMarkedAsNeedingPUT removeObject:object];
+            [self changeObject:object onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) 
+            {    
                 NSLog(@"PUTting %@", backgroundObject);
                 
                 if (isDocument) 
@@ -154,42 +158,14 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
                 }
                 else if (isAttachment)
                 {
-                    NSLog(@"Is couch attachment... object %@", [object class]);
+                    NSLog(@"Is couch attachment... object %@", [backgroundObject class]);
                     [backgroundObject cc_PUTAttachment];
                 }
             }];
-            
-            /*
-            __weak NSManagedObjectContext *weakBackgroundContext = backgroundContext;
-            [operationQueue addOperationWithBlock:^{
-                [weakBackgroundContext performBlock:^{
-                    NSManagedObjectID *objectID = object.objectID;
-                    NSError *error;
-                    NSManagedObject *backgroundObject = [weakBackgroundContext existingObjectWithID:objectID error:&error];
-                    if (!backgroundObject) 
-                    {
-                        NSLog(@"Error pulling %@ into background context: %@", object, error);
-                    }
-                    // Object was coming out with old values, so we refresh it.
-                    [weakBackgroundContext refreshObject:backgroundObject mergeChanges:NO];
-                    NSLog(@"PUTting %@", backgroundObject);
-                    
-                    if (isDocument) 
-                    {
-                        [backgroundObject cc_PUT];
-                    }
-                    else if (isAttachment)
-                    {
-                        NSLog(@"Is couch attachment... object %@", [object class]);
-                        [backgroundObject cc_PUTAttachment];
-                    }
-                }];
-            }];
-             */
         }        
         // TODO use [object changedValues] and check if the attachment has changed when using "store in external record" attachments
         
-        NSLog(@"Saving object %@", object);
+        //NSLog(@"Saving object %@", object);
         
     }
     
@@ -199,12 +175,21 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     }
 }
 
+- (void)markNeedsPUT:(NSManagedObject *)documentObject
+{
+    NSAssert1([documentObject cc_isCouchDocument], @"Objects for PUT must be of couchType 'document'. %@ is not.", documentObject);
+    NSLog(@"documentObject before: %@", [documentObject valueForKeyPath:@"tracks.pages"]);
+    [objectsExplicityMarkedAsNeedingPUT addObject:documentObject];
+}
+
 - (void)changeObject:(NSManagedObject *)object 
  onBackgroundContext:(CCBackgroundContextBlock)backgroundBlock
 {
     __weak NSManagedObjectContext *weakBackgroundContext = backgroundContext;
     [operationQueue addOperationWithBlock:^{
         [weakBackgroundContext performBlock:^{
+            // Objects were coming out with old values, so we refresh.
+            [weakBackgroundContext reset];
             NSManagedObjectID *objectID = object.objectID;
             NSError *error;
             NSManagedObject *backgroundObject = [weakBackgroundContext existingObjectWithID:objectID error:&error];

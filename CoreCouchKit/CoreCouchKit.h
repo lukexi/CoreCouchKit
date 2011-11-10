@@ -34,6 +34,7 @@ typedef void(^CCBackgroundContextBlock)(NSManagedObject *backgroundObject,
 + (void)setupWithContext:(NSManagedObjectContext *)context
                serverURL:(NSString *)serverURLString
             databaseName:(NSString *)databaseName;
+
 + (NSManagedObjectModel *)couchManagedObjectModelWithContentsOfURL:(NSURL *)modelURL;
 
 + (CoreCouchKit *)sharedCoreCouchKit;
@@ -41,20 +42,35 @@ typedef void(^CCBackgroundContextBlock)(NSManagedObject *backgroundObject,
 @property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
 @property (nonatomic, strong) CouchDatabase *database;
 
+// I haven't yet implemented a way for a Document object to notice changes to things on the ends of its relationships,
+// so users can manaully mark their document as needing PUTs for now.
+// (e.g., a Car entity can't tell when a child Wheel entity changes its tireBrand property)
+// By traversing the relationships out from the Document and marking the route back to the document, it's possible to do this automatically (though it might have performance considerations)
+// Could also detect changes by rendering the dictionary and saving the old version and comparing the two.
+- (void)markNeedsPUT:(NSManagedObject *)documentObject;
+
 #pragma mark - Editing
 - (void)changeObject:(NSManagedObject *)object 
  onBackgroundContext:(CCBackgroundContextBlock)backgroundBlock;
 
 #pragma mark - Queries
-- (CCQuery *)queryForRelationship:(NSString *)key ofObject:(NSManagedObject *)managedObject;
-- (CCFetchedResultsController *)fetchedResultsControllerForRelationship:(NSString *)key 
-                                                      ofObject:(NSManagedObject *)managedObject
-                                               sortDescriptors:(NSArray *)sortDescriptors
-                                                      delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+- (CCQuery *)queryForRelationship:(NSString *)key
+                         ofObject:(NSManagedObject *)managedObject;
 
-- (CCQuery *)queryForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value;
-- (CCFetchedResultsController *)fetchedResultsControllerForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value sortDescriptors:(NSArray *)sortDescriptors delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+- (CCFetchedResultsController *)fetchedResultsControllerForRelationship:(NSString *)key
+                                                               ofObject:(NSManagedObject *)managedObject
+                                                        sortDescriptors:(NSArray *)sortDescriptors
+                                                               delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
+
+
+- (CCQuery *)queryForObjectsOfType:(NSString *)entityName 
+                             whose:(NSString *)key 
+                                is:(NSString *)value;
+
+- (CCFetchedResultsController *)fetchedResultsControllerForObjectsOfType:(NSString *)entityName 
+                                                                   whose:(NSString *)key 
+                                                                      is:(NSString *)value 
+                                                         sortDescriptors:(NSArray *)sortDescriptors 
+                                                                delegate:(id <NSFetchedResultsControllerDelegate>)delegate;
 
 @end
-
-
