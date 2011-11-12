@@ -161,7 +161,7 @@
         }
     }
     
-    NSLog(@"Putting to couch %@!", properties);
+    NSLog(@"Putting to couch %@!", [properties objectForKey:@"documentType"]);
     RESTOperation *putOperation = [[self cc_couchDocument] putProperties:properties];
     [putOperation wait];
     

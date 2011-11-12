@@ -162,7 +162,8 @@
                 [(id <CCDocumentUpdate>)document willUpdateFromCouch];
             }
             
-            NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
+            //NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
+            NSLog(@"Updating existing %@ ID: %@", [properties objectForKey:@"documentType"], couchID);
             [document cj_setPropertiesFromDescription:properties];
             document.couchRev = [properties objectForKey:kCouchRevKey];
             [localResultsByID removeObjectForKey:couchID];
@@ -173,14 +174,14 @@
         }
         else
         {
-            NSLog(@"Creating missing ID: %@", couchID);
-            NSLog(@"properties: %@", properties);
+            NSLog(@"Creating missing %@ ID: %@", [properties objectForKey:@"documentType"], couchID);
+            //NSLog(@"properties: %@", properties);
             document = [documentClass cj_insertInManagedObjectContext:managedObjectContext 
                                                 fromObjectDescription:properties];
             document.couchID = [properties objectForKey:kCouchIDKey];
             document.couchRev = [properties objectForKey:kCouchRevKey];
             
-            NSLog(@"created document %@", document);
+            //NSLog(@"created document %@", document);
         }
         
         [document cc_updateAttachments];
