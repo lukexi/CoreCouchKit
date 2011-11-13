@@ -6,6 +6,4 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
     #import <CoreData/CoreData.h>
-    #import <CouchCocoa/CouchCocoa.h>
-    #import "CoreDataJSONKit.h"
 #endif

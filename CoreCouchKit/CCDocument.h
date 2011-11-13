@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CouchCocoa/CouchCocoa.h>
 #import "CoreDataJSONKit.h"
+#import <CouchCocoa/CouchCocoa.h>
 
 #define kCouchIDKey @"_id"
 #define kCouchRevKey @"_rev"

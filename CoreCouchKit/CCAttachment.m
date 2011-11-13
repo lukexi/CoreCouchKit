@@ -121,40 +121,6 @@
     attachmentSelf.couchDocumentRev = [self cc_document].couchRev;
 }
 
-/*
-- (void)cc_valueWithCompletion:(CCValueBlock)valueBlock
-{
-    id currentValue = [self valueForKey:[self cc_attachmentProperty]];
-    if (currentValue) 
-    {
-        if (valueBlock) 
-        {
-            valueBlock(currentValue);
-        }
-        return;
-    }
-    
-    // Getting the contents asynchronously
-    
-    [operation onCompletion:^{
-        NSLog(@"Downloaded attachment for class %@ with metadata: %@", [self class], [[self cc_couchAttachment] metadata]);
-        [self cc_setFromAttachmentRepresentation:[[self cc_couchAttachment] body]];
-        
-        NSError *error = nil;
-        if (![self.managedObjectContext save:&error]) 
-        {
-            NSLog(@"Error saving: %@", error);
-        }
-        
-        if (valueBlock) 
-        {
-            valueBlock([self valueForKey:[self cc_attachmentProperty]]);
-        }
-    }];
-    [operation start];
-}
- */
-
 - (CCDocument *)cc_document
 {
     NSString *documentKey = [[[self entity] userInfo] objectForKey:kCouchAttachmentDocumentPropertyKey];

@@ -8,6 +8,8 @@
 
 #import "CoreCouchKitTests.h"
 #import "CoreCouchKit.h"
+#import <UIKit/UIKit.h>
+
 @interface CoreCouchKitTests ()
 {
     NSManagedObjectContext *managedObjectContext;

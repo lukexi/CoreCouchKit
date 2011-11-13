@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C21651EA14502CAD00372382 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E914502CAD00372382 /* Foundation.framework */; };
 		C21651F814502CAE00372382 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F714502CAE00372382 /* SenTestingKit.framework */; };
-		C21651FA14502CAE00372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
 		C21651FB14502CAE00372382 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E914502CAD00372382 /* Foundation.framework */; };
 		C21651FE14502CAE00372382 /* libCoreCouchKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651E614502CAD00372382 /* libCoreCouchKit.a */; };
 		C216520414502CAE00372382 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C216520214502CAE00372382 /* InfoPlist.strings */; };
@@ -36,16 +35,22 @@
 		C21652391450319300372382 /* CoreDataJSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = C21652371450319300372382 /* CoreDataJSONKit.h */; };
 		C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
 		C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C21652381450319300372382 /* CoreDataJSONKit.m */; };
-		C2165247145040A500372382 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21651F914502CAE00372382 /* UIKit.framework */; };
 		C24B22941463E53900D78821 /* NSObject_KVOBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = C24B22921463E53900D78821 /* NSObject_KVOBlock.h */; };
 		C24B22951463E53900D78821 /* NSObject_KVOBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B22931463E53900D78821 /* NSObject_KVOBlock.m */; };
 		C24B22961463E53900D78821 /* NSObject_KVOBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C24B22931463E53900D78821 /* NSObject_KVOBlock.m */; };
+		C253B35D146FF28C00D2245C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C253B35C146FF28C00D2245C /* UIKit.framework */; };
+		C253B35E146FF2AE00D2245C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C253B35C146FF28C00D2245C /* UIKit.framework */; };
+		C253B360146FF2D100D2245C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C253B35F146FF2D100D2245C /* QuartzCore.framework */; };
+		C253B361146FF2DA00D2245C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C253B35F146FF2D100D2245C /* QuartzCore.framework */; };
 		C27F21A01461468000FA5CC4 /* CCFetchedResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C27F219E1461468000FA5CC4 /* CCFetchedResultsController.h */; };
 		C27F21A11461468000FA5CC4 /* CCFetchedResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */; };
 		C27F21A21461468000FA5CC4 /* CCFetchedResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */; };
 		C27F21A51461474600FA5CC4 /* CCQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = C27F21A31461474500FA5CC4 /* CCQuery.h */; };
 		C27F21A61461474600FA5CC4 /* CCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F21A41461474500FA5CC4 /* CCQuery.m */; };
 		C27F21A71461474600FA5CC4 /* CCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C27F21A41461474500FA5CC4 /* CCQuery.m */; };
+		C2C2DD14146FF53900EBB3EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C2DD13146FF53900EBB3EA /* CoreGraphics.framework */; };
+		C2C2DD18146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C2C2DD16146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld */; };
+		C2C2DD19146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C2C2DD16146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld */; };
 		C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5E71454258C0000BDE9 /* CCMixin.h */; };
 		C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -70,7 +75,6 @@
 		C21651ED14502CAD00372382 /* CoreCouchKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreCouchKit-Prefix.pch"; sourceTree = "<group>"; };
 		C21651F614502CAD00372382 /* CoreCouchKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreCouchKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C21651F714502CAE00372382 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		C21651F914502CAE00372382 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C216520114502CAE00372382 /* CoreCouchKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreCouchKitTests-Info.plist"; sourceTree = "<group>"; };
 		C216520314502CAE00372382 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C216520514502CAE00372382 /* CoreCouchKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreCouchKitTests.h; sourceTree = "<group>"; };
@@ -93,10 +97,14 @@
 		C21652381450319300372382 /* CoreDataJSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataJSONKit.m; path = CoreDataJSONKit/CoreDataJSONKit.m; sourceTree = "<group>"; };
 		C24B22921463E53900D78821 /* NSObject_KVOBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObject_KVOBlock.h; sourceTree = "<group>"; };
 		C24B22931463E53900D78821 /* NSObject_KVOBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObject_KVOBlock.m; sourceTree = "<group>"; };
+		C253B35C146FF28C00D2245C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C253B35F146FF2D100D2245C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C27F219E1461468000FA5CC4 /* CCFetchedResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFetchedResultsController.h; sourceTree = "<group>"; };
 		C27F219F1461468000FA5CC4 /* CCFetchedResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCFetchedResultsController.m; sourceTree = "<group>"; };
 		C27F21A31461474500FA5CC4 /* CCQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCQuery.h; sourceTree = "<group>"; };
 		C27F21A41461474500FA5CC4 /* CCQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCQuery.m; sourceTree = "<group>"; };
+		C2C2DD13146FF53900EBB3EA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C2C2DD17146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreCouchKitTests.xcdatamodel; sourceTree = "<group>"; };
 		C2F4C5E71454258C0000BDE9 /* CCMixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMixin.h; sourceTree = "<group>"; };
 		C2F4C5E81454258C0000BDE9 /* CCMixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMixin.m; sourceTree = "<group>"; };
 		C2F4C5F314543F440000BDE9 /* CCAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachment.h; sourceTree = "<group>"; };
@@ -108,9 +116,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C253B360146FF2D100D2245C /* QuartzCore.framework in Frameworks */,
+				C253B35E146FF2AE00D2245C /* UIKit.framework in Frameworks */,
 				C21651EA14502CAD00372382 /* Foundation.framework in Frameworks */,
 				C216523314502DA300372382 /* CouchCocoa.framework in Frameworks */,
-				C2165247145040A500372382 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,9 +127,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2C2DD14146FF53900EBB3EA /* CoreGraphics.framework in Frameworks */,
+				C253B361146FF2DA00D2245C /* QuartzCore.framework in Frameworks */,
+				C253B35D146FF28C00D2245C /* UIKit.framework in Frameworks */,
 				C216523114502D7E00372382 /* CoreData.framework in Frameworks */,
 				C21651F814502CAE00372382 /* SenTestingKit.framework in Frameworks */,
-				C21651FA14502CAE00372382 /* UIKit.framework in Frameworks */,
 				C21651FB14502CAE00372382 /* Foundation.framework in Frameworks */,
 				C21651FE14502CAE00372382 /* libCoreCouchKit.a in Frameworks */,
 				C216523414502DA300372382 /* CouchCocoa.framework in Frameworks */,
@@ -156,12 +167,14 @@
 		C21651E814502CAD00372382 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2C2DD13146FF53900EBB3EA /* CoreGraphics.framework */,
+				C253B35F146FF2D100D2245C /* QuartzCore.framework */,
 				C216523214502DA300372382 /* CouchCocoa.framework */,
 				C216523014502D7E00372382 /* CoreData.framework */,
 				C21651E914502CAD00372382 /* Foundation.framework */,
 				C21651F714502CAE00372382 /* SenTestingKit.framework */,
-				C21651F914502CAE00372382 /* UIKit.framework */,
 				C216523514502DB600372382 /* libz.dylib */,
+				C253B35C146FF28C00D2245C /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -207,6 +220,7 @@
 			children = (
 				C216520514502CAE00372382 /* CoreCouchKitTests.h */,
 				C216520614502CAE00372382 /* CoreCouchKitTests.m */,
+				C2C2DD16146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld */,
 				C216520014502CAE00372382 /* Supporting Files */,
 			);
 			path = CoreCouchKitTests;
@@ -351,6 +365,7 @@
 				C27F21A11461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A61461474600FA5CC4 /* CCQuery.m in Sources */,
 				C24B22951463E53900D78821 /* NSObject_KVOBlock.m in Sources */,
+				C2C2DD18146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +385,7 @@
 				C27F21A21461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A71461474600FA5CC4 /* CCQuery.m in Sources */,
 				C24B22961463E53900D78821 /* NSObject_KVOBlock.m in Sources */,
+				C2C2DD19146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +417,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -412,6 +429,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/CoreDataJSONKit";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
@@ -423,11 +441,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/CoreDataJSONKit";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -445,6 +465,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -462,6 +483,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreCouchKit/CoreCouchKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -531,6 +553,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C2C2DD16146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C2C2DD17146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodel */,
+			);
+			currentVersion = C2C2DD17146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodel */;
+			path = CoreCouchKitTests.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C21651DD14502CAD00372382 /* Project object */;
 }

@@ -17,7 +17,7 @@
 typedef void(^CCValueBlock)(id value);
 typedef void(^CCSetBlock)(NSSet *results);
 
-@class CCDocument;
+@class CCDocument, CouchAttachment;
 @interface NSManagedObject (CoreCouchAttachmentHandling)
 - (BOOL)cc_isCouchAttachment;
 - (void)cc_PUTAttachment;
