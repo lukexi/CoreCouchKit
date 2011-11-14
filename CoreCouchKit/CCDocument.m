@@ -58,6 +58,7 @@
 
 #pragma mark - CJRelationshipRepresentation
 
+#warning this is handled already in CDJK using the uniqueID mechanism.
 // If one couch document includes another in a relationship,
 // just embed its ID in the JSON description as one usually does
 // with couchdb relationships.
@@ -66,7 +67,6 @@
     return self.couchID;
 }
 
-#warning this is handled already in CDJK using the uniqueID mechanism.
 + (NSManagedObject *)cj_objectFromRelationshipRepresentation:(id)relationshipRepresentation
                                                    inContext:(NSManagedObjectContext *)managedObjectContext
 {
