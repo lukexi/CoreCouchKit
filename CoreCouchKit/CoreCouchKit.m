@@ -222,7 +222,10 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
                                                                delegate:(id <NSFetchedResultsControllerDelegate>)delegate
 {
     CCQuery *query = [self queryForRelationship:key ofObject:managedObject];
-    CCFetchedResultsController *fetchedResultsController = [[CCFetchedResultsController alloc] initWithQuery:query sortDescriptors:sortDescriptors managedObjectContext:managedObjectContext delegate:delegate];
+    CCFetchedResultsController *fetchedResultsController = [[CCFetchedResultsController alloc] initWithQuery:query 
+                                                                                             sortDescriptors:sortDescriptors 
+                                                                                        managedObjectContext:managedObjectContext 
+                                                                                                    delegate:delegate];
     return fetchedResultsController;
 }
 
@@ -231,10 +234,17 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     return [CCQuery queryForObjectsOfType:entityName whose:key is:value inCoreCouch:self];
 }
 
-- (CCFetchedResultsController *)fetchedResultsControllerForObjectsOfType:(NSString *)entityName whose:(NSString *)key is:(NSString *)value sortDescriptors:(NSArray *)sortDescriptors delegate:(id <NSFetchedResultsControllerDelegate>)delegate
+- (CCFetchedResultsController *)fetchedResultsControllerForObjectsOfType:(NSString *)entityName 
+                                                                   whose:(NSString *)key 
+                                                                      is:(NSString *)value 
+                                                         sortDescriptors:(NSArray *)sortDescriptors 
+                                                                delegate:(id <NSFetchedResultsControllerDelegate>)delegate
 {
     CCQuery *query = [self queryForObjectsOfType:entityName whose:key is:value];
-    CCFetchedResultsController *fetchedResultsController = [[CCFetchedResultsController alloc] initWithQuery:query sortDescriptors:sortDescriptors managedObjectContext:managedObjectContext delegate:delegate];
+    CCFetchedResultsController *fetchedResultsController = [[CCFetchedResultsController alloc] initWithQuery:query 
+                                                                                             sortDescriptors:sortDescriptors 
+                                                                                        managedObjectContext:managedObjectContext
+                                                                                                    delegate:delegate];
     return fetchedResultsController;
 }
 
