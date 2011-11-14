@@ -49,6 +49,12 @@
     }
 }
 
+- (void)override_didTurnIntoFault
+{
+    [self override_didTurnIntoFault];
+    [self cc_couchDocument].modelObject = nil;
+}
+
 #pragma mark - CouchDocumentModel
 - (void)couchDocumentChanged:(CouchDocument *)doc
 {
