@@ -19,19 +19,19 @@
 @dynamic couchID;
 @dynamic attachmentsMetadata;
 
-- (NSString *)couchID 
-{
-    [self willAccessValueForKey:kCouchIDPropertyName];
-    NSString *ourCouchID = [self primitiveValueForKey:kCouchIDPropertyName];
-    [self didAccessValueForKey:kCouchIDPropertyName];
-    if (!ourCouchID) 
-    {
-        NSLog(@"Generating new shared ID for inserted object: %@", [self class]);
-        ourCouchID = [[self class] cc_generateUUID];
-        self.couchID = ourCouchID;
-    }
-    return ourCouchID;
-}
+//- (NSString *)couchID 
+//{
+//    [self willAccessValueForKey:kCouchIDPropertyName];
+//    NSString *ourCouchID = [self primitiveValueForKey:kCouchIDPropertyName];
+//    [self didAccessValueForKey:kCouchIDPropertyName];
+//    if (!ourCouchID) 
+//    {
+//        NSLog(@"Generating new shared ID for inserted object: %@", [self class]);
+//        ourCouchID = [[self class] cc_generateUUID];
+//        self.couchID = ourCouchID;
+//    }
+//    return ourCouchID;
+//}
 
 - (void)override_prepareForDeletion // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
 {
@@ -62,37 +62,7 @@
     //[self cj_setPropertiesFromDescription:doc.userProperties];
 }
 
-#pragma mark - CJRelationshipRepresentation
-
-#warning this is handled already in CDJK using the uniqueID mechanism.
-// If one couch document includes another in a relationship,
-// just embed its ID in the JSON description as one usually does
-// with couchdb relationships.
-- (id)cj_relationshipRepresentation
-{
-    return self.couchID;
-}
-
-+ (NSManagedObject *)cj_objectFromRelationshipRepresentation:(id)relationshipRepresentation
-                                                   inContext:(NSManagedObjectContext *)managedObjectContext
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass(self)];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"%K == %@", 
-                           kCouchIDPropertyName, relationshipRepresentation]];
-    
-    NSError *error = nil;
-    NSArray *results = [managedObjectContext executeFetchRequest:request error:&error];
-    if ([results count]) 
-    {
-        return [results objectAtIndex:0];
-    }
-    
-    return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self) 
-                                         inManagedObjectContext:managedObjectContext];
-}
-
 @end
-
 
 @implementation NSManagedObject (CCDocument)
 
@@ -147,7 +117,7 @@
     
     [self cc_updateAttachments];
     
-#warning get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
+    // TODO get changedValues from the original object and pass them in so we can do merging without overwriting them here or create a CCConflict object
     [self cj_setPropertiesFromDescription:currentRevision.userProperties];
 }
 
@@ -165,6 +135,10 @@
         {
             [properties setObject:documentSelf.attachmentsMetadata forKey:kCouchAttachmentsMetadataKey];
         }
+    }
+    else if (!documentSelf.couchID)
+    {
+        documentSelf.couchID = [[self class] cc_generateUUID];
     }
     
     NSLog(@"Putting to couch %@!", [properties objectForKey:@"documentType"]);
@@ -224,7 +198,7 @@
 {
     CCDocument *documentSelf = (CCDocument *)self;
     CouchDocument *couchDocument = objc_getAssociatedObject(self, @"couchDocument");
-    if (!couchDocument && documentSelf.couchID) 
+    if (!couchDocument && !self.isFault && documentSelf.couchID) 
     {
         couchDocument = [[self cc_couchDatabase] documentWithID:documentSelf.couchID];
         [self cc_setCouchDocument:couchDocument];
@@ -236,7 +210,7 @@
 {
     CCDocument *documentSelf = (CCDocument *)self;
     CouchRevision *couchRevision = objc_getAssociatedObject(self, @"couchRevision");
-    if (!couchRevision && documentSelf.couchRev) 
+    if (!couchRevision && !self.isFault && documentSelf.couchRev) 
     {
         CouchDocument *couchDocument = [self cc_couchDocument];
         couchRevision = [couchDocument revisionWithID:documentSelf.couchRev];

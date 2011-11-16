@@ -34,6 +34,7 @@
 
 // Updating
 
+- (void)update:(CCDocument *)document toRevision:(NSString *)revision withProperties:(NSDictionary *)properties;
 - (void)deleteManagedObjects:(NSArray *)objects;
 
 @end
@@ -46,7 +47,7 @@
 + (id)queryForRelationship:(NSString *)key 
                   ofObject:(NSManagedObject *)owner 
                inCoreCouch:(CoreCouchKit *)coreCouch
-{
+{    
     NSManagedObjectContext *backgroundContext = coreCouch.backgroundContext;
     CouchDatabase *database = coreCouch.database;
     CouchDesignDocument *designDoc = [database designDocumentWithName:@"design"];
@@ -131,11 +132,11 @@
     query.prefetch = YES; // include_docs=true
     
     __weak CCQuery *weakSelf = self;
-    __weak NSManagedObjectContext *weakContext = managedObjectContext;
+    NSManagedObjectContext *blockContext = managedObjectContext;
     rowObserver = [query addKVOBlockForKeyPath:@"rows" options:0 handler:^(NSString *keyPath, id object, NSDictionary *change) {
         //NSLog(@"Got LiveQuery rows KVO: %@", query.rows);
         
-        [weakContext performBlock:^{
+        [blockContext performBlock:^{
             [weakSelf updateLocalObjectsWithCouchDocuments];
         }];
     }];
@@ -155,31 +156,28 @@
     {
         NSDictionary *properties = [couchResultsByID objectForKey:couchID];
         CCDocument *document = [localResultsByID objectForKey:couchID];
+        NSString *remoteRevision = [properties objectForKey:kCouchRevKey];
         
         if (document)
         {
-            if ([document respondsToSelector:@selector(willUpdateFromCouch)]) {
-                [(id <CCDocumentUpdate>)document willUpdateFromCouch];
+            if (![document.couchRev isEqualToString:remoteRevision]) 
+            {
+                [self update:document toRevision:remoteRevision withProperties:properties];
             }
-            
-            //NSLog(@"Updating existing ID: %@ with properties: %@", couchID, properties);
-            NSLog(@"Updating existing %@ ID: %@", [properties objectForKey:@"documentType"], couchID);
-            [document cj_setPropertiesFromDescription:properties];
-            document.couchRev = [properties objectForKey:kCouchRevKey];
+            else
+            {
+                NSLog(@"%@ ID: %@ Rev: %@ is up to date.", [properties objectForKey:@"documentType"], couchID, remoteRevision);
+            }
             [localResultsByID removeObjectForKey:couchID];
-            
-            if ([document respondsToSelector:@selector(didUpdateFromCouch)]) {
-                [(id <CCDocumentUpdate>)document didUpdateFromCouch];
-            }
         }
-        else
+        else if (!document)
         {
             NSLog(@"Creating missing %@ ID: %@", [properties objectForKey:@"documentType"], couchID);
             //NSLog(@"properties: %@", properties);
             document = [documentClass cj_insertInManagedObjectContext:managedObjectContext 
                                                 fromObjectDescription:properties];
-            document.couchID = [properties objectForKey:kCouchIDKey];
-            document.couchRev = [properties objectForKey:kCouchRevKey];
+            document.couchID = couchID;
+            document.couchRev = remoteRevision;
             
             //NSLog(@"created document %@", document);
         }
@@ -210,6 +208,24 @@
     }
 }
 
+- (void)update:(CCDocument *)document toRevision:(NSString *)revision withProperties:(NSDictionary *)properties
+{
+    if ([document respondsToSelector:@selector(willUpdateFromCouch)]) 
+    {
+        [(id <CCDocumentUpdate>)document willUpdateFromCouch];
+    }
+    
+    //NSLog(@"Updating existing ID: %@ with properties: %@", document.couchID, properties);
+    NSLog(@"Updating existing %@ ID: %@", [properties objectForKey:@"documentType"], document.couchID);
+    [document cj_setPropertiesFromDescription:properties];
+    document.couchRev = revision;
+    
+    if ([document respondsToSelector:@selector(didUpdateFromCouch)])
+    {
+        [(id <CCDocumentUpdate>)document didUpdateFromCouch];
+    }
+}
+
 - (NSString *)docTypePredicate
 {
     NSString *docTypePredicate = [NSString stringWithFormat:@"doc.documentType == '%@'", entityName];
@@ -218,9 +234,14 @@
 
 - (NSPredicate *)localPredicate
 {
+    NSPredicate *hasBeenPUTPredicate = [NSPredicate predicateWithFormat:@"couchRev != nil"];
     if (relatedKey && relatedValue) 
-        return [NSPredicate predicateWithFormat:@"%K == %@", relatedKey, relatedValue];
-    return nil;
+    {
+        NSPredicate *relatedKeyPredicate = [NSPredicate predicateWithFormat:@"%K == %@", relatedKey, relatedValue];
+        return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:hasBeenPUTPredicate, relatedKeyPredicate, nil]];
+    }
+
+    return hasBeenPUTPredicate;
 }
 
 - (NSMutableDictionary *)couchResultsByID
@@ -255,6 +276,7 @@
 {
     for (CCDocument *document in objects) 
     {
+        document.couchRev = nil; // Prevent an extra DELETE from being sent by CCDocument's prepareForDeletion; we should only be being called if the object was already deleted from the server.
         [managedObjectContext deleteObject:document];
     }
 }
