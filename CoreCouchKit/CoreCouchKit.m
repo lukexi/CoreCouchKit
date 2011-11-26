@@ -178,7 +178,6 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
 - (void)markNeedsPUT:(NSManagedObject *)documentObject
 {
     NSAssert1([documentObject cc_isCouchDocument], @"Objects for PUT must be of couchType 'document'. %@ is not.", documentObject);
-    NSLog(@"documentObject before: %@", [documentObject valueForKeyPath:@"tracks.pages"]);
     [objectsExplicityMarkedAsNeedingPUT addObject:documentObject];
 }
 
