@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Eeoo. All rights reserved.
 //
 
-#import "CCAttachment.h"
+#import "NSManagedObject+CCAttachment.h"
 #import "CoreCouchKit.h"
 
 @implementation NSManagedObject (CoreCouchAttachmentHandling)
@@ -149,14 +149,48 @@
 
 - (NSManagedObject *)cc_document
 {
-    NSString *documentKey = [[[self entity] userInfo] objectForKey:kCouchAttachmentDocumentPropertyKey];
+    __block NSString *documentKey = [[[self entity] userInfo] objectForKey:kCouchAttachmentDocumentPropertyKey];
+    /*
+    // Search relationships for a CCDocument-derived entity. If more than one is found, kCouchAttachmentDocumentPropertyKey must be set to determine the correct one.
+    if (!documentKey) 
+    {
+        __block BOOL found = NO;
+        [[[self entity] relationshipsByName] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            NSRelationshipDescription *relationship = obj;
+            if ([[relationship entity] isKindOfEntity:[NSEntityDescription entityForName:@"CCDocument" 
+                                                                  inManagedObjectContext:self.managedObjectContext]])
+            {
+                documentKey = key;
+                NSAssert2(!found, @"Found multiple CCDocument-type relationships in entity %@. Please set %@ in the entity's metadata to determine the data-holding attribute for this attachment.", self, kCouchAttachmentDocumentPropertyKey);
+                found = YES;
+            }
+        }];
+    }
+     */
     NSAssert2(documentKey, @"Must add the key %@ with the name of the property pointing to the parent document for your attachment %@", kCouchAttachmentDocumentPropertyKey, self);
     return [self valueForKey:documentKey];
 }
 
 - (NSString *)cc_attachmentProperty
 {
-    NSString *attachmentProperty = [[[self entity] userInfo] objectForKey:kCouchAttachmentDataPropertyKey];
+    __block NSString *attachmentProperty = [[[self entity] userInfo] objectForKey:kCouchAttachmentDataPropertyKey];
+    // Search attributes for a Transformable or Binary Data attribute. If more than one is found, kCouchAttachmentDataPropertyKey must be set to determine the correct one.
+    /*
+    if (!attachmentProperty) 
+    {
+        __block BOOL found = NO;
+        [[[self entity] attributesByName] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            NSAttributeDescription *description = obj;
+            if ([description attributeType] == NSBinaryDataAttributeType || 
+                [description attributeType] == NSTransformableAttributeType) 
+            {
+                attachmentProperty = key;
+                NSAssert2(!found, @"Found multiple Binary Data or Transformable attributes in entity %@. Please set %@ in the entity's metadata to determine the data-holding attribute for this attachment.", self, kCouchAttachmentDataPropertyKey);
+                found = YES;
+            }
+        }];
+    }
+     */
     NSAssert2(attachmentProperty, @"Must add the key %@ with the name the property holding the data for your attachment %@", kCouchAttachmentDataPropertyKey, self);
     return attachmentProperty;
 }

@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class CNThumbnail;
 
 @interface CNNote : NSManagedObject
 
 @property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) CNThumbnail *thumbnail;
 
 @end

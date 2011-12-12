@@ -19,9 +19,9 @@
 		C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521414502D4C00372382 /* CCManagedObjectModel.h */; };
 		C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
 		C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521514502D4C00372382 /* CCManagedObjectModel.m */; };
-		C216522614502D4C00372382 /* CCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521614502D4C00372382 /* CCDocument.h */; };
-		C216522714502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
-		C216522814502D4C00372382 /* CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* CCDocument.m */; };
+		C216522614502D4C00372382 /* NSManagedObject+CCDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521614502D4C00372382 /* NSManagedObject+CCDocument.h */; };
+		C216522714502D4C00372382 /* NSManagedObject+CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* NSManagedObject+CCDocument.m */; };
+		C216522814502D4C00372382 /* NSManagedObject+CCDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521714502D4C00372382 /* NSManagedObject+CCDocument.m */; };
 		C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */ = {isa = PBXBuildFile; fileRef = C216521814502D4C00372382 /* CouchLiveQueryFix.h */; };
 		C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521914502D4C00372382 /* CouchLiveQueryFix.m */; };
 		C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */ = {isa = PBXBuildFile; fileRef = C216521914502D4C00372382 /* CouchLiveQueryFix.m */; };
@@ -54,9 +54,9 @@
 		C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5E71454258C0000BDE9 /* CCMixin.h */; };
 		C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5E81454258C0000BDE9 /* CCMixin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		C2F4C5F514543F450000BDE9 /* CCAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5F314543F440000BDE9 /* CCAttachment.h */; };
-		C2F4C5F614543F450000BDE9 /* CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* CCAttachment.m */; };
-		C2F4C5F714543F450000BDE9 /* CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* CCAttachment.m */; };
+		C2F4C5F514543F450000BDE9 /* NSManagedObject+CCAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F4C5F314543F440000BDE9 /* NSManagedObject+CCAttachment.h */; };
+		C2F4C5F614543F450000BDE9 /* NSManagedObject+CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* NSManagedObject+CCAttachment.m */; };
+		C2F4C5F714543F450000BDE9 /* NSManagedObject+CCAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F4C5F414543F450000BDE9 /* NSManagedObject+CCAttachment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,8 +83,8 @@
 		C216521114502D4C00372382 /* CoreCouchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKit.m; sourceTree = "<group>"; };
 		C216521414502D4C00372382 /* CCManagedObjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCManagedObjectModel.h; sourceTree = "<group>"; };
 		C216521514502D4C00372382 /* CCManagedObjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCManagedObjectModel.m; sourceTree = "<group>"; };
-		C216521614502D4C00372382 /* CCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDocument.h; sourceTree = "<group>"; };
-		C216521714502D4C00372382 /* CCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCDocument.m; sourceTree = "<group>"; };
+		C216521614502D4C00372382 /* NSManagedObject+CCDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+CCDocument.h"; sourceTree = "<group>"; };
+		C216521714502D4C00372382 /* NSManagedObject+CCDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+CCDocument.m"; sourceTree = "<group>"; };
 		C216521814502D4C00372382 /* CouchLiveQueryFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouchLiveQueryFix.h; sourceTree = "<group>"; };
 		C216521914502D4C00372382 /* CouchLiveQueryFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouchLiveQueryFix.m; sourceTree = "<group>"; };
 		C216521A14502D4C00372382 /* UIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageToDataTransformer.h; sourceTree = "<group>"; };
@@ -107,8 +107,8 @@
 		C2C2DD17146FF57000EBB3EA /* CoreCouchKitTests.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreCouchKitTests.xcdatamodel; sourceTree = "<group>"; };
 		C2F4C5E71454258C0000BDE9 /* CCMixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMixin.h; sourceTree = "<group>"; };
 		C2F4C5E81454258C0000BDE9 /* CCMixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMixin.m; sourceTree = "<group>"; };
-		C2F4C5F314543F440000BDE9 /* CCAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAttachment.h; sourceTree = "<group>"; };
-		C2F4C5F414543F450000BDE9 /* CCAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAttachment.m; sourceTree = "<group>"; };
+		C2F4C5F314543F440000BDE9 /* NSManagedObject+CCAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+CCAttachment.h"; sourceTree = "<group>"; };
+		C2F4C5F414543F450000BDE9 /* NSManagedObject+CCAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+CCAttachment.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,10 +188,10 @@
 				C27F21A41461474500FA5CC4 /* CCQuery.m */,
 				C216521014502D4C00372382 /* CoreCouchKit.h */,
 				C216521114502D4C00372382 /* CoreCouchKit.m */,
-				C216521614502D4C00372382 /* CCDocument.h */,
-				C216521714502D4C00372382 /* CCDocument.m */,
-				C2F4C5F314543F440000BDE9 /* CCAttachment.h */,
-				C2F4C5F414543F450000BDE9 /* CCAttachment.m */,
+				C216521614502D4C00372382 /* NSManagedObject+CCDocument.h */,
+				C216521714502D4C00372382 /* NSManagedObject+CCDocument.m */,
+				C2F4C5F314543F440000BDE9 /* NSManagedObject+CCAttachment.h */,
+				C2F4C5F414543F450000BDE9 /* NSManagedObject+CCAttachment.m */,
 				C216521414502D4C00372382 /* CCManagedObjectModel.h */,
 				C216521514502D4C00372382 /* CCManagedObjectModel.m */,
 				C216521814502D4C00372382 /* CouchLiveQueryFix.h */,
@@ -244,12 +244,12 @@
 			files = (
 				C216521D14502D4C00372382 /* CoreCouchKit.h in Headers */,
 				C216522314502D4C00372382 /* CCManagedObjectModel.h in Headers */,
-				C216522614502D4C00372382 /* CCDocument.h in Headers */,
+				C216522614502D4C00372382 /* NSManagedObject+CCDocument.h in Headers */,
 				C216522914502D4C00372382 /* CouchLiveQueryFix.h in Headers */,
 				C216522C14502D4C00372382 /* UIImageToDataTransformer.h in Headers */,
 				C21652391450319300372382 /* CoreDataJSONKit.h in Headers */,
 				C2F4C5E91454258C0000BDE9 /* CCMixin.h in Headers */,
-				C2F4C5F514543F450000BDE9 /* CCAttachment.h in Headers */,
+				C2F4C5F514543F450000BDE9 /* NSManagedObject+CCAttachment.h in Headers */,
 				C27F21A01461468000FA5CC4 /* CCFetchedResultsController.h in Headers */,
 				C27F21A51461474600FA5CC4 /* CCQuery.h in Headers */,
 				C24B22941463E53900D78821 /* NSObject_KVOBlock.h in Headers */,
@@ -356,12 +356,12 @@
 			files = (
 				C216521E14502D4C00372382 /* CoreCouchKit.m in Sources */,
 				C216522414502D4C00372382 /* CCManagedObjectModel.m in Sources */,
-				C216522714502D4C00372382 /* CCDocument.m in Sources */,
+				C216522714502D4C00372382 /* NSManagedObject+CCDocument.m in Sources */,
 				C216522A14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522D14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
 				C216523A1450319300372382 /* CoreDataJSONKit.m in Sources */,
 				C2F4C5EA1454258D0000BDE9 /* CCMixin.m in Sources */,
-				C2F4C5F614543F450000BDE9 /* CCAttachment.m in Sources */,
+				C2F4C5F614543F450000BDE9 /* NSManagedObject+CCAttachment.m in Sources */,
 				C27F21A11461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A61461474600FA5CC4 /* CCQuery.m in Sources */,
 				C24B22951463E53900D78821 /* NSObject_KVOBlock.m in Sources */,
@@ -376,12 +376,12 @@
 				C216520714502CAE00372382 /* CoreCouchKitTests.m in Sources */,
 				C216521F14502D4C00372382 /* CoreCouchKit.m in Sources */,
 				C216522514502D4C00372382 /* CCManagedObjectModel.m in Sources */,
-				C216522814502D4C00372382 /* CCDocument.m in Sources */,
+				C216522814502D4C00372382 /* NSManagedObject+CCDocument.m in Sources */,
 				C216522B14502D4C00372382 /* CouchLiveQueryFix.m in Sources */,
 				C216522E14502D4C00372382 /* UIImageToDataTransformer.m in Sources */,
 				C216523B1450319300372382 /* CoreDataJSONKit.m in Sources */,
 				C2F4C5EB1454258D0000BDE9 /* CCMixin.m in Sources */,
-				C2F4C5F714543F450000BDE9 /* CCAttachment.m in Sources */,
+				C2F4C5F714543F450000BDE9 /* NSManagedObject+CCAttachment.m in Sources */,
 				C27F21A21461468000FA5CC4 /* CCFetchedResultsController.m in Sources */,
 				C27F21A71461474600FA5CC4 /* CCQuery.m in Sources */,
 				C24B22961463E53900D78821 /* NSObject_KVOBlock.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  CNNote.m
+//  CNNote+Additions.h
 //  CoreCouchKitNotes
 //
 //  Created by Luke Iannini on 12/12/11.
@@ -7,13 +7,9 @@
 //
 
 #import "CNNote.h"
-#import "CNThumbnail.h"
 
+@interface CNNote (Additions)
 
-@implementation CNNote
-
-@dynamic timeStamp;
-@dynamic text;
-@dynamic thumbnail;
+- (void)updateThumbnail;
 
 @end

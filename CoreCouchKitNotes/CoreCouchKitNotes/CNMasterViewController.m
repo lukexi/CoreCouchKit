@@ -10,10 +10,12 @@
 
 #import "CNDetailViewController.h"
 #import "CNNote.h"
+#import "CNThumbnail.h"
 #import "CoreCouchKit.h"
+#import "CNNoteCell.h"
 
 @interface CNMasterViewController ()
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)configureCell:(CNNoteCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic, strong) CCQuery *couchQuery;
 
@@ -114,9 +116,9 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"CNMasterViewController";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CNNoteCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -242,20 +244,25 @@
     
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] 
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self configureCell:(CNNoteCell *)[tableView cellForRowAtIndexPath:indexPath] 
+                    atIndexPath:indexPath];
             break;
             
         case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                             withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
@@ -275,11 +282,13 @@
 }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(CNNoteCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     CNNote *note = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = note.text;
-    cell.detailTextLabel.text = [note valueForKey:@"couchRev"];
+    cell.thumbnailView.image = note.thumbnail.image;
+    cell.titleLabel.text = note.text;
+    cell.subLabel1.text = [note valueForKey:@"couchID"];
+    cell.subLabel2.text = [note valueForKey:@"couchRev"];
 }
 
 - (void)insertNewObject

@@ -3,11 +3,23 @@
     <entity name="CNNote" representedClassName="CNNote">
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStamp" optional="YES" attributeType="Date"/>
+        <relationship name="thumbnail" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CNThumbnail" inverseName="note" inverseEntity="CNThumbnail" syncable="YES"/>
         <userInfo>
             <entry key="couchType" value="document"/>
         </userInfo>
     </entity>
+    <entity name="CNThumbnail" representedClassName="CNThumbnail" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
+        <relationship name="note" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CNNote" inverseName="thumbnail" inverseEntity="CNNote" syncable="YES"/>
+        <userInfo>
+            <entry key="contentType" value="image/png"/>
+            <entry key="couchType" value="attachment"/>
+            <entry key="dataProperty" value="image"/>
+            <entry key="documentProperty" value="note"/>
+        </userInfo>
+    </entity>
     <elements>
-        <element name="CNNote" positionX="261" positionY="189" width="128" height="75"/>
+        <element name="CNNote" positionX="261" positionY="189" width="128" height="90"/>
+        <element name="CNThumbnail" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

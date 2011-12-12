@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "CCManagedObjectModel.h"
-#import "CCDocument.h"
-#import "CCAttachment.h"
+#import "NSManagedObject+CCDocument.h"
+#import "NSManagedObject+CCAttachment.h"
 #import "CCQuery.h"
 #import "CCFetchedResultsController.h"
 #import "NSObject_KVOBlock.h"

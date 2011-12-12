@@ -27,9 +27,15 @@
 		C2586B821495EC4000496902 /* CoreCouchKitNotesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586B811495EC4000496902 /* CoreCouchKitNotesTests.m */; };
 		C2586B9E1495EEC400496902 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2586B9D1495EEC400496902 /* CouchCocoa.framework */; };
 		C2586B9F1495EEC400496902 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2586B9D1495EEC400496902 /* CouchCocoa.framework */; };
-		C2586BA21495EF4200496902 /* CNNote.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BA11495EF4200496902 /* CNNote.m */; };
-		C2586BA31495EF4200496902 /* CNNote.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BA11495EF4200496902 /* CNNote.m */; };
 		C2586BA41495F5F000496902 /* libCoreCouchKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2586B941495EDAC00496902 /* libCoreCouchKit.a */; };
+		C2586BA8149630D500496902 /* CNThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BA7149630D500496902 /* CNThumbnail.m */; };
+		C2586BA9149630D500496902 /* CNThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BA7149630D500496902 /* CNThumbnail.m */; };
+		C2586BAC1496312E00496902 /* CNNote.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BAB1496312D00496902 /* CNNote.m */; };
+		C2586BAD1496312E00496902 /* CNNote.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BAB1496312D00496902 /* CNNote.m */; };
+		C2586BB41496316700496902 /* CNNote+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BB31496316600496902 /* CNNote+Additions.m */; };
+		C2586BB51496316700496902 /* CNNote+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = C2586BB31496316600496902 /* CNNote+Additions.m */; };
+		C2D53177149638C400DE5353 /* CNNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D53176149638C400DE5353 /* CNNoteCell.m */; };
+		C2D53178149638C400DE5353 /* CNNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C2D53176149638C400DE5353 /* CNNoteCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,8 +96,14 @@
 		C2586B811495EC4000496902 /* CoreCouchKitNotesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreCouchKitNotesTests.m; sourceTree = "<group>"; };
 		C2586B8B1495EDAB00496902 /* CoreCouchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreCouchKit.xcodeproj; path = ../CoreCouchKit.xcodeproj; sourceTree = "<group>"; };
 		C2586B9D1495EEC400496902 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = ../CouchCocoa.framework; sourceTree = "<group>"; };
-		C2586BA01495EF4200496902 /* CNNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNote.h; sourceTree = "<group>"; };
-		C2586BA11495EF4200496902 /* CNNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNote.m; sourceTree = "<group>"; };
+		C2586BA6149630D400496902 /* CNThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNThumbnail.h; sourceTree = "<group>"; };
+		C2586BA7149630D500496902 /* CNThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNThumbnail.m; sourceTree = "<group>"; };
+		C2586BAA1496312D00496902 /* CNNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNote.h; sourceTree = "<group>"; };
+		C2586BAB1496312D00496902 /* CNNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNote.m; sourceTree = "<group>"; };
+		C2586BB21496316600496902 /* CNNote+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CNNote+Additions.h"; sourceTree = "<group>"; };
+		C2586BB31496316600496902 /* CNNote+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CNNote+Additions.m"; sourceTree = "<group>"; };
+		C2D53175149638C400DE5353 /* CNNoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNoteCell.h; sourceTree = "<group>"; };
+		C2D53176149638C400DE5353 /* CNNoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNoteCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +138,8 @@
 		C2586B3B1495EC3F00496902 = {
 			isa = PBXGroup;
 			children = (
+				C2586BB21496316600496902 /* CNNote+Additions.h */,
+				C2586BB31496316600496902 /* CNNote+Additions.m */,
 				C2586B8B1495EDAB00496902 /* CoreCouchKit.xcodeproj */,
 				C2586B521495EC3F00496902 /* CoreCouchKitNotes */,
 				C2586B7A1495EC4000496902 /* CoreCouchKitNotesTests */,
@@ -163,13 +177,17 @@
 				C2586B5C1495EC3F00496902 /* CNAppDelegate.m */,
 				C2586B5E1495EC3F00496902 /* MainStoryboard_iPhone.storyboard */,
 				C2586B611495EC3F00496902 /* MainStoryboard_iPad.storyboard */,
+				C2D53175149638C400DE5353 /* CNNoteCell.h */,
+				C2D53176149638C400DE5353 /* CNNoteCell.m */,
 				C2586B671495EC3F00496902 /* CNMasterViewController.h */,
 				C2586B681495EC3F00496902 /* CNMasterViewController.m */,
 				C2586B6A1495EC3F00496902 /* CNDetailViewController.h */,
 				C2586B6B1495EC4000496902 /* CNDetailViewController.m */,
-				C2586BA01495EF4200496902 /* CNNote.h */,
-				C2586BA11495EF4200496902 /* CNNote.m */,
+				C2586BA6149630D400496902 /* CNThumbnail.h */,
+				C2586BA7149630D500496902 /* CNThumbnail.m */,
 				C2586B641495EC3F00496902 /* CoreCouchKitNotes.xcdatamodeld */,
+				C2586BAA1496312D00496902 /* CNNote.h */,
+				C2586BAB1496312D00496902 /* CNNote.m */,
 				C2586B531495EC3F00496902 /* Supporting Files */,
 			);
 			path = CoreCouchKitNotes;
@@ -351,7 +369,10 @@
 				C2586B661495EC3F00496902 /* CoreCouchKitNotes.xcdatamodeld in Sources */,
 				C2586B691495EC3F00496902 /* CNMasterViewController.m in Sources */,
 				C2586B6C1495EC4000496902 /* CNDetailViewController.m in Sources */,
-				C2586BA21495EF4200496902 /* CNNote.m in Sources */,
+				C2586BA8149630D500496902 /* CNThumbnail.m in Sources */,
+				C2586BAC1496312E00496902 /* CNNote.m in Sources */,
+				C2586BB41496316700496902 /* CNNote+Additions.m in Sources */,
+				C2D53177149638C400DE5353 /* CNNoteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,7 +381,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2586B821495EC4000496902 /* CoreCouchKitNotesTests.m in Sources */,
-				C2586BA31495EF4200496902 /* CNNote.m in Sources */,
+				C2586BA9149630D500496902 /* CNThumbnail.m in Sources */,
+				C2586BAD1496312E00496902 /* CNNote.m in Sources */,
+				C2586BB51496316700496902 /* CNNote+Additions.m in Sources */,
+				C2D53178149638C400DE5353 /* CNNoteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +575,7 @@
 				C2586B871495EC4000496902 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C2586B881495EC4000496902 /* Build configuration list for PBXNativeTarget "CoreCouchKitNotesTests" */ = {
 			isa = XCConfigurationList;
@@ -559,6 +584,7 @@
 				C2586B8A1495EC4000496902 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

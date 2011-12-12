@@ -1,19 +1,18 @@
 //
-//  CNNote.m
+//  CNThumbnail.m
 //  CoreCouchKitNotes
 //
 //  Created by Luke Iannini on 12/12/11.
 //  Copyright (c) 2011 Eeoo. All rights reserved.
 //
 
-#import "CNNote.h"
 #import "CNThumbnail.h"
+#import "CNNote.h"
 
 
-@implementation CNNote
+@implementation CNThumbnail
 
-@dynamic timeStamp;
-@dynamic text;
-@dynamic thumbnail;
+@dynamic image;
+@dynamic note;
 
 @end

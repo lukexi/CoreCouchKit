@@ -7,7 +7,7 @@
 //
 
 #import "CNDetailViewController.h"
-#import "CNNote.h"
+#import "CNNote+Additions.h"
 
 @interface CNDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -137,6 +137,7 @@
 - (void)save
 {
     self.note.text = self.detailTextView.text;
+    [self.note updateThumbnail];
     NSError *error;
     if (![self.note.managedObjectContext save:&error]) 
     {

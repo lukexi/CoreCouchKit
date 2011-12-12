@@ -8,8 +8,8 @@
 
 #import "CoreCouchKit.h"
 #import "CCManagedObjectModel.h"
-#import "CCDocument.h"
-#import "CCAttachment.h"
+#import "NSManagedObject+CCDocument.h"
+#import "NSManagedObject+CCAttachment.h"
 #import "UIImageToDataTransformer.h"
 
 @interface CoreCouchKit ()

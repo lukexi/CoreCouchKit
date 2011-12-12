@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Eeoo. All rights reserved.
 //
 
-#import "CCDocument.h"
+#import "NSManagedObject+CCDocument.h"
 #import "CoreCouchKit.h"
 #import "CoreDataJSONKit.h"
 #import <objc/runtime.h>
