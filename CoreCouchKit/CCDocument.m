@@ -8,6 +8,7 @@
 
 #import "CCDocument.h"
 #import "CoreCouchKit.h"
+#import "CoreDataJSONKit.h"
 #import <objc/runtime.h>
 
 @interface CCDocument ()
@@ -19,40 +20,13 @@
 @dynamic couchID;
 @dynamic attachmentsMetadata;
 
-//- (NSString *)couchID 
-//{
-//    [self willAccessValueForKey:kCouchIDPropertyName];
-//    NSString *ourCouchID = [self primitiveValueForKey:kCouchIDPropertyName];
-//    [self didAccessValueForKey:kCouchIDPropertyName];
-//    if (!ourCouchID) 
-//    {
-//        NSLog(@"Generating new shared ID for inserted object: %@", [self class]);
-//        ourCouchID = [[self class] cc_generateUUID];
-//        self.couchID = ourCouchID;
-//    }
-//    return ourCouchID;
-//}
-
-- (void)override_prepareForDeletion // CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. willSave in this case)
-{
-    [self override_prepareForDeletion];
-#warning must make this synchronous and run on background thread, like PUTs
-    if (self.couchRev) 
-    {
-        CouchRevision *revision = [self cc_couchRevision];
-        NSLog(@"Revision: %@ for document: %@", revision, [self cc_couchDocument]);
-        RESTOperation *delete = [revision DELETE];
-        [delete onCompletion:^{
-            NSLog(@"Deleted %@", self);
-        }];
-        [delete start];
-    }
-}
-
-- (void)override_didTurnIntoFault
+// CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. didTurnIntoFault in this case)
+- (void)override_didTurnIntoFault 
 {
     [self override_didTurnIntoFault];
-    [self cc_couchDocument].modelObject = nil;
+    // We don't want to refire faults or create the document here, so access directly
+    CouchDocument *associatedDocument = objc_getAssociatedObject(self, @"couchDocument");
+    associatedDocument.modelObject = nil;
 }
 
 #pragma mark - CouchDocumentModel
@@ -90,6 +64,7 @@
     return [self.managedObjectContext.userInfo objectForKey:kCouchDatabaseKey];
 }
 
+// Returns the dictionary representation of this object without any couchDB-related properties
 - (NSMutableDictionary *)cc_userProperties
 {
     NSMutableDictionary *properties = [[self cj_dictionaryRepresentation] mutableCopy];
@@ -101,6 +76,7 @@
     return properties;
 }
 
+// Synchronous
 - (void)cc_GET
 {
     CCDocument *documentSelf = (CCDocument *)self;
@@ -198,7 +174,7 @@
 {
     CCDocument *documentSelf = (CCDocument *)self;
     CouchDocument *couchDocument = objc_getAssociatedObject(self, @"couchDocument");
-    if (!couchDocument && !self.isFault && documentSelf.couchID) 
+    if (!couchDocument && documentSelf.couchID) 
     {
         couchDocument = [[self cc_couchDatabase] documentWithID:documentSelf.couchID];
         [self cc_setCouchDocument:couchDocument];
@@ -206,11 +182,12 @@
     return couchDocument;
 }
 
+// Will return nil if we don't have a revision yet
 - (CouchRevision *)cc_couchRevision
 {
     CCDocument *documentSelf = (CCDocument *)self;
     CouchRevision *couchRevision = objc_getAssociatedObject(self, @"couchRevision");
-    if (!couchRevision && !self.isFault && documentSelf.couchRev) 
+    if (!couchRevision && documentSelf.couchRev) 
     {
         CouchDocument *couchDocument = [self cc_couchDocument];
         couchRevision = [couchDocument revisionWithID:documentSelf.couchRev];

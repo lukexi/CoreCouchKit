@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="875" systemVersion="11C55" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CNNote" representedClassName="CNNote">
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="Date"/>
+        <userInfo>
+            <entry key="couchType" value="document"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="CNNote" positionX="261" positionY="189" width="128" height="75"/>
+    </elements>
+</model>

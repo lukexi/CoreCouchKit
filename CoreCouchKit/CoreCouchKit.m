@@ -31,6 +31,8 @@
 - (void)handleWillSaveNotification:(NSNotification *)note;
 - (void)handleDidSaveNotification:(NSNotification *)note;
 
+- (void)checkIfObjectNeedsPUT:(NSManagedObject *)object;
+
 @end
 
 @implementation CoreCouchKit
@@ -140,39 +142,76 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
     // Wait until after didSave to actually begin these operations
     [operationQueue setSuspended:YES];
     
+    // We automatically detect changed objects right now, but maybe make this optional to reduce frequency of updates?
     for (NSManagedObject *object in changedObjects) 
     {
-        BOOL isDocument = [object cc_isCouchDocument];
-        BOOL isAttachment = [object cc_isCouchAttachment];
-        BOOL isCouchManaged = isDocument || isAttachment;
-        if ((isCouchManaged && [object hasChanges]) || [objectsExplicityMarkedAsNeedingPUT containsObject:object])
-        {
-            [objectsExplicityMarkedAsNeedingPUT removeObject:object];
-            [self changeObject:object onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) 
-            {    
-                NSLog(@"PUTting %@", backgroundObject);
-                
-                if (isDocument) 
-                {
-                    [backgroundObject cc_PUT];
-                }
-                else if (isAttachment)
-                {
-                    NSLog(@"Is couch attachment... object %@", [backgroundObject class]);
-                    [backgroundObject cc_PUTAttachment];
-                }
-            }];
-        }        
-        // TODO use [object changedValues] and check if the attachment has changed when using "store in external record" attachments
-        
-        //NSLog(@"Saving object %@", object);
-        
+        [self checkIfObjectNeedsPUT:object];
     }
+    
+    // Marked objects might not have 'changes', since they might be in their child objects
+    for (NSManagedObject *object in objectsExplicityMarkedAsNeedingPUT) 
+    {
+        [self checkIfObjectNeedsPUT:object];
+    }
+    [objectsExplicityMarkedAsNeedingPUT removeAllObjects];
     
     for (NSManagedObject *object in [managedObjectContext deletedObjects]) 
     {
-        // que deletion
+        // We can't use a background context on deleted objects since they'll have lost their property information
+        // by the time the background operation runs, so we pull everything we need out here.
+        BOOL isDocument = [object cc_isCouchDocument];
+        BOOL isAttachment = [object cc_isCouchAttachment];
+        BOOL isCouchManaged = isDocument || isAttachment;
+        if (isCouchManaged) 
+        {
+            RESTResource *resource = nil;
+            if (isDocument) 
+            {
+                resource = [object cc_couchRevision];
+            }
+            else if (isAttachment)
+            {
+                resource = [object cc_couchAttachment];
+            }
+            [operationQueue addOperationWithBlock:^{
+                NSLog(@"Deleting %@", resource);
+                RESTOperation *operation = [resource DELETE];
+                [operation wait];
+                if (operation.error) 
+                {
+                    NSLog(@"Error deleting object: %@", operation.error);
+                }
+            }];
+        }
     }
+}
+
+- (void)checkIfObjectNeedsPUT:(NSManagedObject *)object
+{
+    BOOL isDocument = [object cc_isCouchDocument];
+    BOOL isAttachment = [object cc_isCouchAttachment];
+    BOOL isCouchManaged = isDocument || isAttachment;
+    if ((isCouchManaged && [object hasChanges]) || [objectsExplicityMarkedAsNeedingPUT containsObject:object])
+    {
+        [self changeObject:object onBackgroundContext:^(NSManagedObject *backgroundObject, NSManagedObjectContext *context) 
+         {
+             NSLog(@"PUTting %@", backgroundObject);
+             
+             if (isDocument) 
+             {
+                 [backgroundObject cc_PUT];
+             }
+             else if (isAttachment)
+             {
+                 NSLog(@"Is couch attachment... object %@", [backgroundObject class]);
+                 [backgroundObject cc_PUTAttachment];
+             }
+         }];
+    }
+    
+    // TODO use [object changedValues] and check if the attachment has changed when using "store in external record" attachments (or, md5 approach to validating attachments is probably fast enough to obviate this
+    
+    //NSLog(@"Saving object %@", object);
 }
 
 - (void)markNeedsPUT:(NSManagedObject *)documentObject

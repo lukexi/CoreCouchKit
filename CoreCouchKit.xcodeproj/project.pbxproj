@@ -301,7 +301,7 @@
 		C21651DD14502CAD00372382 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = Eeoo;
 			};
 			buildConfigurationList = C21651E014502CAD00372382 /* Build configuration list for PBXProject "CoreCouchKit" */;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CoreDataJSONKit.h"
+#import <CoreData/CoreData.h>
 #import <CouchCocoa/CouchCocoa.h>
 
 #define kCouchIDKey @"_id"
@@ -17,7 +17,7 @@
 
 typedef void(^CCBlock)(void);
 
-@interface CCDocument : NSManagedObject <CouchDocumentModel, CJRelationshipRepresentation>
+@interface CCDocument : NSManagedObject <CouchDocumentModel>
 
 @property (nonatomic, retain) NSString * couchRev;
 @property (nonatomic, retain) NSString * couchID;

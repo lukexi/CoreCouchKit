@@ -9,6 +9,7 @@
 #import "CCQuery.h"
 #import "CoreCouchKit.h"
 #import "CouchLiveQueryFix.h"
+#import "CoreDataJSONKit.h"
 
 @interface CCQuery ()
 {
@@ -129,7 +130,7 @@
         query.keys = [NSArray arrayWithObject:relatedValue];
     }
     NSLog(@"Query keys: %@", query.keys);
-    query.prefetch = YES; // include_docs=true
+    query.prefetch = YES; // i.e. include_docs=true
     
     __weak CCQuery *weakSelf = self;
     NSManagedObjectContext *blockContext = managedObjectContext;
@@ -240,7 +241,7 @@
         NSPredicate *relatedKeyPredicate = [NSPredicate predicateWithFormat:@"%K == %@", relatedKey, relatedValue];
         return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:hasBeenPUTPredicate, relatedKeyPredicate, nil]];
     }
-
+    
     return hasBeenPUTPredicate;
 }
 

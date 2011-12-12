@@ -322,7 +322,7 @@
 		C27F21321461122E00FA5CC4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = Eeoo;
 			};
 			buildConfigurationList = C27F21351461122E00FA5CC4 /* Build configuration list for PBXProject "CoreCouchKitDemo" */;

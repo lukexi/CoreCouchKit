@@ -30,16 +30,16 @@
     {
         NSLog(@"Revision before updating attachment: %@", [[[self cc_couchAttachment] document] currentRevisionID]);
         RESTOperation *operation = [[self cc_couchAttachment] PUT:attachmentRepresentation];
+        NSLog(@"Upload operation beginning %@", operation);
         [operation wait];
         NSLog(@"Uploaded %@ with operation %@", self, operation);
         NSLog(@"Revision after updating attachment: %@", [[[self cc_couchAttachment] document] currentRevisionID]);
         NSLog(@"operation response: %@", operation.responseBody.fromJSON);
-        
-        CCAttachment *attachmentSelf = (CCAttachment *)self;
-        attachmentSelf.couchDocumentRev = [[[self cc_couchAttachment] document] currentRevisionID];
-        [self cc_document].couchRev = [[[self cc_couchAttachment] document] currentRevisionID];
-        
-#warning must update owning document with new revision caused by editing the attachment, and update metadata?
+        if (operation.error) 
+        {
+            NSLog(@"Error uploading attachment: %@", operation.error);
+            return;
+        }
         
         if (operation.httpStatus == 409 || 
             operation.httpStatus == 412) 
@@ -48,28 +48,52 @@
             [[self cc_document] cc_GET];
             NSLog(@"Done.");
             [self cc_PUTAttachment];
+            return;
         }
+        
+        CCAttachment *attachmentSelf = (CCAttachment *)self;
+        attachmentSelf.couchDocumentRev = [[[self cc_couchAttachment] document] currentRevisionID];
+        [self cc_document].couchRev = [[[self cc_couchAttachment] document] currentRevisionID];
+        #warning update metadata with md5 of attachment, because an attachment can stay valid even if the doc revision changes
     }
 }
 
+// Attachements may be NSData directly, or transformable via an NSValueTransformer
 - (NSData *)cc_attachmentRepresentation
 {
     id attachment = [self valueForKey:[self cc_attachmentProperty]];
-    NSData *attachmentData = [[self cc_valueTransformer] transformedValue:attachment];
+    NSData *attachmentData = attachment;
+    if ([self cc_usesTransformableAttribute])
+    {
+        attachmentData = [[self cc_valueTransformer] transformedValue:attachment];
+    }
     return attachmentData;
+}
+
+- (BOOL)cc_usesTransformableAttribute
+{
+    return [[self cc_attachmentAttributeDescription] attributeType] == NSTransformableAttributeType;
+}
+
+- (NSAttributeDescription *)cc_attachmentAttributeDescription
+{
+    return [[[self entity] attributesByName] objectForKey:[self cc_attachmentProperty]];
 }
 
 - (NSValueTransformer *)cc_valueTransformer
 {
-    NSString *valueTransformerName = [[[[self entity] attributesByName] objectForKey:[self cc_attachmentProperty]] valueTransformerName];
+    NSString *valueTransformerName = [[self cc_attachmentAttributeDescription] valueTransformerName];
     NSValueTransformer *valueTransformer = [NSValueTransformer valueTransformerForName:valueTransformerName];
-    
     return valueTransformer;
 }
 
 - (void)cc_setFromAttachmentRepresentation:(NSData *)attachmentRepresentation
 {
-    id attachment = [[self cc_valueTransformer] reverseTransformedValue:attachmentRepresentation];
+    id attachment = attachmentRepresentation;
+    if ([self cc_usesTransformableAttribute]) 
+    {
+        attachment = [[self cc_valueTransformer] reverseTransformedValue:attachmentRepresentation];
+    }
     [self setValue:attachment forKey:[self cc_attachmentProperty]];
 }
 
@@ -87,7 +111,8 @@
 
 - (void)cc_updateAttachmentData
 {
-    if ([self cc_attachmentDataIsUpToDate]) 
+    CCAttachment *attachmentSelf = (CCAttachment *)self;
+    if ([self cc_attachmentDataIsUpToDate] || !attachmentSelf.couchDocumentRev) 
     {
         NSLog(@"Attachment data for %@ is up to date, skipping download", self);
         return;

@@ -29,6 +29,8 @@ typedef void(^CCSetBlock)(NSSet *results);
 
 - (NSData *)cc_attachmentRepresentation;
 - (NSValueTransformer *)cc_valueTransformer;
+- (BOOL)cc_usesTransformableAttribute;
+- (NSAttributeDescription *)cc_attachmentAttributeDescription;
 - (void)cc_setFromAttachmentRepresentation:(NSData *)attachmentRepresentation;
 - (CouchAttachment *)cc_couchAttachment;
 
