@@ -17,17 +17,16 @@
 
 typedef void(^CCBlock)(void);
 
-@interface CCDocument : NSManagedObject <CouchDocumentModel>
-
-@property (nonatomic, retain) NSString * couchRev;
-@property (nonatomic, retain) NSString * couchID;
-@property (nonatomic, retain) id attachmentsMetadata;
-
-@end
-
 @interface NSManagedObject (CCDocument)
 
 + (NSString *)cc_generateUUID;
+
+- (void)cc_setCouchID:(NSString *)couchID;
+- (NSString *)cc_couchID;
+- (void)cc_setCouchRev:(NSString *)couchRev;
+- (NSString *)cc_couchRev;
+- (NSString *)cc_attachmentsMetadata;
+
 - (BOOL)cc_isCouchDocument;
 - (CouchDatabase *)cc_couchDatabase;
 - (NSMutableDictionary *)cc_userProperties;

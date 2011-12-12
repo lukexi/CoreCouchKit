@@ -173,6 +173,10 @@ static CoreCouchKit *sharedCoreCouchKit = nil;
             {
                 resource = [object cc_couchAttachment];
             }
+            
+            // Workaround for a bug in NSFetchedResultsController wherein the object was reinserted when a property was accessed.
+            [managedObjectContext deleteObject:object];
+            
             [operationQueue addOperationWithBlock:^{
                 NSLog(@"Deleting %@", resource);
                 RESTOperation *operation = [resource DELETE];

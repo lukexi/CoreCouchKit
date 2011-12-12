@@ -7,18 +7,13 @@
 //
 
 #import "CCAttachment.h"
-#import "CCDocument.h"
 #import "CoreCouchKit.h"
-
-@implementation CCAttachment
-@dynamic couchDocumentRev;
-@end
 
 @implementation NSManagedObject (CoreCouchAttachmentHandling)
 
 - (BOOL)cc_isCouchAttachment
 {
-    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:NSStringFromClass([CCAttachment class]) 
+    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:@"CCAttachment"
                                                      inManagedObjectContext:self.managedObjectContext]];
 }
 
@@ -51,11 +46,21 @@
             return;
         }
         
-        CCAttachment *attachmentSelf = (CCAttachment *)self;
-        attachmentSelf.couchDocumentRev = [[[self cc_couchAttachment] document] currentRevisionID];
-        [self cc_document].couchRev = [[[self cc_couchAttachment] document] currentRevisionID];
+        NSString *currentRevisionID = [[[self cc_couchAttachment] document] currentRevisionID];
+        [self cc_setCouchDocumentRev:currentRevisionID];
+        [[self cc_document] cc_setCouchRev:currentRevisionID];
         #warning update metadata with md5 of attachment, because an attachment can stay valid even if the doc revision changes
     }
+}
+
+- (void)cc_setCouchDocumentRev:(NSString *)couchDocumentRev
+{
+    [self setValue:couchDocumentRev forKey:kCouchAttachmentDocumentRevisionPropertyName];
+}
+
+- (NSString *)cc_couchDocumentRev
+{
+    return [self valueForKey:kCouchAttachmentDocumentRevisionPropertyName];
 }
 
 // Attachements may be NSData directly, or transformable via an NSValueTransformer
@@ -111,8 +116,7 @@
 
 - (void)cc_updateAttachmentData
 {
-    CCAttachment *attachmentSelf = (CCAttachment *)self;
-    if ([self cc_attachmentDataIsUpToDate] || !attachmentSelf.couchDocumentRev) 
+    if ([self cc_attachmentDataIsUpToDate] || ![self cc_couchDocumentRev]) 
     {
         NSLog(@"Attachment data for %@ is up to date, skipping download", self);
         return;
@@ -132,8 +136,7 @@
 
 - (BOOL)cc_attachmentDataIsUpToDate
 {
-    CCAttachment *attachmentSelf = (CCAttachment *)self;
-    return [attachmentSelf.couchDocumentRev isEqualToString:[self cc_document].couchRev];
+    return [[self cc_couchDocumentRev] isEqualToString:[[self cc_document] cc_couchRev]];
 }
 
 - (void)cc_GETAttachment
@@ -141,12 +144,10 @@
     RESTOperation *operation = [[self cc_couchAttachment] GET];
     [operation wait];
     [self cc_setFromAttachmentRepresentation:[[self cc_couchAttachment] body]];
-    
-    CCAttachment *attachmentSelf = (CCAttachment *)self;
-    attachmentSelf.couchDocumentRev = [self cc_document].couchRev;
+    [self cc_setCouchDocumentRev:[[self cc_document] cc_couchRev]];
 }
 
-- (CCDocument *)cc_document
+- (NSManagedObject *)cc_document
 {
     NSString *documentKey = [[[self entity] userInfo] objectForKey:kCouchAttachmentDocumentPropertyKey];
     NSAssert2(documentKey, @"Must add the key %@ with the name of the property pointing to the parent document for your attachment %@", kCouchAttachmentDocumentPropertyKey, self);

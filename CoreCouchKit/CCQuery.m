@@ -35,7 +35,9 @@
 
 // Updating
 
-- (void)update:(CCDocument *)document toRevision:(NSString *)revision withProperties:(NSDictionary *)properties;
+- (void)update:(NSManagedObject *)document 
+    toRevision:(NSString *)revision 
+withProperties:(NSDictionary *)properties;
 - (void)deleteManagedObjects:(NSArray *)objects;
 
 @end
@@ -53,12 +55,11 @@
     CouchDatabase *database = coreCouch.database;
     CouchDesignDocument *designDoc = [database designDocumentWithName:@"design"];
     
-    CCDocument *document = (CCDocument *)owner;
     NSRelationshipDescription *inverseRelationship = [[[[owner entity] relationshipsByName] 
                                                        objectForKey:key] inverseRelationship];
     NSString *inverseKey = [inverseRelationship name];
     NSString *inverseEntityName = [[inverseRelationship entity] name];
-    NSString *ownerID = document.couchID;
+    NSString *ownerID = [owner cc_couchID];
     NSString *viewName = [NSString stringWithFormat:@"%@By%@", key, [inverseKey capitalizedString]];
     
     NSString *relatedKey = [inverseKey stringByAppendingString:@".couchID"];
@@ -156,12 +157,12 @@
     for (NSString *couchID in [couchResultsByID allKeys]) 
     {
         NSDictionary *properties = [couchResultsByID objectForKey:couchID];
-        CCDocument *document = [localResultsByID objectForKey:couchID];
+        NSManagedObject *document = [localResultsByID objectForKey:couchID];
         NSString *remoteRevision = [properties objectForKey:kCouchRevKey];
         
         if (document)
         {
-            if (![document.couchRev isEqualToString:remoteRevision]) 
+            if (![[document cc_couchRev] isEqualToString:remoteRevision]) 
             {
                 [self update:document toRevision:remoteRevision withProperties:properties];
             }
@@ -177,8 +178,8 @@
             //NSLog(@"properties: %@", properties);
             document = [documentClass cj_insertInManagedObjectContext:managedObjectContext 
                                                 fromObjectDescription:properties];
-            document.couchID = couchID;
-            document.couchRev = remoteRevision;
+            [document cc_setCouchID:couchID];
+            [document cc_setCouchRev:remoteRevision];
             
             //NSLog(@"created document %@", document);
         }
@@ -209,7 +210,7 @@
     }
 }
 
-- (void)update:(CCDocument *)document toRevision:(NSString *)revision withProperties:(NSDictionary *)properties
+- (void)update:(NSManagedObject *)document toRevision:(NSString *)revision withProperties:(NSDictionary *)properties
 {
     if ([document respondsToSelector:@selector(willUpdateFromCouch)]) 
     {
@@ -217,9 +218,9 @@
     }
     
     //NSLog(@"Updating existing ID: %@ with properties: %@", document.couchID, properties);
-    NSLog(@"Updating existing %@ ID: %@", [properties objectForKey:@"documentType"], document.couchID);
+    NSLog(@"Updating existing %@ ID: %@", [properties objectForKey:@"documentType"], [document cc_couchID]);
     [document cj_setPropertiesFromDescription:properties];
-    document.couchRev = revision;
+    [document cc_setCouchRev:revision];
     
     if ([document respondsToSelector:@selector(didUpdateFromCouch)])
     {
@@ -266,18 +267,18 @@
     NSArray *localResults = [managedObjectContext executeFetchRequest:request error:&error];
     NSLog(@"Local IDs: %@", [localResults valueForKey:@"couchID"]);
     NSMutableDictionary *localResultsByID = [NSMutableDictionary dictionaryWithCapacity:[localResults count]];
-    for (CCDocument *document in localResults) 
+    for (NSManagedObject *document in localResults) 
     {
-        [localResultsByID setObject:document forKey:document.couchID];
+        [localResultsByID setObject:document forKey:[document cc_couchID]];
     }
     return localResultsByID;
 }
 
 - (void)deleteManagedObjects:(NSArray *)objects
 {
-    for (CCDocument *document in objects) 
+    for (NSManagedObject *document in objects) 
     {
-        document.couchRev = nil; // Prevent an extra DELETE from being sent by CCDocument's prepareForDeletion; we should only be being called if the object was already deleted from the server.
+        [document cc_setCouchRev:nil]; // Prevent an extra DELETE from being sent by CCDocument's prepareForDeletion; we should only be being called if the object was already deleted from the server.
         [managedObjectContext deleteObject:document];
     }
 }

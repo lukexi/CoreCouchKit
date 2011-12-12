@@ -8,20 +8,17 @@
 
 #import <CoreData/CoreData.h>
 
-@interface CCAttachment : NSManagedObject
-
-@property (nonatomic, retain) NSString * couchDocumentRev;
-
-@end
-
 typedef void(^CCValueBlock)(id value);
 typedef void(^CCSetBlock)(NSSet *results);
 
-@class CCDocument, CouchAttachment;
+@class CouchAttachment;
 @interface NSManagedObject (CoreCouchAttachmentHandling)
 - (BOOL)cc_isCouchAttachment;
 - (void)cc_PUTAttachment;
 - (void)cc_GETAttachment;
+
+- (void)cc_setCouchDocumentRev:(NSString *)couchDocumentRev;
+- (NSString *)cc_couchDocumentRev;
 
 // Asynchronously update the attachment data
 - (void)cc_updateAttachmentData;
@@ -37,7 +34,7 @@ typedef void(^CCSetBlock)(NSSet *results);
 // deprecated, just use KVO
 //- (void)cc_valueWithCompletion:(CCValueBlock)valueBlock;
 
-- (CCDocument *)cc_document;
+- (NSManagedObject *)cc_document;
 - (NSString *)cc_attachmentProperty;
 - (NSString *)cc_contentType;
 

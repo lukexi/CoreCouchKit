@@ -46,7 +46,7 @@
             [documentEntities addObject:superentity];
             [entity setUserInfo:[NSDictionary dictionaryWithObject:kCouchIDPropertyName 
                                                             forKey:kCJEntityUniqueIDKey]];
-            
+/*            
             // Dynamically subclass the document entities to add methods for JSON serialization and CouchDB synchronization. See CCDocument for their original implementations.
             
             //NSLog(@"Dynamically subclassing %@", [entity name]);
@@ -55,6 +55,7 @@
             NSAssert(originalClass, @"Couldn't find original class %@, did you create an NSManagedObject subclass for it?", entityClassName);
             Class dynamicDocumentSubclass = [CCMixin classByAddingContentsOfClass:[CCDocument class] toClass:originalClass];
             [entity setManagedObjectClassName:NSStringFromClass(dynamicDocumentSubclass)];
+ */
         }
         else if (isAttachmentType)
         {
@@ -80,7 +81,7 @@
 
 + (NSEntityDescription *)documentEntityWithSubentities:(NSArray *)subentities
 {
-    NSString *entityClassName = NSStringFromClass([CCDocument class]);
+    NSString *entityClassName = @"CCDocument";
     NSEntityDescription *documentEntity = [[NSEntityDescription alloc] init];
     [documentEntity setName:entityClassName];
     [documentEntity setManagedObjectClassName:entityClassName];
@@ -107,7 +108,7 @@
 
 + (NSEntityDescription *)attachmentEntityWithSubEntities:(NSArray *)subentities
 {
-    NSString *entityClassName = NSStringFromClass([CCAttachment class]);
+    NSString *entityClassName = @"CCAttachment";
     NSEntityDescription *attachmentEntity = [[NSEntityDescription alloc] init];
     [attachmentEntity setName:entityClassName];
     [attachmentEntity setManagedObjectClassName:entityClassName];

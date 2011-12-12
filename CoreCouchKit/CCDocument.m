@@ -11,33 +11,6 @@
 #import "CoreDataJSONKit.h"
 #import <objc/runtime.h>
 
-@interface CCDocument ()
-
-@end
-
-@implementation CCDocument
-@dynamic couchRev;
-@dynamic couchID;
-@dynamic attachmentsMetadata;
-
-// CCMixin will place the contents of the original implementation of the method in this selector, and place the contents of this implementation under the original selector (i.e. didTurnIntoFault in this case)
-- (void)override_didTurnIntoFault 
-{
-    [self override_didTurnIntoFault];
-    // We don't want to refire faults or create the document here, so access directly
-    CouchDocument *associatedDocument = objc_getAssociatedObject(self, @"couchDocument");
-    associatedDocument.modelObject = nil;
-}
-
-#pragma mark - CouchDocumentModel
-- (void)couchDocumentChanged:(CouchDocument *)doc
-{
-    NSLog(@"Updating %@ with changed doc! %@", self, doc);
-    //[self cj_setPropertiesFromDescription:doc.userProperties];
-}
-
-@end
-
 @implementation NSManagedObject (CCDocument)
 
 + (NSString *)cc_generateUUID
@@ -55,7 +28,7 @@
 
 - (BOOL)cc_isCouchDocument
 {
-    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:NSStringFromClass([CCDocument class]) 
+    return [[self entity] isKindOfEntity:[NSEntityDescription entityForName:@"CCDocument"
                                                      inManagedObjectContext:self.managedObjectContext]];
 }
 
@@ -76,12 +49,36 @@
     return properties;
 }
 
+- (void)cc_setCouchID:(NSString *)couchID
+{
+    [self setValue:couchID forKey:kCouchIDPropertyName];
+}
+
+- (NSString *)cc_couchID
+{
+    return [self valueForKey:kCouchIDPropertyName];
+}
+
+- (void)cc_setCouchRev:(NSString *)couchRev
+{
+    [self setValue:couchRev forKey:kCouchRevPropertyName];
+}
+
+- (NSString *)cc_couchRev
+{
+    return [self valueForKey:kCouchRevPropertyName];
+}
+
+- (NSString *)cc_attachmentsMetadata
+{
+    return [self valueForKey:kCouchAttachmentsMetadataPropertyName];
+}
+
 // Synchronous
 - (void)cc_GET
 {
-    CCDocument *documentSelf = (CCDocument *)self;
     NSLog(@"(Revision was %@", [[self cc_couchDocument] currentRevision]);
-    CouchQuery *query = [[self cc_couchDatabase] getDocumentsWithIDs:[NSArray arrayWithObject:documentSelf.couchID]];
+    CouchQuery *query = [[self cc_couchDatabase] getDocumentsWithIDs:[NSArray arrayWithObject:[self cc_couchID]]];
     RESTOperation *getOperation = [query start];
     [getOperation wait];
     
@@ -103,18 +100,17 @@
     
     // If we have a rev, we're updating an existing doc. Otherwise, we're putting for the first time and creating a new doc.
     
-    CCDocument *documentSelf = (CCDocument *)self;
-    if (documentSelf.couchRev) 
+    if ([self cc_couchRev]) 
     {
-        [properties setObject:documentSelf.couchRev forKey:kCouchRevKey];
-        if (documentSelf.attachmentsMetadata) 
+        [properties setObject:[self cc_couchRev] forKey:kCouchRevKey];
+        if ([self cc_attachmentsMetadata])
         {
-            [properties setObject:documentSelf.attachmentsMetadata forKey:kCouchAttachmentsMetadataKey];
+            [properties setObject:[self cc_attachmentsMetadata] forKey:kCouchAttachmentsMetadataKey];
         }
     }
-    else if (!documentSelf.couchID)
+    else if (![self cc_couchID])
     {
-        documentSelf.couchID = [[self class] cc_generateUUID];
+        [self setValue:[[self class] cc_generateUUID] forKey:kCouchIDPropertyName];
     }
     
     NSLog(@"Putting to couch %@!", [properties objectForKey:@"documentType"]);
@@ -163,20 +159,16 @@
 
 - (void)cc_setCouchDocument:(CouchDocument *)newDocument
 {
-    CouchDocument *currentDocument = objc_getAssociatedObject(self, @"couchDocument");
-    currentDocument.modelObject = nil;
-    newDocument.modelObject = self;
     objc_setAssociatedObject(self, @"couchDocument", newDocument, 
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (CouchDocument *)cc_couchDocument
 {
-    CCDocument *documentSelf = (CCDocument *)self;
     CouchDocument *couchDocument = objc_getAssociatedObject(self, @"couchDocument");
-    if (!couchDocument && documentSelf.couchID) 
+    if (!couchDocument && [self cc_couchID]) 
     {
-        couchDocument = [[self cc_couchDatabase] documentWithID:documentSelf.couchID];
+        couchDocument = [[self cc_couchDatabase] documentWithID:[self cc_couchID]];
         [self cc_setCouchDocument:couchDocument];
     }
     return couchDocument;
@@ -185,12 +177,11 @@
 // Will return nil if we don't have a revision yet
 - (CouchRevision *)cc_couchRevision
 {
-    CCDocument *documentSelf = (CCDocument *)self;
     CouchRevision *couchRevision = objc_getAssociatedObject(self, @"couchRevision");
-    if (!couchRevision && documentSelf.couchRev) 
+    if (!couchRevision && [self cc_couchRev]) 
     {
         CouchDocument *couchDocument = [self cc_couchDocument];
-        couchRevision = [couchDocument revisionWithID:documentSelf.couchRev];
+        couchRevision = [couchDocument revisionWithID:[self cc_couchRev]];
         [self cc_setCouchRevision:couchRevision];
     }
     return couchRevision;
@@ -198,9 +189,9 @@
 
 - (void)cc_setCouchRevision:(CouchRevision *)couchRevision
 {
-    CCDocument *documentSelf = (CCDocument *)self;
-    documentSelf.couchRev = couchRevision.revisionID;
-    documentSelf.attachmentsMetadata = [couchRevision.properties objectForKey:@"_attachments"];
+    [self setValue:couchRevision.revisionID forKey:kCouchRevPropertyName];
+    [self setValue:[couchRevision.properties objectForKey:@"_attachments"] 
+            forKey:kCouchAttachmentsMetadataPropertyName];
     objc_setAssociatedObject(self, @"couchRevision", couchRevision, 
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
